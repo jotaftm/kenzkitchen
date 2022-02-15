@@ -1,3 +1,4 @@
+import { ErrorHandler } from "./../errors/errorHandler.error";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -28,4 +29,23 @@ export const authenticateUser = async (
       next();
     }
   );
+};
+
+export const authenticateApiKey = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { createdBy } = req.body;
+  console.log(process.env.API_KEYS?.split(","));
+
+  const apiKey = process.env.API_KEYS?.split(",").some(
+    (key) => key === createdBy
+  );
+
+  if (!apiKey) {
+    return next(new ErrorHandler("Invalid API key", 401));
+  }
+
+  return next();
 };
