@@ -4,8 +4,8 @@ import { initializerRouter } from "./routes";
 
 const app = express();
 
-initializerRouter(app);
-
 app.use(express.json());
+
+initializerRouter(app);
 
 export default app;
