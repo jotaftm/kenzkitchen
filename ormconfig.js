@@ -1,10 +1,10 @@
 const devEnv = {
   type: "postgres",
-  host: localhost,
+  host: "localhost",
   port: "5432",
-  database: kenzkitchen_db,
-  username: postgres,
-  password: password,
+  database: "kenzkitchen_db",
+  username: "postgres",
+  password: "password",
   entities: ["./src/entities/**/*.ts"],
   migrations: ["./src/database/migrations/*.ts"],
   cli: {
