@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { create, exclude, list, listOne, login, update } from "../controllers/company.controller";
 import { validate } from "../middlewares/validation.middleware";
-import { companySchema } from "../schemas/company.schema";
-import { loginCompanySchema } from "../schemas/loginCompany.schema";
-import { updateCompanySchema } from "../schemas/updateCompany.schema";
+import { companySchema } from "../schemas/company/create.schema";
+import { loginCompanySchema } from "../schemas/company/login.schema";
+import { updateCompanySchema } from "../schemas/company/update.schema";
 
 const router = Router({ mergeParams: true });
 
