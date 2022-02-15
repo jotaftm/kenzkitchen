@@ -1,3 +1,4 @@
+import { authenticateApiKey } from "./middlewares/authentication.middleware";
 import express from "express";
 import "reflect-metadata";
 import { initializerRouter } from "./routes";
