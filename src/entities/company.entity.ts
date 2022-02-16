@@ -23,6 +23,6 @@ export default class Company {
     @UpdateDateColumn()
     updatedAt!: Date;
 
-    @UpdateDateColumn()
+    @Column()
     createdBy!: string;
 };
