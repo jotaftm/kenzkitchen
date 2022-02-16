@@ -3,11 +3,15 @@ import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
 
 export const createIngredient = async (body: any) => {
-  const ingredientRepository = getRepository(Ingredient);
+  try {
+    const ingredientRepository = getRepository(Ingredient);
 
-  const ingredient = ingredientRepository.create({ ...body });
+    const ingredient = ingredientRepository.create({ ...body });
 
-  return await ingredientRepository.save(ingredient);
+    return await ingredientRepository.save(ingredient);
+  } catch (err) {
+    throw new ErrorHandler((err as any).detail, 400);
+  }
 };
 
 export const listIngredients = async () => {
