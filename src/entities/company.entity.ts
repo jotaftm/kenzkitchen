@@ -1,9 +1,10 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import  Recipe from "./recipe.entity";
+import Recipe from "./recipe.entity";
+import Ingredient from "./ingredient.entity";
 
 @Entity('companies')
 export default class Company {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn("uuid")
     id!: string;
 
     @Column()
@@ -29,4 +30,7 @@ export default class Company {
 
     @OneToMany(() => Recipe, recipe => recipe.company)
     recipes!: Recipe[];
+
+    @OneToMany(() => Ingredient, (ingredient) => ingredient.company)
+    ingredients!: Ingredient[];
 };
