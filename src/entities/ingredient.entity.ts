@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Company from "./company.entity";
+import RecipeIngredient from "./recipesIngredients.entity";
 
 @Entity("ingredients")
 export default class Ingredient {
@@ -37,9 +38,9 @@ export default class Ingredient {
   // @ManyToOne(() => User, user => user.ingredients)
   // owner!: User;
 
-  // @OneToMany(() => RecipeIngredient, recipesIngredients => recipesIngredients.ingredient)
-  // recipesIngredients!: RecipeIngredient[];
+  @OneToMany(() => RecipeIngredient, recipesIngredients => recipesIngredients.ingredient)
+  recipesIngredients!: RecipeIngredient[];
 
   // @OneToMany(() => OrderIngredient, ordersIngredients => ordersIngredients.ingredient)
   // orderIngredients!: OrderIngredient[];
-}
+};
