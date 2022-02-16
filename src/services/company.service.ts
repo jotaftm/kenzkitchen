@@ -5,13 +5,12 @@ import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
 
 
-export const createCompany = async (body: any) => {
+export const createCompany = async (createdBy: string, body: any) => {
     const companyRepository = getRepository(Company);
     
     const company = companyRepository.create({
         ...body,
-        //todo: pegar o created by do middleware de validaçao de api_key
-        createdBy: "926ed6ed-a9d7-4719-821b-1360675289a5"
+        createdBy: createdBy
     });
 
     return await companyRepository.save(company);
@@ -34,7 +33,7 @@ export const loginCompany = async (body: any) => {
     };
     
     const token = jwt.sign({ 
-        id: company.id
+        idLogged: company.id
     },
     process.env.JWT_SECRET as string, { 
         expiresIn: '24h' 
@@ -51,7 +50,7 @@ export const listCompanies = async () => {
     return companies;
 };
 
-export const findCompany = async (companyId: string) => {
+export const findCompany = async (idLogged: string, companyId: string) => {
     const companyRepository = getRepository(Company);
 
     const company = await companyRepository.findOne({
@@ -62,15 +61,14 @@ export const findCompany = async (companyId: string) => {
 
     if (!company) {
         throw new ErrorHandler('company not found', 404);
-    }
-    // if () {
-    //     throw new ErrorHandler('missing admin permissions', 401);
-    // };
+    } else if (idLogged !== company.id && !process.env.API_KEYS?.split(",").includes(idLogged)) {
+        throw new ErrorHandler('missing admin permissions', 401);
+    };
 
     return company;
 };
 
-export const updateCompany = async (body: any, companyId: string) => {
+export const updateCompany = async (idLogged: string, body: any, companyId: string) => {
     const companyRepository = getRepository(Company);
 
     const companyToUpdate = await companyRepository.findOne({
@@ -81,10 +79,9 @@ export const updateCompany = async (body: any, companyId: string) => {
 
     if (!companyToUpdate) {
         throw new ErrorHandler('company not found', 404);
-    } 
-    // else if () {
-    //     throw new ErrorHandler('missing admin permissions', 401);
-    // };
+    } else if (idLogged !== companyToUpdate.id && !process.env.API_KEYS?.split(",").includes(idLogged)) {
+        throw new ErrorHandler('missing admin permissions', 401);
+    };
 
     await companyRepository.update(companyId, {
         ...body
@@ -99,7 +96,7 @@ export const updateCompany = async (body: any, companyId: string) => {
     return updatedCompany;
 };
 
-export const deleteCompany = async (companyId: string) => {
+export const deleteCompany = async (idLogged: string, companyId: string) => {
     const companyRepository = getRepository(Company);
 
     const companyToDelete = await companyRepository.findOne({
@@ -110,10 +107,9 @@ export const deleteCompany = async (companyId: string) => {
 
     if (!companyToDelete) {
         throw new ErrorHandler('company not found', 404);
-    }
-    // else if () {
-    //     throw new ErrorHandler('missing admin permissions', 401);
-    // };
+    } else if (idLogged !== companyToDelete.id && !process.env.API_KEYS?.split(",").includes(idLogged)) {
+        throw new ErrorHandler('missing admin permissions', 401);
+    };
 
-    await companyRepository.delete(companyToDelete);
+    return await companyRepository.delete(companyToDelete.id);
 };

@@ -4,16 +4,11 @@ import { createCompany, deleteCompany, findCompany, listCompanies, loginCompany,
 
 export const create = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newCompany = await createCompany(req.body);
+        const createdBy = req.idLogged;
+
+        const newCompany = await createCompany(createdBy, req.body);
         
         res.status(201).json(newCompany);
-    } catch (err) {
-        next(err);
-    };
-};
-
-export const _ = async (req: Request, res: Response, next: NextFunction) => {
-    try {
     } catch (err) {
         next(err);
     };
@@ -41,9 +36,11 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
 
 export const listOne = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const idLogged = req.idLogged;
+
         const searchedId = req.params.id;
 
-        const company = await findCompany(searchedId);
+        const company = await findCompany(idLogged, searchedId);
 
         res.json(company);
     } catch (err) {
@@ -53,10 +50,13 @@ export const listOne = async (req: Request, res: Response, next: NextFunction) =
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const idLogged = req.idLogged;
+
         const body = req.body;
+
         const updatedId = req.params.id;
 
-        const companyUpdated = await updateCompany(body, updatedId);
+        const companyUpdated = await updateCompany(idLogged, body, updatedId);
 
         res.json(companyUpdated);
     } catch (err) {
@@ -66,11 +66,13 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const exclude = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const idLogged = req.idLogged;
+
         const deletedId = req.params.id;
 
-        await deleteCompany(deletedId);
+        await deleteCompany(idLogged, deletedId);
 
-        res.status(204);
+        res.status(204).json();
     } catch (err) {
         next(err);
     };
