@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import  Recipe from "./recipe.entity";
 
 @Entity('companies')
 export default class Company {
@@ -25,4 +26,7 @@ export default class Company {
 
     @Column()
     createdBy!: string;
+
+    @OneToMany(() => Recipe, recipe => recipe.company)
+    recipes!: Recipe[];
 };

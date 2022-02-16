@@ -1,8 +1,8 @@
 import { getRepository } from "typeorm";
-import Company from "../entities/company.entity";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
+import { Company } from "../entities";
 
 
 export const createCompany = async (createdBy: string, body: any) => {
