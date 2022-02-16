@@ -7,6 +7,8 @@ import {
   OneToMany,
 } from "typeorm";
 import User from "./user.entity";
+import Recipe from "./recipe.entity";
+import Ingredient from "./ingredient.entity";
 
 @Entity("companies")
 export default class Company {
@@ -36,4 +38,10 @@ export default class Company {
 
   @OneToMany(() => User, (user) => user.company)
   users!: User[];
+
+  @OneToMany(() => Recipe, (recipe) => recipe.company)
+  recipes!: Recipe[];
+
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.company)
+  ingredients!: Ingredient[];
 }
