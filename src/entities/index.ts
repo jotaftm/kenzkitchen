@@ -4,4 +4,9 @@ import RecipeIngredient from "./recipesIngredients.entity";
 import Ingredient from "./ingredient.entity";
 
 
-export { Company, Recipe, RecipeIngredient, Ingredient };
+export { 
+    Company, 
+    Recipe, 
+    RecipeIngredient, 
+    Ingredient
+};

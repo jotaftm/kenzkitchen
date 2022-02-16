@@ -1,4 +1,12 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { 
+    BeforeInsert, 
+    BeforeUpdate, 
+    Column, 
+    Entity, 
+    ManyToOne, 
+    OneToMany, 
+    PrimaryGeneratedColumn 
+} from "typeorm";
 import Company from "./company.entity";
 import RecipeIngredient from "./recipesIngredients.entity";
 

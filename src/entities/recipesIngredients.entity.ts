@@ -1,5 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { 
+    Column, 
+    Entity, 
+    ManyToOne, 
+    PrimaryGeneratedColumn 
+} from "typeorm";
 import Recipe from "./recipe.entity";
+import Ingredient from "./ingredient.entity";
 
 @Entity('recipesIngredients')
 export default class RecipeIngredient {
@@ -12,6 +18,6 @@ export default class RecipeIngredient {
     @ManyToOne(() => Recipe, recipe => recipe.recipesIngredients)
     recipe!: Recipe;
 
-    // @ManyToOne(() => Ingredient, ingredient => ingredient.recipesIngredients)
-    // ingredient!: Ingredient;
+    @ManyToOne(() => Ingredient, ingredient => ingredient.recipesIngredients)
+    ingredient!: Ingredient;
 };
