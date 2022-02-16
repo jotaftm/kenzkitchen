@@ -27,7 +27,7 @@ export default class Ingredient {
 
   @Column()
   unity!: string;
-  // unity!: "GR" | "U"
+  // unity!: "GR" | "UN"
 
   @Column()
   price!: number;
@@ -38,9 +38,12 @@ export default class Ingredient {
   // @ManyToOne(() => User, user => user.ingredients)
   // owner!: User;
 
-  @OneToMany(() => RecipeIngredient, recipesIngredients => recipesIngredients.ingredient)
+  @OneToMany(
+    () => RecipeIngredient,
+    (recipesIngredients) => recipesIngredients.ingredient
+  )
   recipesIngredients!: RecipeIngredient[];
 
   // @OneToMany(() => OrderIngredient, ordersIngredients => ordersIngredients.ingredient)
-  // orderIngredients!: OrderIngredient[];
-};
+  // ordersIngredients!: OrderIngredient[];
+}
