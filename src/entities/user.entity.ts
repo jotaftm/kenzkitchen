@@ -8,6 +8,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import Company from "./company.entity";
+import Ingredient from "./ingredient.entity";
+import Recipe from "./recipe.entity";
 
 @Entity("users")
 export default class User {
@@ -38,9 +40,9 @@ export default class User {
   //   @OneToMany(() => Order, order.user)
   //   orders!: Order[];
 
-  //   @OneToMany(() => Ingredient, ingredient.user)
-  //   ingredients!: Ingredient[];
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.owner)
+  ingredients!: Ingredient[];
 
-  //   @OneToMany(() => Recipe, recipe.user)
-  //   recipes!: Recipe[];
+  @OneToMany(() => Recipe, (recipe) => recipe.owner)
+  recipes!: Recipe[];
 }

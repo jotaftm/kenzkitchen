@@ -1,51 +1,55 @@
-import { 
-    BeforeInsert, 
-    BeforeUpdate, 
-    Column, 
-    Entity, 
-    ManyToOne, 
-    OneToMany, 
-    PrimaryGeneratedColumn 
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import Company from "./company.entity";
 import RecipeIngredient from "./recipesIngredients.entity";
+import User from "./user.entity";
 
-@Entity('recipes')
+@Entity("recipes")
 export default class Recipe {
-    @PrimaryGeneratedColumn('uuid')
-    id!: string;
+  @PrimaryGeneratedColumn("uuid")
+  id!: string;
 
-    @Column({ unique: true })
-    name!: string;
+  @Column({ unique: true })
+  name!: string;
 
-    @Column()
-    description!: string;
+  @Column()
+  description!: string;
 
-    @Column()
-    yield!: number;
+  @Column()
+  yield!: number;
 
-    @Column()
-    unity!: string;
-    // unity!: "GR" | "UN";
+  @Column()
+  unity!: string;
+  // unity!: "GR" | "UN";
 
-    @Column()
-    cost!: number;
+  @Column()
+  cost!: number;
 
-    // @ManyToOne(() => User, user => user.recipes)
-    // owner!: User;
+  @ManyToOne(() => User, (user) => user.recipes)
+  owner!: User;
 
-    @ManyToOne(() => Company, company => company.recipes)
-    company!: Company;
+  @ManyToOne(() => Company, (company) => company.recipes)
+  company!: Company;
 
-    @OneToMany(() => RecipeIngredient, recipesIngredients => recipesIngredients.recipe)
-    recipesIngredients!: RecipeIngredient[];
+  @OneToMany(
+    () => RecipeIngredient,
+    (recipesIngredients) => recipesIngredients.recipe
+  )
+  recipesIngredients!: RecipeIngredient[];
 
-    // @OneToMany(() => OrderRecipe, orderRecipe => orderRecipe.recipe)
-    // ordersRecipes!: OrderRecipe[];
+  // @OneToMany(() => OrderRecipe, orderRecipe => orderRecipe.recipe)
+  // ordersRecipes!: OrderRecipe[];
 
-    // @BeforeInsert()
-    // @BeforeUpdate()
-    // async calculateCost() {
-    //     this.cost = calcular de acordo com a lista Recipe_ingredient
-    // };
-};
+  // @BeforeInsert()
+  // @BeforeUpdate()
+  // async calculateCost() {
+  //     this.cost = calcular de acordo com a lista Recipe_ingredient
+  // };
+}
