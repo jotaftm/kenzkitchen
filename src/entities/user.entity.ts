@@ -29,7 +29,7 @@ export default class User {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column()
+  @Column({ default: false })
   isAdm!: boolean;
 
   @ManyToOne(() => Company, (company) => company.users, {
