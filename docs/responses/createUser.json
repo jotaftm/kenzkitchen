@@ -1,0 +1,35 @@
+{
+  "201": {
+    "description": "CREATED",
+    "content": {
+      "schema": {
+        "type": "object",
+        "$ref": "./components/schemaUser.json"
+      }
+    }
+  },
+  "401": {
+    "description": {
+      "status": "error",
+      "message": [
+        "missing authorization headers",
+        "invalid token",
+        "missing admin permissions"
+      ]
+    }
+  },
+  "400": {
+    "description": {
+      "status": "error",
+      "message": [
+        "user already registered",
+        [
+          "name is required",
+          "isAdm is required",
+          "password is required",
+          "email is required"
+        ]
+      ]
+    }
+  }
+}
