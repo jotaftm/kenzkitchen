@@ -2,7 +2,9 @@
   "post": {
     "description": "Essa rota é responsavel por registrar um usuário no sistema da empresa. Apenas usuário logado do tipo administrador pode realizar essa ação.",
     "tags": ["Users"],
-    "parameters": {},
+    "parameters": {
+      "$ref": "./parameters/createUser"
+    },
     "requestBody": {
       "content": {
         "application/json": {
