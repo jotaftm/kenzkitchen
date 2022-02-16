@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-// import { Company, User, RecipesIngredients, OrdersIngredients } from "./index";
+import Company from "./company.entity";
 
 @Entity("ingredients")
 export default class Ingredient {
@@ -31,15 +31,15 @@ export default class Ingredient {
   @Column()
   price!: number;
 
-  // @ManyToOne(() => Company, company => company.ingredients)
-  // company!: Company;
+  @ManyToOne(() => Company, (company) => company.ingredients)
+  company!: Company;
 
   // @ManyToOne(() => User, user => user.ingredients)
   // owner!: User;
 
-  // @OneToMany(() => RecipesIngredients, recipesIngredients => recipesIngredients.ingredient)
-  // recipesIngredients!: RecipesIngredients[];
+  // @OneToMany(() => RecipeIngredient, recipesIngredients => recipesIngredients.ingredient)
+  // recipesIngredients!: RecipeIngredient[];
 
-  // @OneToMany(() => OrdersIngredients, ordersIngredients => ordersIngredients.ingredient)
-  // orderIngredients!: OrderIngredients[];
+  // @OneToMany(() => OrderIngredient, ordersIngredients => ordersIngredients.ingredient)
+  // orderIngredients!: OrderIngredient[];
 }
