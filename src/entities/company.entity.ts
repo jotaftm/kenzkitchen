@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import { User } from ".";
+import User from "./user.entity";
 
 @Entity("companies")
 export default class Company {

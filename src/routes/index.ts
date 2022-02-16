@@ -4,5 +4,5 @@ import { userRouter } from "./user.route";
 
 export const initializerRouter = (app: Express) => {
   app.use("/companies", companyRouter());
-  app.use("/users", userRouter());
+  app.use("/companies/:companyId/users", userRouter());
 };

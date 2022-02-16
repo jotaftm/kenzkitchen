@@ -14,7 +14,8 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    const user = await createUser(req.body);
+    const idLogged = req.idLogged;
+    const user = await createUser(idLogged, req.body);
 
     res.status(201).json(user);
   } catch (err) {
@@ -38,7 +39,10 @@ export const login = async (
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const usersList = await listUsers();
+    const idLogged = req.idLogged;
+    const companyId = req.params.companyId;
+
+    const usersList = await listUsers(idLogged, companyId);
 
     res.json(usersList);
   } catch (err) {
@@ -53,10 +57,10 @@ export const listOne = async (
 ) => {
   try {
     const idLogged = req.idLogged;
+    const companyId = req.params.companyId;
+    const userId = req.params.userId;
 
-    const searchedId = req.params.id;
-
-    const user = await findUser(idLogged, searchedId);
+    const user = await findUser(idLogged, companyId, userId);
 
     res.json(user);
   } catch (err) {
@@ -71,12 +75,11 @@ export const update = async (
 ) => {
   try {
     const idLogged = req.idLogged;
-
+    const companyId = req.params.companyId;
     const body = req.body;
+    const updatedId = req.params.userId;
 
-    const updatedId = req.params.id;
-
-    const userUpdated = await updateUser(idLogged, body, updatedId);
+    const userUpdated = await updateUser(idLogged, companyId, body, updatedId);
 
     res.json(userUpdated);
   } catch (err) {
@@ -91,10 +94,10 @@ export const exclude = async (
 ) => {
   try {
     const idLogged = req.idLogged;
+    const companyId = req.params.companyId;
+    const deletedId = req.params.userId;
 
-    const deletedId = req.params.id;
-
-    await deleteUser(idLogged, deletedId);
+    await deleteUser(idLogged, companyId, deletedId);
 
     res.status(204).json();
   } catch (err) {

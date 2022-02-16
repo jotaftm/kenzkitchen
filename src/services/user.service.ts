@@ -1,11 +1,18 @@
 import { getRepository } from "typeorm";
-import { User } from "../entities";
+import { Company, User } from "../entities";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
 
-export const createUser = async (body: any) => {
+export const createUser = async (idLogged: string, body: any) => {
+  const companyRepository = getRepository(Company);
   const userRepository = getRepository(User);
+
+  const companyExists = await companyRepository.findOne(idLogged);
+
+  if (!companyExists) {
+    throw new ErrorHandler("company not found", 404);
+  }
 
   const emailExists = await userRepository.findOne({
     where: {
@@ -19,6 +26,7 @@ export const createUser = async (body: any) => {
 
   const user = userRepository.create({
     ...body,
+    company: companyExists,
   });
 
   return await userRepository.save(user);
@@ -53,27 +61,59 @@ export const loginUser = async (body: any) => {
   return token;
 };
 
-export const listUsers = async () => {
-  const userRepository = getRepository(User);
+export const listUsers = async (idLogged: string, companyId: string) => {
+  const companyRepository = getRepository(Company);
 
-  const users = await userRepository.find();
+  const companyExists = await companyRepository.findOne({
+    where: {
+      id: companyId,
+    },
+    relations: ["users"],
+  });
+
+  if (!companyExists) {
+    throw new ErrorHandler("company not found", 404);
+  } else if (
+    idLogged !== companyExists.id &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
+  ) {
+    throw new ErrorHandler("missing admin permissions", 401);
+  }
+
+  const users = companyExists.users;
 
   return users;
 };
 
-export const findUser = async (idLogged: string, userId: string) => {
-  const userRepository = getRepository(User);
+export const findUser = async (
+  idLogged: string,
+  companyId: string,
+  userId: string
+) => {
+  const companyRepository = getRepository(Company);
 
-  const user = await userRepository.findOne({
+  const companyExists = await companyRepository.findOne({
     where: {
-      id: userId,
+      id: companyId,
     },
-    select: ["password", "id"],
+    relations: ["users"],
   });
+
+  if (!companyExists) {
+    throw new ErrorHandler("company not found", 404);
+  }
+
+  const users = companyExists.users;
+
+  const user = users.find((user) => user.id === userId);
 
   if (!user) {
     throw new ErrorHandler("user not found", 404);
-  } else if (idLogged !== user.id && idLogged !== user.company.id) {
+  } else if (
+    idLogged !== user.id &&
+    idLogged !== companyExists.id &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
+  ) {
     throw new ErrorHandler("missing admin permissions", 401);
   }
 
@@ -82,22 +122,34 @@ export const findUser = async (idLogged: string, userId: string) => {
 
 export const updateUser = async (
   idLogged: string,
+  companyId: string,
   body: any,
   userId: string
 ) => {
   const userRepository = getRepository(User);
+  const companyRepository = getRepository(Company);
 
-  const userToUpdate = await userRepository.findOne({
+  const companyExists = await companyRepository.findOne({
     where: {
-      id: userId,
+      id: companyId,
     },
+    relations: ["users"],
   });
+
+  if (!companyExists) {
+    throw new ErrorHandler("company not found", 404);
+  }
+
+  const users = companyExists.users;
+
+  const userToUpdate = users.find((user) => user.id === userId);
 
   if (!userToUpdate) {
     throw new ErrorHandler("user not found", 404);
   } else if (
     idLogged !== userToUpdate.id &&
-    idLogged !== userToUpdate.company.id
+    idLogged !== companyExists.id &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
   }
@@ -115,23 +167,38 @@ export const updateUser = async (
   return updatedUser;
 };
 
-export const deleteUser = async (idLogged: string, userId: string) => {
+export const deleteUser = async (
+  idLogged: string,
+  companyId: string,
+  userId: string
+) => {
   const userRepository = getRepository(User);
+  const companyRepository = getRepository(Company);
 
-  const userToDelete = await userRepository.findOne({
+  const companyExists = await companyRepository.findOne({
     where: {
-      id: userId,
+      id: companyId,
     },
+    relations: ["users"],
   });
+
+  if (!companyExists) {
+    throw new ErrorHandler("company not found", 404);
+  }
+
+  const users = companyExists.users;
+
+  const userToDelete = users.find((user) => user.id === userId);
 
   if (!userToDelete) {
     throw new ErrorHandler("user not found", 404);
   } else if (
     idLogged !== userToDelete.id &&
-    idLogged !== userToDelete.company.id
+    idLogged !== companyExists.id &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
   }
 
-  await userRepository.delete(userToDelete);
+  await userRepository.delete(userToDelete.id);
 };
