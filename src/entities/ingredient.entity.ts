@@ -5,10 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-// import Company from "./company.entity";
-// import User from "./user.entity";
-// import RecipesIngredients from "./recipesIngredients.entity";
-// import OrdersIngredients from "./ordersIngredients.entity";
+// import { Company, User, RecipesIngredients, OrdersIngredients } from "./index";
 
 @Entity("ingredients")
 export default class Ingredient {
@@ -29,6 +26,7 @@ export default class Ingredient {
 
   @Column()
   unity!: string;
+  // unity!: "GR" | "U"
 
   @Column()
   price!: number;
