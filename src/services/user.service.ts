@@ -61,23 +61,30 @@ export const listUsers = async () => {
   return users;
 };
 
-export const findUser = async (userId: string) => {
+export const findUser = async (idLogged: string, userId: string) => {
   const userRepository = getRepository(User);
 
   const user = await userRepository.findOne({
     where: {
       id: userId,
     },
+    select: ["password", "id"],
   });
 
   if (!user) {
     throw new ErrorHandler("user not found", 404);
+  } else if (idLogged !== user.id && idLogged !== user.company.id) {
+    throw new ErrorHandler("missing admin permissions", 401);
   }
 
   return user;
 };
 
-export const updateUser = async (body: any, userId: string) => {
+export const updateUser = async (
+  idLogged: string,
+  body: any,
+  userId: string
+) => {
   const userRepository = getRepository(User);
 
   const userToUpdate = await userRepository.findOne({
@@ -88,6 +95,11 @@ export const updateUser = async (body: any, userId: string) => {
 
   if (!userToUpdate) {
     throw new ErrorHandler("user not found", 404);
+  } else if (
+    idLogged !== userToUpdate.id &&
+    idLogged !== userToUpdate.company.id
+  ) {
+    throw new ErrorHandler("missing admin permissions", 401);
   }
 
   await userRepository.update(userId, {
@@ -103,7 +115,7 @@ export const updateUser = async (body: any, userId: string) => {
   return updatedUser;
 };
 
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (idLogged: string, userId: string) => {
   const userRepository = getRepository(User);
 
   const userToDelete = await userRepository.findOne({
@@ -114,6 +126,11 @@ export const deleteUser = async (userId: string) => {
 
   if (!userToDelete) {
     throw new ErrorHandler("user not found", 404);
+  } else if (
+    idLogged !== userToDelete.id &&
+    idLogged !== userToDelete.company.id
+  ) {
+    throw new ErrorHandler("missing admin permissions", 401);
   }
 
   await userRepository.delete(userToDelete);

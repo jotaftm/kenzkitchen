@@ -4,7 +4,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+import { User } from ".";
 
 @Entity("companies")
 export default class Company {
@@ -31,4 +33,7 @@ export default class Company {
 
   @Column()
   createdBy!: string;
+
+  @OneToMany(() => User, (user) => user.company)
+  users!: User[];
 }

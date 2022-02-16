@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Company } from ".";
 
 @Entity("users")
 export default class User {
@@ -31,8 +32,11 @@ export default class User {
   @Column()
   isAdm!: boolean;
 
-  //   @ManyToOne(() => Company, company => company.users, { onDelete: 'CASCADE', cascade: true})
-  //   company!: Company;
+  @ManyToOne(() => Company, (company) => company.users, {
+    onDelete: "CASCADE",
+    cascade: true,
+  })
+  company!: Company;
 
   //   @OneToMany(() => Order, order.user)
   //   orders!: Order[];
