@@ -27,20 +27,11 @@ export default class Order {
   @Column()
   scheduled!: Date;
 
-  @Column()
-  createdBy!: string;
-
   @ManyToOne(() => User, (user) => user.orders)
   owner!: User;
 
   @ManyToOne(() => Company, (company) => company.orders)
   company!: Company;
-
-  @OneToMany(() => Recipe, (recipe) => recipe.company)
-  recipes!: Recipe[];
-
-  @OneToMany(() => Ingredient, (ingredient) => ingredient.company)
-  ingredients!: Ingredient[];
 
   @OneToMany(
     () => OrderIngredient,
