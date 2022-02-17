@@ -1,12 +1,22 @@
-import Ingredient from "../entities/ingredient.entity";
 import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
+import { Company, User, Ingredient } from "../entities";
 
-export const createIngredient = async (body: any) => {
+export const createIngredient = async (idLogged: string, body: any) => {
   try {
+    const companyRepository = getRepository(Company);
+    const userRepository = getRepository(User);
     const ingredientRepository = getRepository(Ingredient);
 
-    const ingredient = ingredientRepository.create({ ...body });
+    const user = await userRepository.findOne(idLogged);
+
+    const company = await companyRepository.findOne(user.companyId);
+
+    const ingredient = ingredientRepository.create({
+      ...body,
+      company: company,
+      owner: user,
+    });
 
     return await ingredientRepository.save(ingredient);
   } catch (err) {
