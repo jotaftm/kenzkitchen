@@ -9,6 +9,7 @@ import {
 import User from "./user.entity";
 import Recipe from "./recipe.entity";
 import Ingredient from "./ingredient.entity";
+import Order from "./order.entity";
 
 @Entity("companies")
 export default class Company {
@@ -44,4 +45,7 @@ export default class Company {
 
   @OneToMany(() => Ingredient, (ingredient) => ingredient.company)
   ingredients!: Ingredient[];
+
+  @OneToMany(() => Order, (order) => order.company)
+  orders!: Order[];
 }
