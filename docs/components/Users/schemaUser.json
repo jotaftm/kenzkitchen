@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "isManager": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "description": "readOnly",
+      "type": "date"
+    },
+    "updatedAt": {
+      "description": "readOnly",
+      "type": "date"
+    }
+  }
+}
