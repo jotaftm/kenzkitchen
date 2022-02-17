@@ -11,7 +11,7 @@
     }
   },
   "401": {
-    "description": "NOT AUTHORIZED",
+    "description": "UNAUTHORIZED",
     "content": {
       "application/json": {
         "schema": {
