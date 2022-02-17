@@ -4,7 +4,7 @@
     "content": {
       "schema": {
         "type": "object",
-        "$ref": "./components/schemaUser.json"
+        "$ref": "../../components/Users/schemaUser.json"
       }
     }
   },
