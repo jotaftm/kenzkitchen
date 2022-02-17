@@ -16,7 +16,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../Errors/Users/e401CreateUser.json"
+          "$ref": "../../errors/Users/e401CreateUser.json"
         }
       }
     }
@@ -27,7 +27,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../Errors/Users/e400CreateUser.json"
+          "$ref": "../../errors/Users/e400CreateUser.json"
         }
       }
     }
