@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 import swaggerUiExpress from "swagger-ui-express";
-import swaggerDocument from "../docs/swagger.json";
+import swaggerDocument from "../docs/build_swagger.json";
 
 initializerRouter(app);
 
