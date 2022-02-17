@@ -10,7 +10,7 @@ export const createIngredient = async (idLogged: string, body: any) => {
 
     const user = await userRepository.findOne(idLogged);
 
-    const company = await companyRepository.findOne(user.companyId);
+    const company = await companyRepository.findOne(user?.company);
 
     const ingredient = ingredientRepository.create({
       ...body,
