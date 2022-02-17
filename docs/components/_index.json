@@ -1,7 +1,7 @@
 {
   "schemas": {
     "Users": {
-      "$ref": "./schemaUser"
+      "$ref": "./Users/schemaUser.json"
     }
   }
 }

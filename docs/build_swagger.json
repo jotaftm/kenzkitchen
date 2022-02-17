@@ -1,0 +1,191 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "KenzieKitchen API",
+    "description": "This is a server for production process management focused on the food industry",
+    "contact": {
+      "name": "Kenzie Kitchen Support",
+      "url": "http://www.kenziekitchen.com/support",
+      "email": "support@kenziekitchen.com"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api-documentation",
+      "description": "development"
+    },
+    {
+      "url": "https://api-heroku-kenzie-kitchen/api-documentation",
+      "description": "production"
+    }
+  ],
+  "paths": {
+    "/companies/:companyId/users": {
+      "post": {
+        "description": "Essa rota é responsavel por registrar um usuário no sistema da empresa. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": {
+          "name": "companyId",
+          "in": "path",
+          "required": true,
+          "description": "The company's id the user belongs to",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Users"
+              }
+            },
+            "examples": {
+              "user": {
+                "value": {
+                  "name": "John Doe",
+                  "email": "john@gmail.com",
+                  "password": "1234",
+                  "isManager": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Users"
+              }
+            }
+          },
+          "400": {
+            "description": {
+              "status": "error",
+              "message": [
+                "user already registered",
+                [
+                  "name is required",
+                  "password is required",
+                  "email is required"
+                ]
+              ]
+            }
+          },
+          "401": {
+            "description": {
+              "status": "error",
+              "message": [
+                "missing authorization headers",
+                "invalid token",
+                "missing admin permissions"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/login": {
+      "post": {
+        "description": "Essa rota é responsável por fazer o login do usuário. Gera token de autenticação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": {
+          "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/parameters"
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "examples": {
+              "user": {
+                "value": {
+                  "email": "john@gmail.com",
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "schema": {
+                "type": "object",
+                "description": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": {
+              "status": "error",
+              "message": [
+                "password is required",
+                "email is required"
+              ]
+            }
+          },
+          "401": {
+            "description": {
+              "status": "error",
+              "message": "wrong email/password"
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Users": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isManager": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "description": "readOnly",
+            "type": "date"
+          },
+          "updatedAt": {
+            "description": "readOnly",
+            "type": "date"
+          }
+        }
+      }
+    }
+  }
+}
