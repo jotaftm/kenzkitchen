@@ -258,7 +258,7 @@
     },
     "/companies/:companyId/users/": {
       "get": {
-        "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação",
+        "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
         "tags": [
           "Users"
         ],
@@ -398,6 +398,113 @@
           }
         }
       }
+    },
+    "/companies/:companyId/users/:id/": {
+      "patch": {
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Robert Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Robert Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john.doe@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T02:10:27.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -435,7 +542,7 @@
         "name": "companyId",
         "in": "path",
         "required": true,
-        "description": "The company's id the user belongs to",
+        "description": "The company's id the user belongs to.",
         "schema": {
           "type": "string"
         }

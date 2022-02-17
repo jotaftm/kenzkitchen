@@ -10,5 +10,8 @@
   },
   "/companies/:companyId/users/:id": {
     "$ref": "./Users/getUserById.json"
+  },
+  "/companies/:companyId/users/:id/": {
+    "$ref": "./Users/patchUser.json"
   }
 }
