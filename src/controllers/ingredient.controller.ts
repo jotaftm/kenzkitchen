@@ -14,10 +14,9 @@ export const create = async (
 ) => {
   try {
     const idLogged = req.idLogged;
-    const companyId = req.params.companyId;
     const body = req.body;
 
-    const newIngredient = await createIngredient(idLogged, companyId, body);
+    const newIngredient = await createIngredient(idLogged, body);
 
     res.status(201).json(newIngredient);
   } catch (err) {
@@ -27,9 +26,9 @@ export const create = async (
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const companyId = req.params.companyId;
+    const idLogged = req.idLogged;
 
-    const ingredientsList = await listIngredients(companyId);
+    const ingredientsList = await listIngredients(idLogged);
 
     res.json(ingredientsList);
   } catch (err) {
@@ -43,10 +42,10 @@ export const listOne = async (
   next: NextFunction
 ) => {
   try {
-    const companyId = req.params.companyId;
+    const idLogged = req.idLogged;
     const ingredientId = req.params.ingredientId;
 
-    const ingredient = await findIngredient(companyId, ingredientId);
+    const ingredient = await findIngredient(idLogged, ingredientId);
 
     res.json(ingredient);
   } catch (err) {
@@ -60,12 +59,12 @@ export const update = async (
   next: NextFunction
 ) => {
   try {
-    const companyId = req.params.companyId;
+    const idLogged = req.idLogged;
     const ingredientId = req.params.ingredientId;
     const body = req.body;
 
     const ingredientUpdated = await updateIngredient(
-      companyId,
+      idLogged,
       ingredientId,
       body
     );
@@ -82,10 +81,10 @@ export const exclude = async (
   next: NextFunction
 ) => {
   try {
-    const companyId = req.params.companyId;
+    const idLogged = req.idLogged;
     const ingredientId = req.params.ingredientId;
 
-    await deleteIngredient(companyId, ingredientId);
+    await deleteIngredient(idLogged, ingredientId);
 
     res.sendStatus(204);
   } catch (err) {

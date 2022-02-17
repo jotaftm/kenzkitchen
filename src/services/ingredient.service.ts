@@ -2,23 +2,22 @@ import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
 import { Company, User, Ingredient } from "../entities";
 
-export const createIngredient = async (
-  idLogged: string,
-  companyId: string,
-  body: any
-) => {
+export const createIngredient = async (idLogged: string, body: any) => {
   try {
-    const companyRepository = getRepository(Company);
     const userRepository = getRepository(User);
     const ingredientRepository = getRepository(Ingredient);
 
-    const user = await userRepository.findOne(idLogged);
+    const user = await userRepository.findOne(idLogged, {
+      relations: ["company"],
+    });
 
-    const company = await companyRepository.findOne(companyId);
+    if (!user?.isManager) {
+      throw new ErrorHandler("missing manager permissions", 401);
+    }
 
     const ingredient = ingredientRepository.create({
-      ...body,
-      company: company,
+      ...(body as Ingredient),
+      company: user?.company,
       owner: user,
     });
 
@@ -28,24 +27,34 @@ export const createIngredient = async (
   }
 };
 
-export const listIngredients = async (companyId: string) => {
+export const listIngredients = async (idLogged: string) => {
+  const userRepository = getRepository(User);
   const ingredientRepository = getRepository(Ingredient);
 
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
+
   const ingredients = await ingredientRepository.find({
-    where: { company: companyId },
+    where: { company: user?.company },
   });
 
   return ingredients;
 };
 
 export const findIngredient = async (
-  companyId: string,
+  idLogged: string,
   ingredientId: string
 ) => {
+  const userRepository = getRepository(User);
   const ingredientRepository = getRepository(Ingredient);
 
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
+
   const ingredient = await ingredientRepository.findOne(ingredientId, {
-    where: { company: companyId },
+    where: { company: user?.company },
   });
 
   if (!ingredient) {
@@ -56,14 +65,23 @@ export const findIngredient = async (
 };
 
 export const updateIngredient = async (
-  companyId: string,
+  idLogged: string,
   ingredientId: string,
   body: any
 ) => {
+  const userRepository = getRepository(User);
   const ingredientRepository = getRepository(Ingredient);
 
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
+
+  if (!user?.isManager) {
+    throw new ErrorHandler("missing manager permissions", 401);
+  }
+
   const ingredientToUpdate = await ingredientRepository.findOne(ingredientId, {
-    where: { company: companyId },
+    where: { company: user?.company },
   });
 
   if (!ingredientToUpdate) {
@@ -80,13 +98,22 @@ export const updateIngredient = async (
 };
 
 export const deleteIngredient = async (
-  companyId: string,
+  idLogged: string,
   ingredientId: string
 ) => {
+  const userRepository = getRepository(User);
   const ingredientRepository = getRepository(Ingredient);
 
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
+
+  if (!user?.isManager) {
+    throw new ErrorHandler("missing manager permissions", 401);
+  }
+
   const ingredientToDelete = await ingredientRepository.findOne(ingredientId, {
-    where: { company: companyId },
+    where: { company: user?.company },
   });
 
   if (!ingredientToDelete) {
