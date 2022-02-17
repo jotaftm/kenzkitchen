@@ -29,9 +29,9 @@ export default class Ingredient {
 
   @Column()
   unity!: string;
-  // unity!: "GR" | "U"
+  // unity!: "GR" | "UN"
 
-  @Column()
+  @Column({ type: "float" })
   price!: number;
 
   @ManyToOne(() => Company, (company) => company.ingredients)
