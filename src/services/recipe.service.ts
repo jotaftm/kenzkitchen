@@ -1,16 +1,55 @@
 import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
-import { Company } from "../entities";
+import {
+  Company,
+  Ingredient,
+  Recipe,
+  RecipeIngredient,
+  User,
+} from "../entities";
 
-export const createRecipe = async (createdBy: string, body: any) => {
-  const companyRepository = getRepository(Company);
+export const createRecipe = async (
+  idLogged: string,
+  body: BodyCreateRecipe
+) => {
+  const userRepository = getRepository(User);
+  const ingredientRepository = getRepository(Ingredient);
+  const recipeRepository = getRepository(Recipe);
+  const recipeIngredientRepository = getRepository(RecipeIngredient);
 
-  const company = companyRepository.create({
-    ...body,
-    createdBy: createdBy,
+  const owner = await userRepository.findOne(idLogged, {
+    relations: ["company"],
   });
 
-  return await companyRepository.save(company);
+  if (!owner?.isManager) {
+    throw new ErrorHandler("missing manager permissions", 401);
+  }
+  const oi = recipeRepository.createQueryBuilder();
+
+  const recipe = recipeRepository.create({
+    ...body,
+    owner: owner,
+    company: owner?.company,
+    cost: 0,
+  });
+
+  const newRecipe = await recipeRepository.save(recipe);
+
+  console.log(newRecipe);
+
+  const recipeExistes = await recipeRepository.findOne(newRecipe.id);
+
+  //   for (const ingredient in body.ingredients) {
+  //     const ingredientExists = await ingredientRepository.findOne();
+
+  //     const newRecipeIngredient = recipeIngredientRepository.create({
+  //       quantity: body.ingredients[ingredient],
+  //       ingredient: ingredientExists,
+  //       recipe: recipeExistes,
+  //     });
+  //   }
+
+  return {};
 };
 
 export const listRecipe = async () => {

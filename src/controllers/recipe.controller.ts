@@ -13,7 +13,13 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-    res.status(201).json();
+    const idLogged = req.idLogged;
+
+    const body = req.body;
+
+    const newRecipe = await createRecipe(idLogged, body);
+
+    res.status(201).json(newRecipe);
   } catch (err) {
     next(err);
   }

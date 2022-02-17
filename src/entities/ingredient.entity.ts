@@ -5,9 +5,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import User from "./user.entity";
 import Company from "./company.entity";
 import RecipeIngredient from "./recipesIngredients.entity";
-import User from "./user.entity";
 
 @Entity("ingredients")
 export default class Ingredient {
@@ -30,7 +30,7 @@ export default class Ingredient {
   unity!: string;
   // unity!: "GR" | "U"
 
-  @Column()
+  @Column({ type: "float" })
   price!: number;
 
   @ManyToOne(() => Company, (company) => company.ingredients)
