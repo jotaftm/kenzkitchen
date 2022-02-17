@@ -6,5 +6,5 @@ import { ingredientRouter } from "./ingredient.route";
 export const initializerRouter = (app: Express) => {
   app.use("/companies", companyRouter());
   app.use("/companies/:companyId/users", userRouter());
-  app.use("/companes/:companyId/ingredients", ingredientRouter());
+  app.use("/companies/:companyId/ingredients", ingredientRouter());
 };

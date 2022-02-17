@@ -2,7 +2,11 @@ import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
 import { Company, User, Ingredient } from "../entities";
 
-export const createIngredient = async (idLogged: string, body: any) => {
+export const createIngredient = async (
+  idLogged: string,
+  companyId: string,
+  body: any
+) => {
   try {
     const companyRepository = getRepository(Company);
     const userRepository = getRepository(User);
@@ -10,7 +14,7 @@ export const createIngredient = async (idLogged: string, body: any) => {
 
     const user = await userRepository.findOne(idLogged);
 
-    const company = await companyRepository.findOne(user?.company);
+    const company = await companyRepository.findOne(companyId);
 
     const ingredient = ingredientRepository.create({
       ...body,
@@ -24,19 +28,24 @@ export const createIngredient = async (idLogged: string, body: any) => {
   }
 };
 
-export const listIngredients = async () => {
+export const listIngredients = async (companyId: string) => {
   const ingredientRepository = getRepository(Ingredient);
 
-  const ingredients = await ingredientRepository.find();
+  const ingredients = await ingredientRepository.find({
+    where: { company: companyId },
+  });
 
   return ingredients;
 };
 
-export const findIngredient = async (ingredientId: string) => {
+export const findIngredient = async (
+  companyId: string,
+  ingredientId: string
+) => {
   const ingredientRepository = getRepository(Ingredient);
 
-  const ingredient = await ingredientRepository.findOne({
-    where: { id: ingredientId },
+  const ingredient = await ingredientRepository.findOne(ingredientId, {
+    where: { company: companyId },
   });
 
   if (!ingredient) {
@@ -46,10 +55,16 @@ export const findIngredient = async (ingredientId: string) => {
   return ingredient;
 };
 
-export const updateIngredient = async (body: any, ingredientId: string) => {
+export const updateIngredient = async (
+  companyId: string,
+  ingredientId: string,
+  body: any
+) => {
   const ingredientRepository = getRepository(Ingredient);
 
-  const ingredientToUpdate = await ingredientRepository.findOne(ingredientId);
+  const ingredientToUpdate = await ingredientRepository.findOne(ingredientId, {
+    where: { company: companyId },
+  });
 
   if (!ingredientToUpdate) {
     throw new ErrorHandler("ingredient not found", 404);
@@ -64,10 +79,15 @@ export const updateIngredient = async (body: any, ingredientId: string) => {
   return updatedIngredient;
 };
 
-export const deleteIngredient = async (ingredientId: string) => {
+export const deleteIngredient = async (
+  companyId: string,
+  ingredientId: string
+) => {
   const ingredientRepository = getRepository(Ingredient);
 
-  const ingredientToDelete = await ingredientRepository.findOne(ingredientId);
+  const ingredientToDelete = await ingredientRepository.findOne(ingredientId, {
+    where: { company: companyId },
+  });
 
   if (!ingredientToDelete) {
     throw new ErrorHandler("ingredient not found", 404);
