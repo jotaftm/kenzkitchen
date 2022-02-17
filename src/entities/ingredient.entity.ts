@@ -30,7 +30,7 @@ export default class Ingredient {
   unity!: string;
   // unity!: "GR" | "UN"
 
-  @Column()
+  @Column({ type: "float" })
   price!: number;
 
   @ManyToOne(() => Company, (company) => company.ingredients)
