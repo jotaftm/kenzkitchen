@@ -10,7 +10,7 @@
       "example": [
         "missing authorization headers",
         "missing admin permissions",
-        "invalid toekn"
+        "invalid token"
       ]
     }
   }
