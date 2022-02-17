@@ -21,7 +21,11 @@ export const createIngredient = async (idLogged: string, body: any) => {
       owner: user,
     });
 
-    return await ingredientRepository.save(ingredient);
+    await ingredientRepository.save(ingredient);
+
+    const { owner, company, ...newIngredient } = ingredient;
+
+    return newIngredient;
   } catch (err) {
     throw new ErrorHandler((err as any).detail, 400);
   }
