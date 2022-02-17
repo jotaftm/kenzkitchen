@@ -4,5 +4,8 @@
   },
   "/companies/:companyId/users/login": {
     "$ref": "./Users/loginUser.json"
+  },
+  "/companies/:companyId/users/": {
+    "$ref": "./Users/getAllUsers.json"
   }
 }
