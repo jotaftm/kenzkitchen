@@ -1,0 +1,7 @@
+{
+  "schemas": {
+    "Users": {
+      "$ref": "./Users/schemaUser.json"
+    }
+  }
+}

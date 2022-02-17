@@ -1,0 +1,29 @@
+{
+  "post": {
+    "description": "Essa rota é responsavel por registrar um usuário no sistema da empresa. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+    "tags": ["Users"],
+    "parameters": {
+      "$ref": "../../parameters/companyId.json"
+    },
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": { "$ref": "../../components/Users/schemaUser.json" }
+        },
+        "examples": {
+          "user": {
+            "value": {
+              "name": "John Doe",
+              "email": "john@gmail.com",
+              "password": "1234",
+              "isManager": true
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Users/createUser.json"
+    }
+  }
+}
