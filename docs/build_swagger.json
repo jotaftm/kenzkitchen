@@ -36,7 +36,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "properties": {
                   "name": {
                     "type": "string",
@@ -172,7 +171,6 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "properties": {
                   "email": {
                     "type": "string",
@@ -276,7 +274,95 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id": {
+      "get": {
+        "description": "Seleciona um determinado usuário pelo id. Usuário logado do tipo funcionário não pode selecionar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the user to be retrieved.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
                   "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/201/content/application~1json/schema"
                 }
               }
@@ -301,7 +387,8 @@
                       "type": "array",
                       "example": [
                         "missing authorization headers",
-                        "missing authorization headers"
+                        "invalid token",
+                        "missing admin permissions"
                       ]
                     }
                   }
@@ -316,7 +403,6 @@
   "components": {
     "schemas": {
       "Users": {
-        "type": "object",
         "properties": {
           "name": {
             "type": "string"

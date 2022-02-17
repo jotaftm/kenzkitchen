@@ -5,7 +5,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../components/UserSchemas/resAllUsersSchema.json"
+          "$ref": "../../components/UserSchemas/resUserSchema.json"
         }
       }
     }
@@ -26,6 +26,7 @@
               "type": "array",
               "example": [
                 "missing authorization headers",
+                "invalid token",
                 "missing admin permissions"
               ]
             }
