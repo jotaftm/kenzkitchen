@@ -7,14 +7,14 @@
     "email": {
       "type": "string"
     },
-    "id": {
-      "type": "string"
-    },
     "password": {
       "type": "string"
     },
     "isManager": {
       "type": "boolean"
+    },
+    "id": {
+      "type": "string"
     },
     "createdAt": {
       "description": "readOnly",

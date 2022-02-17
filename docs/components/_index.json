@@ -1,7 +1,12 @@
 {
   "schemas": {
     "Users": {
-      "$ref": "./Users/schemaUser.json"
+      "$ref": "./UserSchemas/schemaUser.json"
+    }
+  },
+  "parameters": {
+    "companyParam": {
+      "$ref": "../parameters/companyId.json"
     }
   }
 }
