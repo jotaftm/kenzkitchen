@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+    },
+    "name": {
+      "type": "string",
+      "example": "John Doe"
+    },
+    "email": {
+      "type": "string",
+      "example": "john@mail.com"
+    },
+    "isManager": {
+      "type": "boolean",
+      "example": true
+    },
+    "createdAt": {
+      "type": "date",
+      "example": "2022-02-15T01:49:34.603Z"
+    },
+    "updatedAt": {
+      "type": "date",
+      "example": "2022-02-15T01:49:34.603Z"
+    }
+  }
+}
