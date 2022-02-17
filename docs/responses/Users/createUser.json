@@ -23,12 +23,7 @@
       "status": "error",
       "message": [
         "user already registered",
-        [
-          "name is required",
-          "isManager is required",
-          "password is required",
-          "email is required"
-        ]
+        ["name is required", "password is required", "email is required"]
       ]
     }
   }

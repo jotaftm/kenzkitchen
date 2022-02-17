@@ -1,8 +1,8 @@
 {
   "/companies/:companyId/users": {
-    "$ref": "./createUser"
+    "$ref": "./Users/createUser"
   },
   "/companies/:companyId/users/login": {
-    "$ref": "./loginUser"
+    "$ref": "./Users/loginUser"
   }
 }
