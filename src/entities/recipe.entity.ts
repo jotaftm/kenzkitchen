@@ -30,7 +30,7 @@ export default class Recipe {
   unity!: string;
   // unity!: "GR" | "UN";
 
-  @Column()
+  @Column({ type: "float" })
   cost!: number;
 
   @ManyToOne(() => User, (user) => user.recipes)
@@ -48,9 +48,12 @@ export default class Recipe {
   @OneToMany(() => OrderRecipe, (orderRecipe) => orderRecipe.recipe)
   ordersRecipes!: OrderRecipe[];
 
-  // @BeforeInsert()
   // @BeforeUpdate()
   // async calculateCost() {
-  //     this.cost = calcular de acordo com a lista Recipe_ingredient
-  // };
+  //   console.log("chamou");
+  //   this.cost =
+  //     this.recipesIngredients.reduce((acc, cVal) => {
+  //       return acc + cVal.quantity * cVal.ingredient.price;
+  //     }, 0) / this.yield;
+  // }
 }

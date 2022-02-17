@@ -11,5 +11,5 @@ export const recipeSchema = yup.object().shape({
     .transform((_, originalValue) => {
       return originalValue.toUpperCase();
     }),
-  ingredients: yup.object().required("ingredients is required"),
+  ingredientsList: yup.object().required("ingredients is required"),
 });

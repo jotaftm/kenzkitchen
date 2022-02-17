@@ -55,7 +55,15 @@ export const update = async (
   next: NextFunction
 ) => {
   try {
-    res.json();
+    const idLogged = req.idLogged;
+
+    const body = req.body;
+
+    const recipeId = req.params.id;
+
+    const updatedRecipe = await updateRecipe(idLogged, body, recipeId);
+
+    res.json(updatedRecipe);
   } catch (err) {
     next(err);
   }
