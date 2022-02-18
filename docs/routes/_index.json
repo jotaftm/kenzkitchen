@@ -22,5 +22,8 @@
   },
   "/companies/:companyId/ingredients/": {
     "$ref": "./Ingredients/listAllIngredients.json"
+  },
+  "/companies/:companyId/ingredients/:id": {
+    "$ref": "./Ingredients/getIngredientById.json"
   }
 }

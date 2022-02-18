@@ -697,6 +697,88 @@
           }
         }
       }
+    },
+    "/companies/:companyId/ingredients/:id": {
+      "get": {
+        "description": "Seleciona um determinado ingrediente pelo id. Qualquer usuário logado pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/ingredientIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ingredient not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -781,6 +863,15 @@
         "in": "path",
         "required": true,
         "description": "The id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ingredientIdParam": {
+        "name": "ingredientId",
+        "in": "path",
+        "required": true,
+        "description": "The ingredient's id.",
         "schema": {
           "type": "string"
         }
