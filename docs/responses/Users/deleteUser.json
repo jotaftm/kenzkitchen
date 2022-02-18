@@ -1,14 +1,7 @@
 {
-  "200": {
-    "description": "OK",
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "$ref": "../../components/UserSchemas/resPatchUser.json"
-        }
-      }
-    }
+  "204": {
+    "description": "NO CONTENT",
+    "content": {}
   },
   "401": {
     "description": "UNAUTHORIZED",
