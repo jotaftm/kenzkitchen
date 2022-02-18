@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const recipeSchema = yup.object().shape({
+export const createRecipeSchema = yup.object().shape({
   name: yup.string().required("name is required"),
   description: yup.string().required("description  is required"),
   yield: yup.number().required("yield is required"),
