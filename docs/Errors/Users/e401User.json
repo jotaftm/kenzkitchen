@@ -1,0 +1,17 @@
+{
+  "required": ["status", "message"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "example": "error"
+    },
+    "message": {
+      "type": "array",
+      "example": [
+        "missing authorization headers",
+        "missing admin permissions",
+        "invalid token"
+      ]
+    }
+  }
+}

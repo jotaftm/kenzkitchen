@@ -4,5 +4,17 @@
   },
   "/companies/:companyId/users/login": {
     "$ref": "./Users/loginUser.json"
+  },
+  "/companies/:companyId/users/": {
+    "$ref": "./Users/getAllUsers.json"
+  },
+  "/companies/:companyId/users/:id": {
+    "$ref": "./Users/getUserById.json"
+  },
+  "/companies/:companyId/users/:id/": {
+    "$ref": "./Users/patchUser.json"
+  },
+  "/companies/:companyId/users/:id//": {
+    "$ref": "./Users/deleteUser.json"
   }
 }

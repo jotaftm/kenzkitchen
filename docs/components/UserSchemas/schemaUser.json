@@ -1,5 +1,4 @@
 {
-  "type": "object",
   "properties": {
     "name": {
       "type": "string"
@@ -7,14 +6,14 @@
     "email": {
       "type": "string"
     },
-    "id": {
-      "type": "string"
-    },
     "password": {
       "type": "string"
     },
     "isManager": {
       "type": "boolean"
+    },
+    "id": {
+      "type": "string"
     },
     "createdAt": {
       "description": "readOnly",

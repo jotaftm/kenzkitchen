@@ -27,29 +27,32 @@
         "tags": [
           "Users"
         ],
-        "parameters": {
-          "name": "companyId",
-          "in": "path",
-          "required": true,
-          "description": "The company's id the user belongs to",
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
           }
-        },
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Users"
-              }
-            },
-            "examples": {
-              "user": {
-                "value": {
-                  "name": "John Doe",
-                  "email": "john@gmail.com",
-                  "password": "1234",
-                  "isManager": true
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john@mail.com"
+                  },
+                  "isManager": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
                 }
               }
             }
@@ -59,33 +62,95 @@
           "201": {
             "description": "CREATED",
             "content": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Users"
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    }
+                  }
+                }
               }
             }
           },
           "400": {
-            "description": {
-              "status": "error",
-              "message": [
-                "user already registered",
-                [
-                  "name is required",
-                  "password is required",
-                  "email is required"
-                ]
-              ]
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "user already exists",
+                        [
+                          "name is required",
+                          "password is required"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
             }
           },
           "401": {
-            "description": {
-              "status": "error",
-              "message": [
-                "missing authorization headers",
-                "invalid token",
-                "missing admin permissions"
-              ]
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions",
+                        "invalid token"
+                      ]
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -97,29 +162,24 @@
         "tags": [
           "Users"
         ],
-        "parameters": {
-          "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/parameters"
-        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
                 "properties": {
                   "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john@mail.com"
                   },
                   "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1234"
                   }
-                }
-              }
-            },
-            "examples": {
-              "user": {
-                "value": {
-                  "email": "john@gmail.com",
-                  "password": "1234"
                 }
               }
             }
@@ -129,27 +189,363 @@
           "200": {
             "description": "OK",
             "content": {
-              "schema": {
-                "type": "object",
-                "description": {
-                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
+                    }
+                  }
                 }
               }
             }
           },
           "400": {
-            "description": {
-              "status": "error",
-              "message": [
-                "password is required",
-                "email is required"
-              ]
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "email is required",
+                        "password is required"
+                      ]
+                    }
+                  }
+                }
+              }
             }
           },
           "401": {
-            "description": {
-              "status": "error",
-              "message": "wrong email/password"
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "wrong email/password"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/": {
+      "get": {
+        "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id": {
+      "get": {
+        "description": "Seleciona um determinado usuário pelo id. Usuário logado do tipo funcionário não pode selecionar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id/": {
+      "patch": {
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Robert Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Robert Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john.doe@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T02:10:27.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id//": {
+      "delete": {
+        "description": "Exclui um usuário cadastrado. Usuário logado do tipo funcionário não pode excluir outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode excluir qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                }
+              }
             }
           }
         }
@@ -159,7 +555,6 @@
   "components": {
     "schemas": {
       "Users": {
-        "type": "object",
         "properties": {
           "name": {
             "type": "string"
@@ -167,14 +562,14 @@
           "email": {
             "type": "string"
           },
-          "id": {
-            "type": "string"
-          },
           "password": {
             "type": "string"
           },
           "isManager": {
             "type": "boolean"
+          },
+          "id": {
+            "type": "string"
           },
           "createdAt": {
             "description": "readOnly",
@@ -184,6 +579,17 @@
             "description": "readOnly",
             "type": "date"
           }
+        }
+      }
+    },
+    "parameters": {
+      "companyParam": {
+        "name": "companyId",
+        "in": "path",
+        "required": true,
+        "description": "The company's id the user belongs to.",
+        "schema": {
+          "type": "string"
         }
       }
     }

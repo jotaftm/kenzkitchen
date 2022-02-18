@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "name": {
+      "type": "string",
+      "example": "John Doe"
+    },
+    "email": {
+      "type": "string",
+      "example": "john@mail.com"
+    },
+    "isManager": {
+      "type": "boolean",
+      "example": true
+    },
+    "password": {
+      "type": "string",
+      "example": "1234"
+    }
+  }
+}
