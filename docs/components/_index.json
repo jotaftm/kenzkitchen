@@ -2,11 +2,12 @@
   "schemas": {
     "Users": {
       "$ref": "./UserSchemas/schemaUser.json"
+    },
+    "Ingredients": {
+      "$ref": "./IngredientsSchemas/schemaIngredient.json"
     }
   },
   "parameters": {
-    "companyParam": {
-      "$ref": "../parameters/companyId.json"
-    }
+    "$ref": "../parameters/_index.json"
   }
 }
