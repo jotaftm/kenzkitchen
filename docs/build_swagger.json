@@ -643,6 +643,60 @@
           }
         }
       }
+    },
+    "/companies/:companyId/ingredients/": {
+      "get": {
+        "description": "Lista todos os insumos cadastrados. Qualquer usuário logado pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
