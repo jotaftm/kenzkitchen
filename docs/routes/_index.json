@@ -13,5 +13,8 @@
   },
   "/companies/:companyId/users/:id/": {
     "$ref": "./Users/patchUser.json"
+  },
+  "/companies/:companyId/users/:id//": {
+    "$ref": "./Users/deleteUser.json"
   }
 }

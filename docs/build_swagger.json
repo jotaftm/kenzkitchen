@@ -349,7 +349,7 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "The id of the user to be retrieved.",
+            "description": "The id of the user.",
             "schema": {
               "type": "string"
             }
@@ -499,6 +499,51 @@
                       "example": "user not found"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id//": {
+      "delete": {
+        "description": "Exclui um usuário cadastrado. Usuário logado do tipo funcionário não pode excluir outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode excluir qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid~1/patch/responses/404/content/application~1json/schema"
                 }
               }
             }
