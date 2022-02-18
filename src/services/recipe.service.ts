@@ -37,56 +37,62 @@ export const createRecipe = async (
     throw new ErrorHandler("missing manager permissions", 401);
   }
 
-  const recipe = recipeRepository.create({
+  const newRecipe = recipeRepository.create({
     ...body,
     owner: owner,
     company: owner?.company,
-    cost: 0,
   });
 
-  const newRecipe = await recipeRepository.save(recipe);
+  const recipe = await recipeRepository.save(newRecipe);
 
-  for (const ingredient in body.ingredientsList) {
+  for (const ingredientId in body.ingredientsList) {
     const ingredientExists = await ingredientRepository.findOne({
-      where: { id: ingredient },
+      where: { id: ingredientId },
     });
 
     const newRecipeIngredient = recipeIngredientRepository.create({
-      quantity: body.ingredientsList[ingredient],
+      quantity: body.ingredientsList[ingredientId],
       ingredient: ingredientExists,
-      recipe: newRecipe,
+      recipe: recipe,
     });
 
     await recipeIngredientRepository.save(newRecipeIngredient);
   }
 
-  const pqp = await recipeRepository.findOne({
+  const recipeExists = await recipeRepository.findOne({
     where: { id: newRecipe.id },
     relations: ["recipesIngredients", "recipesIngredients.ingredient"],
   });
 
-  if (pqp) {
+  if (recipeExists) {
     const costActual =
-      pqp.recipesIngredients.reduce((acc, cVal) => {
+      recipeExists.recipesIngredients.reduce((acc, cVal) => {
         return acc + cVal.quantity * cVal.ingredient.price;
-      }, 0) / pqp.yield;
+      }, 0) / recipeExists.yield;
 
-    await recipeRepository.update(newRecipe.id, {
+    await recipeRepository.update(recipe.id, {
       cost: costActual,
     });
   }
 
-  const recipeFinal = await recipeRepository.findOne(newRecipe.id);
+  const recipeOutput = await recipeRepository.findOne(newRecipe.id);
 
-  return recipeFinal;
+  return recipeOutput;
 };
 
-export const listRecipe = async () => {
-  const companyRepository = getRepository(Company);
+export const listRecipes = async (idLogged: string) => {
+  const userRepository = getRepository(User);
+  const recipeRepository = getRepository(Recipe);
 
-  const companies = await companyRepository.find();
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
 
-  return companies;
+  const recipes = await recipeRepository.find({
+    where: { company: user?.company },
+  });
+
+  return recipes;
 };
 
 export const findRecipe = async (idLogged: string, companyId: string) => {

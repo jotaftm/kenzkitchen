@@ -28,9 +28,8 @@ export default class Recipe {
 
   @Column()
   unity!: string;
-  // unity!: "GR" | "UN";
 
-  @Column({ type: "float" })
+  @Column({ type: "float", default: 0 })
   cost!: number;
 
   @ManyToOne(() => User, (user) => user.recipes)

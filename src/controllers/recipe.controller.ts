@@ -3,7 +3,7 @@ import {
   createRecipe,
   deleteRecipe,
   findRecipe,
-  listRecipe,
+  listRecipes,
   updateRecipe,
 } from "../services/recipe.service";
 
@@ -31,7 +31,11 @@ export const listAll = async (
   next: NextFunction
 ) => {
   try {
-    res.json();
+    const idLogged = req.idLogged;
+
+    const recipes = await listRecipes(idLogged);
+
+    res.json(recipes);
   } catch (err) {
     next(err);
   }

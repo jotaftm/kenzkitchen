@@ -29,7 +29,6 @@ export default class Ingredient {
 
   @Column()
   unity!: string;
-  // unity!: "GR" | "U"
 
   @Column({ type: "float" })
   price!: number;
