@@ -21,7 +21,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../Errors/Users/e401Login.json"
+          "$ref": "../../errors/Users/e401Login.json"
         }
       }
     }
@@ -32,7 +32,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../Errors/Users/e400Login.json"
+          "$ref": "../../errors/Users/e400Login.json"
         }
       }
     }

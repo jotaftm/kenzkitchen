@@ -1,11 +1,11 @@
 {
-  "201": {
-    "description": "CREATED",
+  "200": {
+    "description": "OK",
     "content": {
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../components/UserSchemas/resUserSchema.json"
+          "$ref": "../../components/UserSchemas/resPatchUser.json"
         }
       }
     }
@@ -21,13 +21,13 @@
       }
     }
   },
-  "400": {
+  "404": {
     "description": "BAD REQUEST",
     "content": {
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../errors/Users/e400CreateUser.json"
+          "$ref": "../../errors/Users/e404PatchUser.json"
         }
       }
     }

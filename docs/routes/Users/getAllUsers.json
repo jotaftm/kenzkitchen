@@ -1,6 +1,6 @@
 {
   "get": {
-    "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação",
+    "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
     "tags": ["Users"],
     "parameters": [
       {
