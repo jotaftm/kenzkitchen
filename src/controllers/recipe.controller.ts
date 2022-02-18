@@ -47,7 +47,12 @@ export const listOne = async (
   next: NextFunction
 ) => {
   try {
-    res.json();
+    const idLogged = req.idLogged;
+    const recipeId = req.params.recipeId;
+
+    const recipe = await findRecipe(idLogged, recipeId);
+
+    res.json(recipe);
   } catch (err) {
     next(err);
   }

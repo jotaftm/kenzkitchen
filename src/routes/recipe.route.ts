@@ -15,9 +15,9 @@ const router = Router({ mergeParams: true });
 export const recipeRouter = () => {
   router.post("", authenticateUser, validate(recipeSchema), create);
   router.get("", authenticateUser, listAll);
-  router.get("/:id", listOne);
-  router.patch("/:id", update);
-  router.delete("/:id", exclude);
+  router.get("/:recipeId", authenticateUser, listOne);
+  router.patch("/:recipeId", update);
+  router.delete("/:recipeId", exclude);
 
   return router;
 };

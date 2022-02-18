@@ -84,36 +84,34 @@ export const listRecipes = async (idLogged: string) => {
   const userRepository = getRepository(User);
   const recipeRepository = getRepository(Recipe);
 
-  const user = await userRepository.findOne(idLogged, {
+  const userLogged = await userRepository.findOne(idLogged, {
     relations: ["company"],
   });
 
   const recipes = await recipeRepository.find({
-    where: { company: user?.company },
+    where: { company: userLogged?.company },
   });
 
   return recipes;
 };
 
-export const findRecipe = async (idLogged: string, companyId: string) => {
-  const companyRepository = getRepository(Company);
+export const findRecipe = async (idLogged: string, recipeId: string) => {
+  const userRepository = getRepository(User);
+  const recipeRepository = getRepository(Recipe);
 
-  const company = await companyRepository.findOne({
-    where: {
-      id: companyId,
-    },
+  const userLogged = await userRepository.findOne(idLogged, {
+    relations: ["company"],
   });
 
-  if (!company) {
-    throw new ErrorHandler("company not found", 404);
-  } else if (
-    idLogged !== company.id &&
-    !process.env.API_KEYS?.split(",").includes(idLogged)
-  ) {
-    throw new ErrorHandler("missing admin permissions", 401);
+  const recipe = await recipeRepository.findOne(recipeId, {
+    where: { company: userLogged?.company },
+  });
+
+  if (!recipe) {
+    throw new ErrorHandler("recipe not found", 404);
   }
 
-  return company;
+  return recipe;
 };
 
 export const updateRecipe = async (
