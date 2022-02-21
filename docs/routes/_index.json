@@ -26,6 +26,9 @@
   "/companies/:id": {
     "$ref": "./Companies/patchCompany.json"
   },
+  "/companies/:id/": {
+    "$ref": "./Companies/deleteCompany.json"
+  },
   "/companies/:companyId/ingredients": {
     "$ref": "./Ingredients/createIngredient.json"
   },

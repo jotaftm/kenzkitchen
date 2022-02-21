@@ -1,6 +1,6 @@
 {
   "patch": {
-    "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+    "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo manager pode selecionar qualquer usuário do sistema.",
     "tags": ["Companies"],
     "parameters": [
       {

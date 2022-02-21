@@ -712,7 +712,7 @@
     },
     "/companies/:id": {
       "patch": {
-        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo manager pode selecionar qualquer usuário do sistema.",
         "tags": [
           "Companies"
         ],
@@ -796,6 +796,61 @@
                       ]
                     }
                   }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "company not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:id/": {
+      "delete": {
+        "description": "Exclui a empresa. Apenas usuário logado do tipo Manager pode realizar essa ação.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
                 }
               }
             }
