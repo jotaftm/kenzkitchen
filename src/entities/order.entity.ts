@@ -27,10 +27,12 @@ export default class Order {
   @Column()
   scheduled!: Date;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, { onDelete: "CASCADE" })
   owner!: User;
 
-  @ManyToOne(() => Company, (company) => company.orders)
+  @ManyToOne(() => Company, (company) => company.orders, {
+    onDelete: "CASCADE",
+  })
   company!: Company;
 
   @OneToMany(
