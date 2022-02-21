@@ -208,23 +208,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "array",
-                      "example": [
-                        "email is required",
-                        "password is required"
-                      ]
-                    }
-                  }
+                  "$ref": "#/paths/~1companies~1login/post/responses/400/content/application~1json/schema"
                 }
               }
             }
@@ -235,20 +219,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "wrong email/password"
-                    }
-                  }
+                  "$ref": "#/paths/~1companies~1login/post/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -651,6 +622,102 @@
                           "email is required"
                         ]
                       ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/login": {
+      "post": {
+        "description": "Login do administrador da empresa. Gera token de autenticação. Login via e-mail e password.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kenzie@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "email is required",
+                        "password is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "wrong email/password"
                     }
                   }
                 }

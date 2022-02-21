@@ -1,0 +1,12 @@
+{
+  "properties": {
+    "email": {
+      "type": "string",
+      "example": "kenzie@mail.com"
+    },
+    "password": {
+      "type": "string",
+      "example": "1234"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "post": {
+    "description": "Login do administrador da empresa. Gera token de autenticação. Login via e-mail e password.",
+    "tags": ["Companies"],
+    "parameters": [],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": { "$ref": "../../components/CompaniesSchemas/loginCompany.json" }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Companies/loginCompany.json"
+    }
+  }
+}
