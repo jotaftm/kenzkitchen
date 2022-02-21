@@ -1,0 +1,11 @@
+{
+  "companyParam": {
+    "$ref": "./companyId.json"
+  },
+  "userIdParam": {
+    "$ref": "./userId.json"
+  },
+  "ingredientIdParam": {
+    "$ref": "./ingredientId.json"
+  }
+}
