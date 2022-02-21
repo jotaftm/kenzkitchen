@@ -84,10 +84,11 @@ export const exclude = async (
   next: NextFunction
 ) => {
   try {
-    // const idLogged = req.idLogged;
-    // const ingredientId = req.params.ingredientId;
+    const idLogged = req.idLogged;
 
-    // await deleteRecipe(idLogged, ingredientId);
+    const recipeId = req.params.recipeId;
+
+    await deleteRecipe(idLogged, recipeId);
 
     res.sendStatus(204);
   } catch (err) {

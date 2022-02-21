@@ -10,9 +10,13 @@ export default class RecipeIngredient {
   @Column()
   quantity!: number;
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.recipesIngredients)
+  @ManyToOne(() => Recipe, (recipe) => recipe.recipesIngredients, {
+    onDelete: "CASCADE",
+  })
   recipe!: Recipe;
 
-  @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipesIngredients)
+  @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipesIngredients, {
+    onDelete: "CASCADE",
+  })
   ingredient!: Ingredient;
 }

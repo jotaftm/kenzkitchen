@@ -235,23 +235,30 @@ export const updateRecipe = async (
   return await recipeRepository.findOne(recipeId);
 };
 
-export const deleteRecipe = async (idLogged: string, companyId: string) => {
-  const companyRepository = getRepository(Company);
+export const deleteRecipe = async (idLogged: string, recipeId: string) => {
+  const userRepository = getRepository(User);
+  const recipeRepository = getRepository(Recipe);
 
-  const companyToDelete = await companyRepository.findOne({
-    where: {
-      id: companyId,
-    },
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
   });
 
-  if (!companyToDelete) {
-    throw new ErrorHandler("company not found", 404);
-  } else if (
-    idLogged !== companyToDelete.id &&
-    !process.env.API_KEYS?.split(",").includes(idLogged)
-  ) {
-    throw new ErrorHandler("missing admin permissions", 401);
+  if (!user?.isManager) {
+    throw new ErrorHandler("missing manager permissions", 401);
   }
 
-  return await companyRepository.delete(companyToDelete.id);
+  const recipeToDelete = await recipeRepository.findOne(recipeId, {
+    where: { company: user?.company },
+    relations: [
+      "recipesIngredients",
+      "recipesIngredients.recipe",
+      "recipesIngredients.ingredient",
+    ],
+  });
+
+  if (!recipeToDelete) {
+    throw new ErrorHandler("recipe not found", 404);
+  }
+
+  return await recipeRepository.delete(recipeToDelete.id);
 };
