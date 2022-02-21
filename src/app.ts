@@ -3,6 +3,12 @@ import express from "express";
 import "reflect-metadata";
 import { initializerRouter } from "./routes";
 import { handleError } from "./middlewares/error.middleware";
+import dotenv from "dotenv";
+import { connectDatabase } from "./database/index";
+
+dotenv.config();
+
+connectDatabase();
 
 const app = express();
 
