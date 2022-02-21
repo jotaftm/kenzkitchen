@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "name": {
+      "type": "string",
+      "example": "Kenzie Academy Brasil"
+    },
+    "email": {
+      "type": "string",
+      "example": "kenzie.brasil@mail.com"
+    },
+    "cnpj": {
+      "type": "string",
+      "example": "15.253.327/0001-42"
+    },
+    "createdAt": {
+      "type": "date",
+      "example": "2022-02-15T01:49:34.603Z"
+    },
+    "updatedAt": {
+      "type": "date",
+      "example": "2022-02-15T02:10:27.603Z"
+    }
+  }
+}

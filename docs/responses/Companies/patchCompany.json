@@ -5,7 +5,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "$ref": "../../components/IngredientsSchemas/reqResIngredientSchema.json"
+          "$ref": "../../components/CompaniesSchemas/resPatchCompany.json"
         }
       }
     }
@@ -16,21 +16,7 @@
       "application/json": {
         "schema": {
           "type": "object",
-          "required": ["status", "message"],
-          "properties": {
-            "status": {
-              "type": "string",
-              "example": "error"
-            },
-            "message": {
-              "type": "array",
-              "example": [
-                "missing authorization headers",
-                "invalid token",
-                "missing admin permissions"
-              ]
-            }
-          }
+          "$ref": "../../errors/Users/e401User.json"
         }
       }
     }
@@ -49,7 +35,7 @@
             },
             "message": {
               "type": "string",
-              "example": "ingredient not found"
+              "example": "company not found"
             }
           }
         }
