@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "name": {
+      "type": "string",
+      "example": "Kenzie"
+    },
+    "cnpj": {
+      "type": "string",
+      "example": "15.253.327/0001-42"
+    },
+    "email": {
+      "type": "string",
+      "example": "kenzie@mail.com"
+    },
+    "password": {
+      "type": "string",
+      "example": "1234"
+    },
+    "createdBy": {
+      "type": "string",
+      "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+    }
+  }
+}

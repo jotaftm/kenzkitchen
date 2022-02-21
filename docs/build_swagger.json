@@ -545,6 +545,121 @@
         }
       }
     },
+    "/companies": {
+      "post": {
+        "description": "Registra uma nova empresa. Vendedor do sistema, com sua própria API key cadastra uma empresa.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Kenzie"
+                  },
+                  "cnpj": {
+                    "type": "string",
+                    "example": "15.253.327/0001-42"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "kenzie@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "createdBy": {
+                    "type": "string",
+                    "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Kenzie"
+                    },
+                    "cnpj": {
+                      "type": "string",
+                      "example": "15.253.327/0001-42"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "kenzie@mail.com"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+                    },
+                    "createdAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    },
+                    "updatedAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "company already exists",
+                        [
+                          "name is required",
+                          "cnpj is required",
+                          "password is required",
+                          "email is required"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/companies/:companyId/ingredients": {
       "post": {
         "description": "Registra um insumo utilizado na empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
@@ -844,6 +959,44 @@
           },
           "ordersIngredients": {
             "type": "array"
+          }
+        }
+      },
+      "Companies": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kenzie"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "15.253.327/0001-42"
+          },
+          "email": {
+            "type": "string",
+            "example": "kenzie@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+          },
+          "createdAt": {
+            "description": "readOnly",
+            "type": "date",
+            "example": "2022-02-14T23:04:48.723Z"
+          },
+          "updatedAt": {
+            "description": "readOnly",
+            "type": "date",
+            "example": "2022-02-14T23:04:48.723Z"
           }
         }
       }
