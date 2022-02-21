@@ -10,7 +10,9 @@ export default class OrderIngredient {
   @Column()
   quantity!: number;
 
-  @ManyToOne(() => Order, (order) => order.ordersIngredients)
+  @ManyToOne(() => Order, (order) => order.ordersIngredients, {
+    onDelete: "CASCADE",
+  })
   order!: Order;
 
   @ManyToOne(() => Ingredient, (ingredient) => ingredient.ordersIngredients)

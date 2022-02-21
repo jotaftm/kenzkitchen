@@ -1,6 +1,4 @@
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
@@ -28,15 +26,16 @@ export default class Recipe {
 
   @Column()
   unity!: string;
-  // unity!: "GR" | "UN";
 
-  @Column()
+  @Column({ type: "float", default: 0 })
   cost!: number;
 
-  @ManyToOne(() => User, (user) => user.recipes)
+  @ManyToOne(() => User, (user) => user.recipes, { onDelete: "CASCADE" })
   owner!: User;
 
-  @ManyToOne(() => Company, (company) => company.recipes)
+  @ManyToOne(() => Company, (company) => company.recipes, {
+    onDelete: "CASCADE",
+  })
   company!: Company;
 
   @OneToMany(
@@ -47,10 +46,4 @@ export default class Recipe {
 
   @OneToMany(() => OrderRecipe, (orderRecipe) => orderRecipe.recipe)
   ordersRecipes!: OrderRecipe[];
-
-  // @BeforeInsert()
-  // @BeforeUpdate()
-  // async calculateCost() {
-  //     this.cost = calcular de acordo com a lista Recipe_ingredient
-  // };
 }
