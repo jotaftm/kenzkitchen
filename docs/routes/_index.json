@@ -19,5 +19,8 @@
   },
   "/companies/:companyId/ingredients": {
     "$ref": "./Ingredients/createIngredient.json"
+  },
+  "/companies/:companyId/ingredients/": {
+    "$ref": "./Ingredients/listAllIngredients.json"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "get": {
+    "description": "Lista todos os insumos cadastrados. Qualquer usuário logado pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Ingredients/getAllIngredients.json"
+    }
+  }
+}
