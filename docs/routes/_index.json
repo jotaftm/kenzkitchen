@@ -1,0 +1,32 @@
+{
+  "/companies/:companyId/users": {
+    "$ref": "./Users/createUser.json"
+  },
+  "/companies/:companyId/users/login": {
+    "$ref": "./Users/loginUser.json"
+  },
+  "/companies/:companyId/users/": {
+    "$ref": "./Users/getAllUsers.json"
+  },
+  "/companies/:companyId/users/:id": {
+    "$ref": "./Users/getUserById.json"
+  },
+  "/companies/:companyId/users/:id/": {
+    "$ref": "./Users/patchUser.json"
+  },
+  "/companies/:companyId/users/:id//": {
+    "$ref": "./Users/deleteUser.json"
+  },
+  "/companies": {
+    "$ref": "./Companies/createCompany.json"
+  },
+  "/companies/:companyId/ingredients": {
+    "$ref": "./Ingredients/createIngredient.json"
+  },
+  "/companies/:companyId/ingredients/": {
+    "$ref": "./Ingredients/listAllIngredients.json"
+  },
+  "/companies/:companyId/ingredients/:id": {
+    "$ref": "./Ingredients/getIngredientById.json"
+  }
+}

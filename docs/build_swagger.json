@@ -1,0 +1,1034 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "KenzieKitchen API",
+    "description": "This is a server for production process management focused on the food industry",
+    "contact": {
+      "name": "Kenzie Kitchen Support",
+      "url": "http://www.kenziekitchen.com/support",
+      "email": "support@kenziekitchen.com"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api-documentation",
+      "description": "development"
+    },
+    {
+      "url": "https://api-heroku-kenzie-kitchen/api-documentation",
+      "description": "production"
+    }
+  ],
+  "paths": {
+    "/companies/:companyId/users": {
+      "post": {
+        "description": "Essa rota é responsavel por registrar um usuário no sistema da empresa. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john@mail.com"
+                  },
+                  "isManager": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "user already exists",
+                        [
+                          "name is required",
+                          "password is required"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions",
+                        "invalid token"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/login": {
+      "post": {
+        "description": "Essa rota é responsável por fazer o login do usuário. Gera token de autenticação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "john@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "email is required",
+                        "password is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "wrong email/password"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/": {
+      "get": {
+        "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id": {
+      "get": {
+        "description": "Seleciona um determinado usuário pelo id. Usuário logado do tipo funcionário não pode selecionar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/userIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id/": {
+      "patch": {
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/userIdParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Robert Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "John Robert Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john.doe@mail.com"
+                    },
+                    "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T02:10:27.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/users/:id//": {
+      "delete": {
+        "description": "Exclui um usuário cadastrado. Usuário logado do tipo funcionário não pode excluir outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode excluir qualquer usuário do sistema.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/userIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies": {
+      "post": {
+        "description": "Registra uma nova empresa. Vendedor do sistema, com sua própria API key cadastra uma empresa.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Kenzie"
+                  },
+                  "cnpj": {
+                    "type": "string",
+                    "example": "15.253.327/0001-42"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "kenzie@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "createdBy": {
+                    "type": "string",
+                    "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Kenzie"
+                    },
+                    "cnpj": {
+                      "type": "string",
+                      "example": "15.253.327/0001-42"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "kenzie@mail.com"
+                    },
+                    "createdBy": {
+                      "type": "string",
+                      "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+                    },
+                    "createdAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    },
+                    "updatedAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "company already exists",
+                        [
+                          "name is required",
+                          "cnpj is required",
+                          "password is required",
+                          "email is required"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/ingredients": {
+      "post": {
+        "description": "Registra um insumo utilizado na empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "farinha de trigo"
+                  },
+                  "barCode": {
+                    "type": "string",
+                    "example": "C1003994C2155486C3"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Farinha de trigo da marca X, embalagem de 1 quilo, produção nacional"
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "example": 1000
+                  },
+                  "unity": {
+                    "type": "string",
+                    "example": "GR (grama) ou UN (unidade)"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 20.45
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "email is required",
+                        "quantity is required",
+                        "price is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/ingredients/": {
+      "get": {
+        "description": "Lista todos os insumos cadastrados. Qualquer usuário logado pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/ingredients/:id": {
+      "get": {
+        "description": "Seleciona um determinado ingrediente pelo id. Qualquer usuário logado pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/ingredientIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ingredient not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Users": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isManager": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "readOnly",
+            "type": "date"
+          },
+          "updatedAt": {
+            "description": "readOnly",
+            "type": "date"
+          }
+        }
+      },
+      "Ingredients": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "barCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "unity": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "company": {
+            "type": "object"
+          },
+          "owner": {
+            "type": "object"
+          },
+          "recipesIngredients": {
+            "type": "array"
+          },
+          "ordersIngredients": {
+            "type": "array"
+          }
+        }
+      },
+      "Companies": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kenzie"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "15.253.327/0001-42"
+          },
+          "email": {
+            "type": "string",
+            "example": "kenzie@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234"
+          },
+          "createdBy": {
+            "type": "string",
+            "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+          },
+          "createdAt": {
+            "description": "readOnly",
+            "type": "date",
+            "example": "2022-02-14T23:04:48.723Z"
+          },
+          "updatedAt": {
+            "description": "readOnly",
+            "type": "date",
+            "example": "2022-02-14T23:04:48.723Z"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "companyParam": {
+        "name": "companyId",
+        "in": "path",
+        "required": true,
+        "description": "The company's id.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "userIdParam": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "The id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ingredientIdParam": {
+        "name": "ingredientId",
+        "in": "path",
+        "required": true,
+        "description": "The ingredient's id.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

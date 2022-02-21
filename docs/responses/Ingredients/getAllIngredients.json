@@ -1,0 +1,37 @@
+{
+  "200": {
+    "description": "OK",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../components/IngredientsSchemas/reqResIngredientSchema.json"
+        }
+      }
+    }
+  },
+  "401": {
+    "description": "UNAUTHORIZED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "required": ["status", "message"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "error"
+            },
+            "message": {
+              "type": "array",
+              "example": [
+                "missing authorization headers",
+                "missing admin permissions"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

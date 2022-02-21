@@ -1,0 +1,24 @@
+{
+  "201": {
+    "description": "CREATED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../components/CompaniesSchemas/resCompanySchema.json"
+        }
+      }
+    }
+  },
+  "400": {
+    "description": "BAD REQUEST",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Companies/e400CreateCompany.json"
+        }
+      }
+    }
+  }
+}

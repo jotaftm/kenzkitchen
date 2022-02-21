@@ -1,0 +1,9 @@
+{
+  "name": "ingredientId",
+  "in": "path",
+  "required": true,
+  "description": "The ingredient's id.",
+  "schema": {
+    "type": "string"
+  }
+}

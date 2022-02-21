@@ -1,0 +1,21 @@
+{
+  "post": {
+    "description": "Essa rota é responsável por fazer o login do usuário. Gera token de autenticação.",
+    "tags": ["Users"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": { "$ref": "../../components/UserSchemas/loginUser.json" }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Users/loginUser.json"
+    }
+  }
+}

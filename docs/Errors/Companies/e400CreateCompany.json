@@ -1,0 +1,17 @@
+{
+    "required": ["status", "message"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "example": "error"
+      },
+      "message": {
+        "type": "array",
+        "example": [
+          "company already exists",
+          ["name is required", "cnpj is required", "password is required", "email is required"]
+        ]
+      }
+    }
+  }
+  

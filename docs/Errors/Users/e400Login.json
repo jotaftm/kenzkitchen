@@ -1,0 +1,13 @@
+{
+  "required": ["status", "message"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "example": "error"
+    },
+    "message": {
+      "type": "array",
+      "example": ["email is required", "password is required"]
+    }
+  }
+}

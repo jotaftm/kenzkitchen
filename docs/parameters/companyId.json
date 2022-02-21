@@ -1,0 +1,9 @@
+{
+  "name": "companyId",
+  "in": "path",
+  "required": true,
+  "description": "The company's id.",
+  "schema": {
+    "type": "string"
+  }
+}

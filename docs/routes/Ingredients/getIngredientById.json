@@ -1,0 +1,18 @@
+{
+  "get": {
+    "description": "Seleciona um determinado ingrediente pelo id. Qualquer usuário logado pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/ingredientId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Ingredients/getIngredientById.json"
+    }
+  }
+}

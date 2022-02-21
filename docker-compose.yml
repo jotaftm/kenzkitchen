@@ -1,33 +1,10 @@
 version: "3.9"
+
 services:
   db:
     image: postgres
     ports:
       - 5432:5432
-    volumes:
-      - kenzkitchen_db:/var/lib/postgresql/data
-    env_file:
-      - .env
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    volumes:
-      - ./:/app
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-
-volumes:
-  kenzkitchen_db:
-    external: true
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=kenzkitchen_db

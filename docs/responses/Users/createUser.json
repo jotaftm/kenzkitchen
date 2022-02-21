@@ -1,0 +1,35 @@
+{
+  "201": {
+    "description": "CREATED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../components/UserSchemas/resUserSchema.json"
+        }
+      }
+    }
+  },
+  "401": {
+    "description": "UNAUTHORIZED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Users/e401User.json"
+        }
+      }
+    }
+  },
+  "400": {
+    "description": "BAD REQUEST",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Users/e400CreateUser.json"
+        }
+      }
+    }
+  }
+}
