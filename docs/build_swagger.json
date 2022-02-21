@@ -131,24 +131,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "array",
-                      "example": [
-                        "missing authorization headers",
-                        "missing admin permissions",
-                        "invalid token"
-                      ]
-                    }
-                  }
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -439,7 +422,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -497,7 +480,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -727,6 +710,178 @@
         }
       }
     },
+    "/companies/:id": {
+      "patch": {
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo manager pode selecionar qualquer usuário do sistema.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Kenzie Academy Brasil"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "kenzie.brasil@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Kenzie Academy Brasil"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "kenzie.brasil@mail.com"
+                    },
+                    "cnpj": {
+                      "type": "string",
+                      "example": "15.253.327/0001-42"
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2022-02-15T01:49:34.603Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2022-02-15T02:10:27.603Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "missing admin permissions",
+                        "invalid token"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "company not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:id/": {
+      "delete": {
+        "description": "Exclui a empresa. Apenas usuário logado do tipo Manager pode realizar essa ação.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "company not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/companies/:companyId/ingredients": {
       "post": {
         "description": "Registra um insumo utilizado na empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
@@ -818,7 +973,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users/post/responses/401/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -936,7 +1091,7 @@
             }
           },
           "404": {
-            "description": "BAD REQUEST",
+            "description": "NOT FOUND",
             "content": {
               "application/json": {
                 "schema": {
