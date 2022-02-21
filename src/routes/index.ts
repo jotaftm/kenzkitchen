@@ -8,5 +8,5 @@ export const initializerRouter = (app: Express) => {
   app.use("/companies", companyRouter());
   app.use("/companies/:companyId/users", userRouter());
   app.use("/companies/:companyId/ingredients", ingredientRouter());
-  app.use("/companies/:companyId/orders", orderRouter);
+  app.use("/companies/:companyId/orders", orderRouter());
 };

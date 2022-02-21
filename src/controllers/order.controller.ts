@@ -1,3 +1,4 @@
+import { listOrdersByDate } from "./../services/order.service";
 import { Request, Response, NextFunction } from "express";
 import {
   createOrder,
@@ -13,12 +14,41 @@ export const create = async (
   next: NextFunction
 ) => {
   try {
-  } catch (err) {}
+    const idLogged = req.idLogged;
+    const body = req.body;
+
+    const order = await createOrder(idLogged, body);
+
+    res.status(201).json(order);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const list = async (req: Request, res: Response, next: NextFunction) => {
+  const idLogged = req.idLogged;
+  const { scheduled } = req.query;
+
+  if (scheduled) {
+    try {
+      const ordersListByDate = await listOrdersByDate(
+        idLogged,
+        scheduled as string
+      );
+
+      return res.json(ordersListByDate);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   try {
-  } catch (err) {}
+    const ordersList = await listOrders(idLogged);
+
+    res.json(ordersList);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const listOne = async (
@@ -27,7 +57,15 @@ export const listOne = async (
   next: NextFunction
 ) => {
   try {
-  } catch (err) {}
+    const idLogged = req.idLogged;
+    const orderId = req.params.orderId;
+
+    const order = await findOrder(idLogged, orderId);
+
+    res.json(order);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const update = async (
@@ -36,7 +74,16 @@ export const update = async (
   next: NextFunction
 ) => {
   try {
-  } catch (err) {}
+    const idLogged = req.idLogged;
+    const orderId = req.params.orderId;
+    const body = req.body;
+
+    const orderUpdated = await updateOrder(idLogged, orderId, body);
+
+    res.json(orderUpdated);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const exclude = async (
@@ -45,5 +92,13 @@ export const exclude = async (
   next: NextFunction
 ) => {
   try {
-  } catch (err) {}
+    const idLogged = req.idLogged;
+    const orderId = req.params.orderId;
+
+    await deleteOrder(idLogged, orderId);
+
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
 };
