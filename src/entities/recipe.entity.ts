@@ -30,10 +30,12 @@ export default class Recipe {
   @Column({ type: "float", default: 0 })
   cost!: number;
 
-  @ManyToOne(() => User, (user) => user.recipes)
+  @ManyToOne(() => User, (user) => user.recipes, { onDelete: "CASCADE" })
   owner!: User;
 
-  @ManyToOne(() => Company, (company) => company.recipes)
+  @ManyToOne(() => Company, (company) => company.recipes, {
+    onDelete: "CASCADE",
+  })
   company!: Company;
 
   @OneToMany(

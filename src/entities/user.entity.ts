@@ -35,7 +35,7 @@ export default class User {
   @Column({ default: false })
   isManager!: boolean;
 
-  @ManyToOne(() => Company, (company) => company.users)
+  @ManyToOne(() => Company, (company) => company.users, { onDelete: "CASCADE" })
   company!: Company;
 
   @OneToMany(() => Order, (order) => order.owner)
