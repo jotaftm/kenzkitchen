@@ -1,12 +1,6 @@
 import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
-import {
-  Company,
-  Ingredient,
-  Recipe,
-  RecipeIngredient,
-  User,
-} from "../entities";
+import { Ingredient, Recipe, RecipeIngredient, User } from "../entities";
 
 interface IngredientBody {
   [key: string]: number;
@@ -59,13 +53,15 @@ export const createRecipe = async (
       where: { id: ingredientId },
     });
 
-    const newRecipeIngredient = recipeIngredientRepository.create({
-      quantity: body.ingredientsList[ingredientId],
-      ingredient: ingredientExists,
-      recipe: recipe,
-    });
+    if (ingredientExists) {
+      const newRecipeIngredient = recipeIngredientRepository.create({
+        quantity: body.ingredientsList[ingredientId],
+        ingredient: ingredientExists,
+        recipe: recipe,
+      });
 
-    await recipeIngredientRepository.save(newRecipeIngredient);
+      await recipeIngredientRepository.save(newRecipeIngredient);
+    }
   }
 
   const recipeExists = await recipeRepository.findOne({
@@ -114,6 +110,12 @@ export const findRecipe = async (idLogged: string, recipeId: string) => {
 
   const recipe = await recipeRepository.findOne(recipeId, {
     where: { company: userLogged?.company },
+    relations: [
+      "owner",
+      "company",
+      "recipesIngredients",
+      "recipesIngredients.ingredient",
+    ],
   });
 
   if (!recipe) {
@@ -123,6 +125,10 @@ export const findRecipe = async (idLogged: string, recipeId: string) => {
   return recipe;
 };
 
+// TODO: resolver problema de tipagem do body
+// A interface já está criada, porém precisa resolver como retirar
+// as listas de adiçao e remoção de ingredientes sem criar um
+// novo obj como está sendo feito na linha 217
 export const updateRecipe = async (
   idLogged: string,
   body: any,
@@ -164,27 +170,29 @@ export const updateRecipe = async (
         where: { id: ingredientId },
       });
 
-      const recipeIngredientExist = recipesIngredientsExists.find(
-        (recipeIngredient) => {
-          return (
-            recipeIngredient.ingredient.id === ingredientId &&
-            recipeIngredient.recipe.id === recipeToUpdate.id
-          );
+      if (ingredientExists) {
+        const recipeIngredientExist = recipesIngredientsExists.find(
+          (recipeIngredient) => {
+            return (
+              recipeIngredient.ingredient.id === ingredientId &&
+              recipeIngredient.recipe.id === recipeToUpdate.id
+            );
+          }
+        );
+
+        if (recipeIngredientExist) {
+          await recipeIngredientRepository.update(recipeIngredientExist.id, {
+            quantity: body.ingredientsListAdd[ingredientId],
+          });
+        } else {
+          const newRecipeIngredient = recipeIngredientRepository.create({
+            quantity: body.ingredientsListAdd[ingredientId],
+            ingredient: ingredientExists,
+            recipe: recipeToUpdate,
+          });
+
+          await recipeIngredientRepository.save(newRecipeIngredient);
         }
-      );
-
-      if (recipeIngredientExist) {
-        await recipeIngredientRepository.update(recipeIngredientExist.id, {
-          quantity: body.ingredientsListAdd[ingredientId],
-        });
-      } else {
-        const newRecipeIngredient = recipeIngredientRepository.create({
-          quantity: body.ingredientsListAdd[ingredientId],
-          ingredient: ingredientExists,
-          recipe: recipeToUpdate,
-        });
-
-        await recipeIngredientRepository.save(newRecipeIngredient);
       }
     }
   }

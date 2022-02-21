@@ -1,6 +1,4 @@
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
@@ -46,13 +44,4 @@ export default class Recipe {
 
   @OneToMany(() => OrderRecipe, (orderRecipe) => orderRecipe.recipe)
   ordersRecipes!: OrderRecipe[];
-
-  // @BeforeUpdate()
-  // async calculateCost() {
-  //   console.log("chamou");
-  //   this.cost =
-  //     this.recipesIngredients.reduce((acc, cVal) => {
-  //       return acc + cVal.quantity * cVal.ingredient.price;
-  //     }, 0) / this.yield;
-  // }
 }
