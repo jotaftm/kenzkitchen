@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "name": {
+      "type": "string",
+      "example": "farinha de trigo"
+    },
+    "barCode": {
+      "type": "string",
+      "example": "C1003994C2155486C3"
+    },
+    "description": {
+      "type": "string",
+      "example": "Farinha de trigo da marca X, embalagem de 1 quilo, produção nacional"
+    },
+    "quantity": {
+      "type": "number",
+      "example": 1000
+    },
+    "unity": {
+      "type": "string",
+      "example": "GR (grama) ou UN (unidade)"
+    },
+    "price": {
+      "type": "number",
+      "example": 20.45
+    }
+  }
+}

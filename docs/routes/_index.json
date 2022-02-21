@@ -16,5 +16,8 @@
   },
   "/companies/:companyId/users/:id//": {
     "$ref": "./Users/deleteUser.json"
+  },
+  "/companies/:companyId/ingredients": {
+    "$ref": "./Ingredients/createIngredient.json"
   }
 }

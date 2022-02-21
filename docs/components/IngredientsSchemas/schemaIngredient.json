@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "barCode": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number"
+    },
+    "unity": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "company": {
+      "type": "object"
+    },
+    "owner": {
+      "type": "object"
+    },
+    "recipesIngredients": {
+      "type": "array"
+    },
+    "ordersIngredients": {
+      "type": "array"
+    }
+  }
+}

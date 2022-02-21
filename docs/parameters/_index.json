@@ -1,0 +1,8 @@
+{
+  "companyParam": {
+    "$ref": "./companyId.json"
+  },
+  "userIdParam": {
+    "$ref": "./userId.json"
+  }
+}
