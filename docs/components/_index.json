@@ -5,6 +5,9 @@
     },
     "Ingredients": {
       "$ref": "./IngredientsSchemas/schemaIngredient.json"
+    },
+    "Companies": {
+      "$ref": "./CompaniesSchemas/schemaCompany.json"
     }
   },
   "parameters": {
