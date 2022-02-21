@@ -23,6 +23,9 @@
   "/companies/login": {
     "$ref": "./Companies/loginCompany.json"
   },
+  "/companies/:id": {
+    "$ref": "./Companies/patchCompany.json"
+  },
   "/companies/:companyId/ingredients": {
     "$ref": "./Ingredients/createIngredient.json"
   },
