@@ -4,5 +4,8 @@
   },
   "userIdParam": {
     "$ref": "./userId.json"
+  },
+  "ingredientIdParam": {
+    "$ref": "./ingredientId.json"
   }
 }
