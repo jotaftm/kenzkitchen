@@ -21,12 +21,12 @@ interface BodyCreateRecipe {
 }
 
 interface BodyUpdateRecipe {
-  name: string;
-  description: string;
-  yield: number;
-  unity: string;
-  ingredientsListAdd: IngredientBody;
-  ingredientsListRemove: string[];
+  name?: string;
+  description?: string;
+  yield?: number;
+  unity?: string;
+  ingredientsListAdd?: IngredientBody;
+  ingredientsListRemove?: string[];
 }
 
 export const createRecipe = async (
@@ -125,7 +125,7 @@ export const findRecipe = async (idLogged: string, recipeId: string) => {
 
 export const updateRecipe = async (
   idLogged: string,
-  body: BodyUpdateRecipe,
+  body: any,
   recipeId: string
 ) => {
   const userRepository = getRepository(User);
@@ -143,63 +143,96 @@ export const updateRecipe = async (
 
   const recipeToUpdate = await recipeRepository.findOne(recipeId, {
     where: { company: user?.company },
+    relations: [
+      "recipesIngredients",
+      "recipesIngredients.recipe",
+      "recipesIngredients.ingredient",
+    ],
   });
 
   if (!recipeToUpdate) {
-    throw new ErrorHandler("ingredient not found", 404);
+    throw new ErrorHandler("recipe not found", 404);
   }
 
-  // const updateData = Object.assign(recipeToUpdate, { ...body });
+  const recipesIngredientsExists = await recipeIngredientRepository.find({
+    relations: ["recipe", "ingredient"],
+  });
 
-  // console.log(updateData);
+  if (body.ingredientsListAdd) {
+    for (const ingredientId in body.ingredientsListAdd) {
+      const ingredientExists = await ingredientRepository.findOne({
+        where: { id: ingredientId },
+      });
 
-  await recipeRepository.update(recipeId, { ...body });
+      const recipeIngredientExist = recipesIngredientsExists.find(
+        (recipeIngredient) => {
+          return (
+            recipeIngredient.ingredient.id === ingredientId &&
+            recipeIngredient.recipe.id === recipeToUpdate.id
+          );
+        }
+      );
 
-  // if (body.ingredientsListAdd) {
-  //   for (const ingredientId in body.ingredientsListAdd) {
-  //     const ingredientExists = await ingredientRepository.findOne({
-  //       where: { id: ingredientId },
-  //     });
+      if (recipeIngredientExist) {
+        await recipeIngredientRepository.update(recipeIngredientExist.id, {
+          quantity: body.ingredientsListAdd[ingredientId],
+        });
+      } else {
+        const newRecipeIngredient = recipeIngredientRepository.create({
+          quantity: body.ingredientsListAdd[ingredientId],
+          ingredient: ingredientExists,
+          recipe: recipeToUpdate,
+        });
 
-  //     const newRecipeIngredient = recipeIngredientRepository.create({
-  //       quantity: body.ingredientsListAdd[ingredientId],
-  //       ingredient: ingredientExists,
-  //       recipe: recipeToUpdate,
-  //     });
+        await recipeIngredientRepository.save(newRecipeIngredient);
+      }
+    }
+  }
 
-  //     await recipeIngredientRepository.save(newRecipeIngredient);
-  //   }
-  // }
+  if (body.ingredientsListRemove) {
+    body.ingredientsListRemove.map(async (ingredientId: string) => {
+      const recipeIngredientForDelete = recipesIngredientsExists.find(
+        (recipeIngredient) => {
+          return (
+            recipeIngredient.ingredient.id === ingredientId &&
+            recipeIngredient.recipe.id === recipeToUpdate.id
+          );
+        }
+      );
 
-  // if (body.ingredientsListRemove) {
-  //   body.ingredientsListRemove.map(async (ingredientId) => {
-  //     const recipeIngredientExists = await recipeIngredientRepository.findOne({
-  //       where: { ingredientId: ingredientId, recipeId: recipeToUpdate.id },
-  //     });
+      if (recipeIngredientForDelete) {
+        await recipeIngredientRepository.delete(recipeIngredientForDelete.id);
+      }
+    });
+  }
 
-  //     console.log(recipeIngredientExists);
-  //   });
-  // }
+  let data: any = {};
 
-  // const recipeExists = await recipeRepository.findOne({
-  //   where: { id: recipeToUpdate.id },
-  //   relations: ["recipesIngredients", "recipesIngredients.ingredient"],
-  // });
+  for (const key in body) {
+    if (key !== "ingredientsListAdd" && key !== "ingredientsListRemove") {
+      data[key] = body[key];
+    }
+  }
 
-  // if (recipeExists) {
-  //   const costActual =
-  //     recipeExists.recipesIngredients.reduce((acc, cVal) => {
-  //       return acc + cVal.quantity * cVal.ingredient.price;
-  //     }, 0) / recipeExists.yield;
+  await recipeRepository.update(recipeId, { ...data });
 
-  //   await recipeRepository.update(recipeExists.id, {
-  //     cost: costActual,
-  //   });
-  // }
-  const output = await recipeRepository.findOne(recipeId);
-  console.log(output);
+  const recipeExists = await recipeRepository.findOne({
+    where: { id: recipeToUpdate.id },
+    relations: ["recipesIngredients", "recipesIngredients.ingredient"],
+  });
 
-  return {};
+  if (recipeExists) {
+    const costActual =
+      recipeExists.recipesIngredients.reduce((acc, cVal) => {
+        return acc + cVal.quantity * cVal.ingredient.price;
+      }, 0) / recipeExists.yield;
+
+    await recipeRepository.update(recipeExists.id, {
+      cost: costActual,
+    });
+  }
+
+  return await recipeRepository.findOne(recipeId);
 };
 
 export const deleteRecipe = async (idLogged: string, companyId: string) => {

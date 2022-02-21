@@ -23,7 +23,7 @@ export const recipeRouter = () => {
     validate(updateRecipeSchema),
     update
   );
-  router.delete("/:recipeId", exclude);
+  router.delete("/:recipeId", authenticateUser, exclude);
 
   return router;
 };

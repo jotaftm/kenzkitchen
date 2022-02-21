@@ -68,7 +68,7 @@ export const update = async (
 
     const body = req.body;
 
-    const recipeId = req.params.id;
+    const recipeId = req.params.recipeId;
 
     const updatedRecipe = await updateRecipe(idLogged, body, recipeId);
 
@@ -84,7 +84,12 @@ export const exclude = async (
   next: NextFunction
 ) => {
   try {
-    res.status(204).json();
+    // const idLogged = req.idLogged;
+    // const ingredientId = req.params.ingredientId;
+
+    // await deleteRecipe(idLogged, ingredientId);
+
+    res.sendStatus(204);
   } catch (err) {
     next(err);
   }
