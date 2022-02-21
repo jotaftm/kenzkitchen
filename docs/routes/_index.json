@@ -20,6 +20,9 @@
   "/companies": {
     "$ref": "./Companies/createCompany.json"
   },
+  "/companies/login": {
+    "$ref": "./Companies/loginCompany.json"
+  },
   "/companies/:companyId/ingredients": {
     "$ref": "./Ingredients/createIngredient.json"
   },
