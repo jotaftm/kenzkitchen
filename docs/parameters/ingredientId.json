@@ -1,8 +1,8 @@
 {
-  "name": "id",
+  "name": "ingredientId",
   "in": "path",
   "required": true,
-  "description": "The id of the user.",
+  "description": "The ingredient's id.",
   "schema": {
     "type": "string"
   }

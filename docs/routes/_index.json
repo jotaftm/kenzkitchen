@@ -16,5 +16,17 @@
   },
   "/companies/:companyId/users/:id//": {
     "$ref": "./Users/deleteUser.json"
+  },
+  "/companies": {
+    "$ref": "./Companies/createCompany.json"
+  },
+  "/companies/:companyId/ingredients": {
+    "$ref": "./Ingredients/createIngredient.json"
+  },
+  "/companies/:companyId/ingredients/": {
+    "$ref": "./Ingredients/listAllIngredients.json"
+  },
+  "/companies/:companyId/ingredients/:id": {
+    "$ref": "./Ingredients/getIngredientById.json"
   }
 }

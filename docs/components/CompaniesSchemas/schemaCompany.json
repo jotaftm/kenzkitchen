@@ -1,0 +1,39 @@
+{
+    "properties": {
+      "id": {
+        "type": "string",
+        "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+        },
+      "name": {
+        "type": "string",
+        "example": "Kenzie"
+      },
+      "cnpj": {
+        "type": "string",
+        "example": "15.253.327/0001-42"
+      },
+      "email": {
+        "type": "string",
+        "example": "kenzie@mail.com"
+      },
+      "password": {
+        "type": "string",
+        "example": "1234"
+      },
+      "createdBy": {
+        "type": "string",
+        "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+      },
+      "createdAt": {
+        "description": "readOnly",
+        "type": "date",
+        "example": "2022-02-14T23:04:48.723Z"
+      },
+      "updatedAt": {
+        "description": "readOnly",
+        "type": "date",
+        "example": "2022-02-14T23:04:48.723Z"
+      }
+    }
+  }
+  
