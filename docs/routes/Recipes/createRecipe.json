@@ -1,0 +1,23 @@
+{
+  "post": {
+    "description": "Registra uma receita utilizada na empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../components/RecipesSchemas/reqRecipeSchema.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Recipes/createRecipe.json"
+    }
+  }
+}

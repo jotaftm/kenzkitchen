@@ -37,6 +37,9 @@ export default class Company {
   @Column()
   createdBy!: string;
 
+  @Column({ default: true })
+  isActive!: boolean;
+
   @OneToMany(() => User, (user) => user.company)
   users!: User[];
 

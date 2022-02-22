@@ -1,0 +1,13 @@
+{
+  "required": ["status", "message"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "example": "error"
+    },
+    "message": {
+      "type": "array",
+      "example": ["yield is required", "cost is required"]
+    }
+  }
+}

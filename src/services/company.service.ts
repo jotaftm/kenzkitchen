@@ -45,13 +45,15 @@ export const loginCompany = async (body: any) => {
     where: {
       email: body.email,
     },
-    select: ["password", "id"],
+    select: ["password", "id", "isActive"],
   });
 
   if (!company) {
     throw new ErrorHandler("wrong email", 401);
   } else if (!bcrypt.compareSync(body.password, company.password)) {
     throw new ErrorHandler("wrong password", 401);
+  } else if (!company.isActive) {
+    throw new ErrorHandler("inactive account", 401);
   }
 
   const token = jwt.sign(
@@ -109,6 +111,8 @@ export const updateCompany = async (
     },
   });
 
+  console.log(Boolean("isActive" in body));
+
   if (!companyToUpdate) {
     throw new ErrorHandler("company not found", 404);
   } else if (
@@ -116,6 +120,14 @@ export const updateCompany = async (
     !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
+  } else if (
+    "isActive" in body &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
+  ) {
+    throw new ErrorHandler(
+      "missing admin permissions to activate/deactivate account",
+      401
+    );
   }
 
   await companyRepository.update(companyId, {
