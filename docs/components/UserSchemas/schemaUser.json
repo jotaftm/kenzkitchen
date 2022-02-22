@@ -1,5 +1,8 @@
 {
   "properties": {
+    "id": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },
@@ -12,8 +15,9 @@
     "isManager": {
       "type": "boolean"
     },
-    "id": {
-      "type": "string"
+    "isActive": {
+      "type": "boolean",
+      "example": true
     },
     "createdAt": {
       "description": "readOnly",
