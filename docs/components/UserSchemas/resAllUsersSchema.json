@@ -16,6 +16,10 @@
       "type": "boolean",
       "example": true
     },
+    "isActive": {
+      "type": "boolean",
+      "example": true
+    },
     "createdAt": {
       "type": "date",
       "example": "2022-02-15T01:49:34.603Z"
