@@ -1,12 +1,20 @@
 import { ErrorHandler } from "./../errors/errorHandler.error";
 import { getRepository } from "typeorm";
-import { Order, OrderIngredient, OrderRecipe, User } from "../entities";
+import {
+  Order,
+  OrderIngredient,
+  OrderRecipe,
+  RecipeIngredient,
+  User,
+} from "../entities";
 
 export const createOrder = async (idLogged: string, body: any) => {
   const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
+  const orderRecipeRepository = getRepository(OrderRecipe);
+  const recipeIngredientRepository = getRepository(RecipeIngredient);
+  const orderIngredientRepository = getRepository(OrderIngredient);
 
-  // criando registro na tabela orders
   const user = await userRepository.findOne(idLogged, {
     relations: ["company"],
   });
@@ -19,10 +27,7 @@ export const createOrder = async (idLogged: string, body: any) => {
     company: user?.company,
   });
 
-  await orderRepository.save(order);
-
-  // criando registro na tabela ordersRecipes
-  const orderRecipeRepository = getRepository(OrderRecipe);
+  const orderCreated = await orderRepository.save(order);
 
   let orderRecipe = {};
 
@@ -36,10 +41,45 @@ export const createOrder = async (idLogged: string, body: any) => {
     await orderRecipeRepository.save(orderRecipe);
   }
 
-  // falta criar registro na tabela ordersIngredients
-  // ...
+  const ordersRecipesExistes = await orderRecipeRepository.find({
+    where: { order: orderCreated },
+  });
 
-  // newOrder que será exibido na resposta
+  ordersRecipesExistes.map(async (orderRecipe) => {
+    const recipesIngredientsExistes = await recipeIngredientRepository.find({
+      where: { recipe: orderRecipe.recipe },
+    });
+
+    recipesIngredientsExistes.map(async (recipeIngredient) => {
+      let quantityIngredient =
+        (orderRecipe.quantity / orderRecipe.recipe.yield) *
+        recipeIngredient.quantity;
+
+      const orderIngredientExist = await orderIngredientRepository.findOne({
+        where: {
+          ingredient: recipeIngredient.ingredient,
+          order: orderRecipe.order,
+        },
+      });
+
+      if (orderIngredientExist) {
+        quantityIngredient += orderIngredientExist.quantity;
+
+        await orderIngredientRepository.update(orderIngredientExist.id, {
+          quantity: quantityIngredient,
+        });
+      } else {
+        const newOrderIngredient = orderIngredientRepository.create({
+          quantity: quantityIngredient,
+          ingredient: recipeIngredient.ingredient,
+          order: orderRecipe.order,
+        });
+
+        await orderIngredientRepository.save(newOrderIngredient);
+      }
+    });
+  });
+
   const newOrder = await orderRepository.findOne({
     join: {
       alias: "orders",

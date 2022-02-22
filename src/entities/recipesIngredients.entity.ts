@@ -12,11 +12,13 @@ export default class RecipeIngredient {
 
   @ManyToOne(() => Recipe, (recipe) => recipe.recipesIngredients, {
     onDelete: "CASCADE",
+    eager: true,
   })
   recipe!: Recipe;
 
   @ManyToOne(() => Ingredient, (ingredient) => ingredient.recipesIngredients, {
     onDelete: "CASCADE",
+    eager: true,
   })
   ingredient!: Ingredient;
 }
