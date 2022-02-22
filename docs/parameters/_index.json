@@ -7,5 +7,8 @@
   },
   "ingredientIdParam": {
     "$ref": "./ingredientId.json"
+  },
+  "recipeIdParam": {
+    "$ref": "./recipeId.json"
   }
 }
