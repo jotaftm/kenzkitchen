@@ -1,0 +1,23 @@
+{
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "yield": {
+        "type": "number"
+      },
+      "unit": {
+        "type": "string"
+      },
+      "cost": {
+        "type": "number"
+      }
+    }
+  }
+  

@@ -8,6 +8,9 @@
     },
     "Companies": {
       "$ref": "./CompaniesSchemas/schemaCompany.json"
+    },
+    "Recipes": {
+      "$ref": "./RecipesSchemas/schemaRecipe.json"
     }
   },
   "parameters": {

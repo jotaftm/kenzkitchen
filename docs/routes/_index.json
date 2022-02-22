@@ -43,5 +43,8 @@
   },
   "/companies/:companyId/ingredients/:id//": {
     "$ref": "./Ingredients/deleteIngredient.json"
+  },
+  "/companies/:companyId/recipes": {
+    "$ref": "./Recipes/createRecipe.json"
   }
 }

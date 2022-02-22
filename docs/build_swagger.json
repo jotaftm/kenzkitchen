@@ -1276,6 +1276,125 @@
           }
         }
       }
+    },
+    "/companies/:companyId/recipes": {
+      "post": {
+        "description": "Registra uma receita utilizada na empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Empada de frango"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Empada de frango na forminha, com cebola e azeitonas verdes"
+                  },
+                  "yield": {
+                    "type": "number",
+                    "example": 30
+                  },
+                  "unit": {
+                    "type": "string",
+                    "example": "un(unidade) ou kg(quilo)"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "example": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Empada de frango"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Empada de frango na forminha, com cebola e azeitonas verdes"
+                    },
+                    "yield": {
+                      "type": "number",
+                      "example": 30
+                    },
+                    "unit": {
+                      "type": "string",
+                      "example": "un"
+                    },
+                    "cost": {
+                      "type": "number",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "yield is required",
+                        "cost is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1379,6 +1498,28 @@
             "description": "readOnly",
             "type": "date",
             "example": "2022-02-14T23:04:48.723Z"
+          }
+        }
+      },
+      "Recipes": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "yield": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "number"
           }
         }
       }

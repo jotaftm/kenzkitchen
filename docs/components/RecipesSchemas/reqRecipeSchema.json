@@ -1,0 +1,25 @@
+{
+    "properties": {
+      "name": {
+        "type": "string",
+        "example": "Empada de frango"
+      },
+      "description": {
+        "type": "string",
+        "example": "Empada de frango na forminha, com cebola e azeitonas verdes"
+      },
+      "yield": {
+        "type": "number",
+        "example": 30
+      },
+      "unit": {
+        "type": "string",
+        "example": "un(unidade) ou kg(quilo)"
+      },
+      "cost": {
+        "type": "number",
+        "example": 5.00
+      }
+    }
+  }
+  
