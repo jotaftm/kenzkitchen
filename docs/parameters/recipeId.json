@@ -2,7 +2,7 @@
   "name": "id",
   "in": "path",
   "required": true,
-  "description": "The ingredient's id.",
+  "description": "The recipe's id.",
   "schema": {
     "type": "string"
   }

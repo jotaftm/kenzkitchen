@@ -1,0 +1,28 @@
+{
+  "204": {
+    "description": "NO CONTENT",
+    "content": {}
+  },
+  "401": {
+    "description": "UNAUTHORIZED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Users/e401User.json"
+        }
+      }
+    }
+  },
+  "404": {
+    "description": "BAD REQUEST",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Recipes/e404Recipe.json"
+        }
+      }
+    }
+  }
+}

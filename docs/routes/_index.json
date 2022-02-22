@@ -46,5 +46,17 @@
   },
   "/companies/:companyId/recipes": {
     "$ref": "./Recipes/createRecipe.json"
+  },
+  "/companies/:companyId/recipes/": {
+    "$ref": "./Recipes/getAllRecipes.json"
+  },
+  "/companies/:companyId/recipes/:id": {
+    "$ref": "./Recipes/getRecipeById.json"
+  },
+  "/companies/:companyId/recipes/:id/": {
+    "$ref": "./Recipes/patchRecipe.json"
+  },
+  "/companies/:companyId/recipes/:id//": {
+    "$ref": "./Recipes/deleteRecipe.json"
   }
 }

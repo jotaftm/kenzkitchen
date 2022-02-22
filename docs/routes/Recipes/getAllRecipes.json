@@ -1,0 +1,15 @@
+{
+  "get": {
+    "description": "Lista todas as receitas cadastradas. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Recipes/getAllRecipes.json"
+    }
+  }
+}
