@@ -40,5 +40,8 @@
   },
   "/companies/:companyId/ingredients/:id/": {
     "$ref": "./Ingredients/patchIngredient.json"
+  },
+  "/companies/:companyId/ingredients/:id//": {
+    "$ref": "./Ingredients/deleteIngredient.json"
   }
 }
