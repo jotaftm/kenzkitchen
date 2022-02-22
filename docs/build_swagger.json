@@ -1647,6 +1647,51 @@
           }
         }
       }
+    },
+    "/companies/:companyId/recipes/:id//": {
+      "delete": {
+        "description": "Exclui uma receita cadastrada. Apenas usuários logados do tipo Manager ou Company pode realizar essa ação.",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/recipeIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
