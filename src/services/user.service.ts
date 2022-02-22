@@ -39,13 +39,15 @@ export const loginUser = async (body: any) => {
     where: {
       email: body.email,
     },
-    select: ["password", "id"],
+    select: ["password", "id", "isActive"],
   });
 
   if (!user) {
     throw new ErrorHandler("wrong email", 401);
   } else if (!bcrypt.compareSync(body.password, user.password)) {
     throw new ErrorHandler("wrong password", 401);
+  } else if (!user.isActive) {
+    throw new ErrorHandler("inactive account", 401);
   }
 
   const token = jwt.sign(
@@ -152,6 +154,11 @@ export const updateUser = async (
     !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
+  } else if ("isActive" in body && idLogged !== companyExists.id) {
+    throw new ErrorHandler(
+      "missing admin permissions to activate/deactivate account",
+      401
+    );
   }
 
   await userRepository.update(userId, {
