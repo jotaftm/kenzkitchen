@@ -1,0 +1,18 @@
+{
+  "get": {
+    "description": "Seleciona uma determinada receita pelo id. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/recipeId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Recipes/getRecipeById.json"
+    }
+  }
+}

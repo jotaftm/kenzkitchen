@@ -49,5 +49,8 @@
   },
   "/companies/:companyId/recipes/": {
     "$ref": "./Recipes/getAllRecipes.json"
+  },
+  "/companies/:companyId/recipes/:id": {
+    "$ref": "./Recipes/getRecipeById.json"
   }
 }
