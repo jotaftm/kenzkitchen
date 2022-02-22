@@ -29,10 +29,8 @@ export const createOrder = async (idLogged: string, body: any) => {
 
   const orderCreated = await orderRepository.save(order);
 
-  let orderRecipe = {};
-
   for (const recipe in body.recipesListAdd) {
-    orderRecipe = orderRecipeRepository.create({
+    const orderRecipe = orderRecipeRepository.create({
       order: order,
       recipe: { id: recipe },
       quantity: body.recipesListAdd[recipe],
@@ -160,7 +158,6 @@ export const findOrder = async (idLogged: string, orderId: string) => {
       },
     },
     where: { company: user?.company },
-    relations: ["ordersRecipes"],
   });
 
   if (!order) {
