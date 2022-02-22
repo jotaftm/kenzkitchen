@@ -1,5 +1,5 @@
 {
-  "name": "recipeId",
+  "name": "id",
   "in": "path",
   "required": true,
   "description": "The recipe's id.",
