@@ -1,3 +1,4 @@
+import { updateOrderSchema } from "./../schemas/order/update.schema";
 import { Router } from "express";
 import {
   create,
@@ -16,7 +17,12 @@ export const orderRouter = () => {
   router.post("", authenticateUser, validate(createOrderSchema), create);
   router.get("", authenticateUser, list);
   router.get("/:orderId", authenticateUser, listOne);
-  router.patch("/:orderId", authenticateUser, update);
+  router.patch(
+    "/:orderId",
+    authenticateUser,
+    validate(updateOrderSchema),
+    update
+  );
   router.delete("/:orderId", authenticateUser, exclude);
 
   return router;

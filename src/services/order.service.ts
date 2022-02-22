@@ -1,6 +1,7 @@
 import { ErrorHandler } from "./../errors/errorHandler.error";
 import { getRepository } from "typeorm";
 import {
+  Ingredient,
   Order,
   OrderIngredient,
   OrderRecipe,
@@ -174,6 +175,8 @@ export const updateOrder = async (
 ) => {
   const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
+  const ingredientRepository = getRepository(Ingredient);
+  const orderIngredientRepository = getRepository(OrderIngredient);
 
   const user = await userRepository.findOne(idLogged, {
     relations: ["company"],
@@ -187,10 +190,46 @@ export const updateOrder = async (
     throw new ErrorHandler("order not found", 404);
   }
 
-  orderRepository.merge(orderToUpdate, body);
-  const order = await orderRepository.save(orderToUpdate);
+  if ("isExecuted" in body) {
+    if (orderToUpdate.isExecuted === body.isExecuted) {
+      console.log(orderToUpdate.isExecuted, body.isExecuted);
+      if (body.isExecuted) {
+        throw new ErrorHandler("this order has already been executed", 400);
+      } else {
+        throw new ErrorHandler("this order has not yet been executed", 400);
+      }
+    } else {
+      orderRepository.merge(orderToUpdate, body);
+      const orderUpdated = await orderRepository.save(orderToUpdate);
 
-  return order;
+      const ordersIngredientsExists = await orderIngredientRepository.find({
+        where: { order: orderUpdated },
+        relations: ["ingredient"],
+      });
+      ordersIngredientsExists.map(async (orderIngredient) => {
+        const ingredientExists = await ingredientRepository.findOne(
+          orderIngredient.ingredient
+        );
+        if (ingredientExists) {
+          if (body.isExecuted) {
+            ingredientExists.quantity -= orderIngredient.quantity;
+          } else {
+            ingredientExists.quantity += orderIngredient.quantity;
+          }
+
+          await ingredientRepository.save(ingredientExists);
+        }
+      });
+    }
+  }
+
+  if (body.scheduled) {
+    body.scheduled = new Date(body.scheduled);
+    orderRepository.merge(orderToUpdate, body);
+    await orderRepository.save(orderToUpdate);
+  }
+
+  return await orderRepository.findOne(orderId);
 };
 
 export const deleteOrder = async (idLogged: string, orderId: string) => {

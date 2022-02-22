@@ -1,5 +1,8 @@
 import * as yup from "yup";
 
 export const updateOrderSchema = yup.object().shape({
-  isScheduled: yup.string(),
+  scheduled: yup.string(),
+  isExecuted: yup.boolean(),
+  recipesListAdd: yup.object(),
+  recipesListRemove: yup.array(),
 });

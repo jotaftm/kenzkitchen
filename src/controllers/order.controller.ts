@@ -21,7 +21,6 @@ export const create = async (
 
     res.status(201).json(order);
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
