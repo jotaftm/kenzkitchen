@@ -1,0 +1,35 @@
+{
+  "200": {
+    "description": "OK",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../components/IngredientsSchemas/resPatchIngredient.json"
+        }
+      }
+    }
+  },
+  "401": {
+    "description": "UNAUTHORIZED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Users/e401User.json"
+        }
+      }
+    }
+  },
+  "404": {
+    "description": "BAD REQUEST",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../errors/Ingredients/e404Ingredient.json"
+        }
+      }
+    }
+  }
+}
