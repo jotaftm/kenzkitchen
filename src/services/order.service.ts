@@ -1,6 +1,14 @@
 import { ErrorHandler } from "./../errors/errorHandler.error";
 import { getRepository } from "typeorm";
-import { Order, OrderIngredient, OrderRecipe, User } from "../entities";
+import {
+  User,
+  Ingredient,
+  Recipe,
+  Order,
+  RecipeIngredient,
+  OrderRecipe,
+  OrderIngredient,
+} from "../entities";
 
 export const createOrder = async (idLogged: string, body: any) => {
   const userRepository = getRepository(User);
@@ -24,10 +32,8 @@ export const createOrder = async (idLogged: string, body: any) => {
   // criando registro na tabela ordersRecipes
   const orderRecipeRepository = getRepository(OrderRecipe);
 
-  let orderRecipe = {};
-
   for (const recipe in body.recipesListAdd) {
-    orderRecipe = orderRecipeRepository.create({
+    const orderRecipe = orderRecipeRepository.create({
       order: order,
       recipe: { id: recipe },
       quantity: body.recipesListAdd[recipe],
@@ -36,8 +42,7 @@ export const createOrder = async (idLogged: string, body: any) => {
     await orderRecipeRepository.save(orderRecipe);
   }
 
-  // falta criar registro na tabela ordersIngredients
-  // ...
+  // criar registro na tabela ordersIngredients
 
   // newOrder que será exibido na resposta
   const newOrder = await orderRepository.findOne({
@@ -120,7 +125,6 @@ export const findOrder = async (idLogged: string, orderId: string) => {
       },
     },
     where: { company: user?.company },
-    relations: ["ordersRecipes"],
   });
 
   if (!order) {
