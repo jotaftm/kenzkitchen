@@ -82,6 +82,10 @@
                       "type": "boolean",
                       "example": true
                     },
+                    "isActive": {
+                      "type": "boolean",
+                      "example": true
+                    },
                     "createdAt": {
                       "type": "date",
                       "example": "2022-02-15T01:49:34.603Z"
@@ -246,6 +250,10 @@
                       "type": "boolean",
                       "example": true
                     },
+                    "isActive": {
+                      "type": "boolean",
+                      "example": true
+                    },
                     "createdAt": {
                       "type": "date",
                       "example": "2022-02-15T01:49:34.603Z"
@@ -400,6 +408,10 @@
                       "example": "john.doe@mail.com"
                     },
                     "isManager": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "isActive": {
                       "type": "boolean",
                       "example": true
                     },
@@ -1395,12 +1407,66 @@
           }
         }
       }
+    },
+    "/companies/:companyId/recipes/": {
+      "get": {
+        "description": "Lista todas as receitas cadastradas. Qualquer usuário pode realizar essa ação.",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "missing authorization headers"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "Users": {
         "properties": {
+          "id": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -1413,8 +1479,9 @@
           "isManager": {
             "type": "boolean"
           },
-          "id": {
-            "type": "string"
+          "isActive": {
+            "type": "boolean",
+            "example": true
           },
           "createdAt": {
             "description": "readOnly",

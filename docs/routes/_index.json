@@ -46,5 +46,8 @@
   },
   "/companies/:companyId/recipes": {
     "$ref": "./Recipes/createRecipe.json"
+  },
+  "/companies/:companyId/recipes/": {
+    "$ref": "./Recipes/getAllRecipes.json"
   }
 }
