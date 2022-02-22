@@ -1116,6 +1116,166 @@
           }
         }
       }
+    },
+    "/companies/:companyId/ingredients/:id/": {
+      "patch": {
+        "description": "Atualiza os dados de um ingrediente da empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/ingredientIdParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "farinha de trigo integral"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Comprar sempre produto importado, marca x, pacote de 2kg"
+                  },
+                  "barCode": {
+                    "type": "string",
+                    "example": "C5003994C2155486R4"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 23.6
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "farinha de trigo integral"
+                    },
+                    "barCode": {
+                      "type": "string",
+                      "example": "C5003994C2155486R4"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Comprar sempre produto importado, marca x, pacote de 2kg"
+                    },
+                    "quantity": {
+                      "type": "number",
+                      "example": 1000
+                    },
+                    "unity": {
+                      "type": "string",
+                      "example": "GR (grama) ou UN (unidade)"
+                    },
+                    "price": {
+                      "type": "number",
+                      "example": 23.6
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "ingredient not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/ingredients/:id//": {
+      "delete": {
+        "description": "Exclui um insumo cadastrado. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+        "tags": [
+          "Ingredients"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/ingredientIdParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

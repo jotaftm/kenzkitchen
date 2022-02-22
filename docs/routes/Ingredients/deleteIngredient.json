@@ -1,0 +1,18 @@
+{
+  "delete": {
+    "description": "Exclui um insumo cadastrado. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/ingredientId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Ingredients/deleteIngredient.json"
+    }
+  }
+}

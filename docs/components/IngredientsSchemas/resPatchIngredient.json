@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "name": {
+      "type": "string",
+      "example": "farinha de trigo integral"
+    },
+    "barCode": {
+      "type": "string",
+      "example": "C5003994C2155486R4"
+    },
+    "description": {
+      "type": "string",
+      "example": "Comprar sempre produto importado, marca x, pacote de 2kg"
+    },
+    "quantity": {
+      "type": "number",
+      "example": 1000
+    },
+    "unity": {
+      "type": "string",
+      "example": "GR (grama) ou UN (unidade)"
+    },
+    "price": {
+      "type": "number",
+      "example": 23.60
+    }
+  }
+}
