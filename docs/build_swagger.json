@@ -1540,6 +1540,113 @@
           }
         }
       }
+    },
+    "/companies/:companyId/recipes/:id/": {
+      "patch": {
+        "description": "Atualiza os dados de uma receita da empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/components/parameters/recipeIdParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "example": "Empada de frango na forminha, com cebola, pimenta e azeitonas pretas"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "example": 5.1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Empada de frango"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Empada de frango na forminha, com cebola, pimenta e azeitonas pretas"
+                    },
+                    "yield": {
+                      "type": "number",
+                      "example": 30
+                    },
+                    "unit": {
+                      "type": "string",
+                      "example": "un"
+                    },
+                    "cost": {
+                      "type": "number",
+                      "example": 5.1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3Aid/patch/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "recipe not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1693,7 +1800,7 @@
         }
       },
       "ingredientIdParam": {
-        "name": "ingredientId",
+        "name": "id",
         "in": "path",
         "required": true,
         "description": "The ingredient's id.",
@@ -1702,7 +1809,7 @@
         }
       },
       "recipeIdParam": {
-        "name": "recipeId",
+        "name": "id",
         "in": "path",
         "required": true,
         "description": "The recipe's id.",

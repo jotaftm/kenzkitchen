@@ -1,0 +1,35 @@
+{
+  "patch": {
+    "description": "Atualiza os dados de uma receita da empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/recipeId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "description": {
+                "type": "string",
+                "example": "Empada de frango na forminha, com cebola, pimenta e azeitonas pretas"
+              },
+              "cost": {
+                "type": "number",
+                "example": 5.10
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Recipes/patchRecipe.json"
+    }
+  }
+}
