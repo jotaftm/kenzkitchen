@@ -28,6 +28,7 @@ export const create = async (
 export const list = async (req: Request, res: Response, next: NextFunction) => {
   const idLogged = req.idLogged;
   const { scheduled } = req.query;
+  console.log(req.params);
 
   if (scheduled) {
     try {

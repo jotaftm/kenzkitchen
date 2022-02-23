@@ -12,5 +12,5 @@ export const initializerRouter = (app: Express) => {
   app.use("/companies/:companyId/ingredients", ingredientRouter());
   app.use("/companies/:companyId/recipes", recipeRouter());
   app.use("/companies/:companyId/orders", orderRouter());
-  app.use("/companies/:companyId/orders/:id/report", reportRouter());
+  app.use("/companies/:companyId/orders/:orderId/report", reportRouter());
 };

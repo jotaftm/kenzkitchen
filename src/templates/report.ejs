@@ -5,8 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      div {
+        border: 1px solid black;
+        border-bottom: none;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        text-align: center;
+      }
+      p {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid black;
+        padding: 0.5rem;
+      }
+      table {
+        min-width: 250px;
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+      td {
+        width: 140px;
+        border: 1px solid black;
+      }
+    </style>
   </head>
   <body>
-    <h1>Pedido: <%= name %></h1>
+    <div>
+      <p>Empresa: <%= company %></p>
+      <p>CNPJ: <%= cnpj %></p>
+      <p>Data de entrada: <%= date %></p>
+      <p>Data programada: <%= scheduled %></p>
+    </div>
+    <h2>Ordem de serviço</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ingrediente</th>
+          <th>Quantidade</th>
+          <th>Estoque</th>
+          <th>Reposição</th>
+        </tr>
+      </thead>
+      <% ordersIngredients.map((orderIngredient) => { %>
+      <tr>
+        <td><%= orderIngredient.ingredient.name %></td>
+        <td>
+          <%= orderIngredient.quantity %> <%= orderIngredient.ingredient.unity
+          %>
+        </td>
+        <td>
+          <%= orderIngredient.ingredient.quantity %> <%=
+          orderIngredient.ingredient.unity %>
+        </td>
+        <% if (orderIngredient.ingredient.quantity > orderIngredient.quantity) {
+        %>
+        <td><%= 0 %></td>
+        <% } else { %>
+        <td>
+          <%= orderIngredient.quantity - orderIngredient.ingredient.quantity %>
+          <%= orderIngredient.ingredient.unity %>
+        </td>
+        <% } %>
+      </tr>
+      <% }) %>
+    </table>
   </body>
 </html>

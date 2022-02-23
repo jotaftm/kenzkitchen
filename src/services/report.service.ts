@@ -1,33 +1,71 @@
 import { getRepository } from "typeorm";
-import { Order } from "../entities";
+import { Order, OrderIngredient, User } from "../entities";
 import ejs from "ejs";
 import pdf from "html-pdf";
 import { ErrorHandler } from "./../errors/errorHandler.error";
 
-export const createReport = async (orderId: string) => {
+export const generateReport = async (idLogged: string, orderId: string) => {
+  const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
-  const order = await orderRepository.findOne(orderId);
+  const orderIngredientRepository = getRepository(OrderIngredient);
+
+  const order = await orderRepository.findOne(orderId, {
+    relations: ["ordersRecipes"],
+  });
+
+  if (order?.isExecuted) {
+    throw new ErrorHandler("this order has already been executed", 400);
+  }
 
   if (!order) {
-    throw new ErrorHandler("not found", 404);
+    throw new ErrorHandler("order not found", 404);
   }
-  console.log(order);
 
-  // ejs.renderFile(
-  //   "./src/templates/report.ejs",
-  //   { name: order.id },
-  //   (err, html) => {
-  //     if (err) {
-  //       console.log(err);
-  //     }
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
 
-  //     pdf.create(html, {}).toFile("./src/uploads/report.pdf", (err, res) => {
-  //       if (err) {
-  //         console.log(err);
-  //       } else {
-  //         console.log(res);
-  //       }
-  //     });
-  //   }
-  // );
+  const ordersIngredients = await orderIngredientRepository.find({
+    where: { order: order },
+    relations: ["ingredient"],
+  });
+
+  ejs.renderFile(
+    "./src/templates/report.ejs",
+    {
+      company: user?.company.name,
+      cnpj: user?.company.cnpj,
+      ordersIngredients: ordersIngredients,
+      date: `${order.createdAt.getDate()}/${
+        order.createdAt.getMonth() + 1
+      }/${order.createdAt.getFullYear()}`,
+      scheduled: `${order.scheduled.getDate()}/${
+        order.scheduled.getMonth() + 1
+      }/${order.scheduled.getFullYear()}`,
+    },
+    (err, html) => {
+      if (err) {
+        throw new ErrorHandler("failed to generate report", 500);
+      }
+
+      pdf
+        .create(html, {
+          format: "A4",
+          border: {
+            right: "40",
+            left: "40",
+            top: "20",
+            bottom: "20",
+          },
+        })
+        .toFile(
+          `./src/uploads/orders_${user?.company.id}/report_${orderId}.pdf`,
+          (err, res) => {
+            if (err) {
+              throw new ErrorHandler("failed to generate report", 500);
+            }
+          }
+        );
+    }
+  );
 };

@@ -1,21 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { createReport } from "../services/report.service";
+import { generateReport } from "../services/report.service";
 
-export const download = async (
+export const generate = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const idLogged = req.idLogged;
     const orderId = req.params.orderId;
 
-    await createReport(orderId);
+    await generateReport(idLogged, orderId);
 
-    // res.type("pdf");
-    // res.download("./uploads/report.pdf");
-    res.json({ message: "oi" });
+    res.json({ message: "generated report" });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
