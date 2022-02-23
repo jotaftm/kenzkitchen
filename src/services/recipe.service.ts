@@ -164,7 +164,7 @@ export const updateRecipe = async (
     relations: ["recipe", "ingredient"],
   });
 
-  if (body.ingredientsListAdd) {
+  if ("ingredientsListAdd" in body) {
     for (const ingredientId in body.ingredientsListAdd) {
       const ingredientExists = await ingredientRepository.findOne({
         where: { id: ingredientId },
@@ -197,7 +197,7 @@ export const updateRecipe = async (
     }
   }
 
-  if (body.ingredientsListRemove) {
+  if ("ingredientsListRemove" in body) {
     body.ingredientsListRemove.map(async (ingredientId: string) => {
       const recipeIngredientForDelete = recipesIngredientsExists.find(
         (recipeIngredient) => {

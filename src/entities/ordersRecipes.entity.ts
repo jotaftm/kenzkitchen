@@ -12,9 +12,10 @@ export default class OrderRecipe {
 
   @ManyToOne(() => Order, (order) => order.ordersRecipes, {
     onDelete: "CASCADE",
+    eager: true,
   })
   order!: Order;
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.ordersRecipes)
+  @ManyToOne(() => Recipe, (recipe) => recipe.ordersRecipes, { eager: true })
   recipe!: Recipe;
 }
