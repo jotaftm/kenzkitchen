@@ -68,6 +68,14 @@
   resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.1.0.tgz#ab8109208106b5e764e5a6c92b2ba1c625b73020"
   integrity sha512-DCg+Ka+uDQ31lJ/UtEXVlaeV3d6t81gifaVWKJy4MYVVgvJttyX/viREy+If7fz+tK/gVxTGMtyrFPnm4gjrVA==
 
+"@types/express-ejs-layouts@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@types/express-ejs-layouts/-/express-ejs-layouts-2.5.0.tgz#de000689e10ac8046daea0e3b235f1f27308567e"
+  integrity sha512-/ZPZgDy5SBOPONy7wFTmfJagLoU/V4O7y2gu9e/dCzZyxyNaFFI2VjvDO60BDGw2GCPxwiNNGYMlXmVJyPMRoA==
+  dependencies:
+    "@types/express" "*"
+    "@types/node" "*"
+
 "@types/express-serve-static-core@^4.17.18":
   version "4.17.28"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.28.tgz#c47def9f34ec81dc6328d0b1b5303d1ec98d86b8"
@@ -844,6 +852,11 @@ exec-limiter@^3.0.0:
   dependencies:
     limit-it "^3.0.0"
     typpy "^2.1.0"
+
+express-ejs-layouts@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/express-ejs-layouts/-/express-ejs-layouts-2.5.1.tgz#d204d9065ee2825fcbd718d820289fc81e691ccb"
+  integrity sha512-IXROv9n3xKga7FowT06n1Qn927JR8ZWDn5Dc9CJQoiiaaDqbhW5PDmWShzbpAa2wjWT1vJqaIM1S6vJwwX11gA==
 
 express@^4.17.2:
   version "4.17.2"

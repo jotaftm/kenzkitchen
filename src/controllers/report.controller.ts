@@ -9,10 +9,11 @@ export const download = async (
   try {
     const orderId = req.params.orderId;
 
-    createReport(orderId);
+    await createReport(orderId);
 
-    res.type("pdf");
-    res.download("./uploads/report.pdf");
+    // res.type("pdf");
+    // res.download("./uploads/report.pdf");
+    res.json({ message: "oi" });
   } catch (err) {
     console.log(err);
     next(err);
