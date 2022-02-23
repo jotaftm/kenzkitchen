@@ -10,16 +10,11 @@ import {
   User,
 } from "../entities";
 
-// função para calcular ingredientes
-
-const calculateIngredients = async (
-  ordersRecipes: OrderRecipe[],
-  isRemoved: boolean
-) => {
+const calculateIngredients = async (ordersRecipes: any) => {
   const recipeIngredientRepository = getRepository(RecipeIngredient);
   const orderIngredientRepository = getRepository(OrderIngredient);
 
-  ordersRecipes.map(async (orderRecipe) => {
+  ordersRecipes.map(async (orderRecipe: any) => {
     const recipesIngredientsExistes = await recipeIngredientRepository.find({
       where: { recipe: orderRecipe.recipe },
     });
@@ -29,36 +24,33 @@ const calculateIngredients = async (
         (orderRecipe.quantity / orderRecipe.recipe.yield) *
         recipeIngredient.quantity;
 
-      const orderIngredientExist = await orderIngredientRepository.findOne({
-        where: {
-          ingredient: recipeIngredient.ingredient,
-          order: orderRecipe.order,
-        },
-      });
+      setTimeout(async () => {
+        const orderIngredientExist = await orderIngredientRepository.findOne({
+          where: {
+            ingredient: recipeIngredient.ingredient,
+            order: orderRecipe.order,
+          },
+        });
 
-      if (orderIngredientExist) {
-        if (isRemoved) {
-          quantityIngredient -= orderIngredientExist.quantity;
-        } else {
+        if (orderIngredientExist) {
           quantityIngredient += orderIngredientExist.quantity;
+
+          await orderIngredientRepository.update(orderIngredientExist.id, {
+            quantity: quantityIngredient,
+          });
+        } else {
+          const newOrderIngredient = orderIngredientRepository.create({
+            quantity: quantityIngredient,
+            ingredient: recipeIngredient.ingredient,
+            order: orderRecipe.order,
+          });
+
+          await orderIngredientRepository.save(newOrderIngredient);
         }
-
-        await orderIngredientRepository.update(orderIngredientExist.id, {
-          quantity: quantityIngredient,
-        });
-      } else {
-        const newOrderIngredient = orderIngredientRepository.create({
-          quantity: quantityIngredient,
-          ingredient: recipeIngredient.ingredient,
-          order: orderRecipe.order,
-        });
-
-        await orderIngredientRepository.save(newOrderIngredient);
-      }
+      }, 1000);
     });
   });
 };
-// função para calcular ingredientes
 
 export const createOrder = async (idLogged: string, body: any) => {
   const userRepository = getRepository(User);
@@ -93,8 +85,7 @@ export const createOrder = async (idLogged: string, body: any) => {
     where: { order: orderCreated },
   });
 
-  // chamando função para calcular ingredientes
-  await calculateIngredients(ordersRecipesExistes, false);
+  await calculateIngredients(ordersRecipesExistes);
 
   const newOrder = await orderRepository.findOne({
     join: {
@@ -211,7 +202,6 @@ export const updateOrder = async (
 
   if ("isExecuted" in body) {
     if (orderToUpdate.isExecuted === body.isExecuted) {
-      console.log(orderToUpdate.isExecuted, body.isExecuted);
       if (body.isExecuted) {
         throw new ErrorHandler("this order has already been executed", 400);
       } else {
@@ -242,65 +232,61 @@ export const updateOrder = async (
     }
   }
 
-  // Adicionando e removendo recipes de uma order
-
-  const ordersRecipesExists = await orderRecipeRepository.find({
-    relations: ["recipe", "order"],
+  const ordersRecipesExistes = await orderRecipeRepository.find({
+    where: { order: orderToUpdate },
   });
 
-  if ("recipesListAdd" in body) {
-    for (const recipeId in body.recipesListAdd) {
-      const recipeExists = await recipeRepository.findOne({
-        where: { id: recipeId },
-      });
-
-      if (recipeExists) {
-        const orderRecipeExist = ordersRecipesExists.find((orderRecipe) => {
-          return (
-            orderRecipe.recipe.id === recipeId &&
-            orderRecipe.order.id === orderToUpdate.id
-          );
+  if ("recipesListAdd" in body || "recipesListRemove" in body) {
+    if ("recipesListAdd" in body) {
+      for (const recipeId in body.recipesListAdd) {
+        const recipeExists = await recipeRepository.findOne({
+          where: { id: recipeId },
         });
 
-        if (orderRecipeExist) {
-          await orderRecipeRepository.update(orderRecipeExist.id, {
-            quantity: body.recipesListAdd[recipeId],
+        if (recipeExists) {
+          const orderRecipeExist = ordersRecipesExistes.find((orderRecipe) => {
+            return orderRecipe.recipe.id === recipeId;
           });
 
-          await calculateIngredients([orderRecipeExist], false);
-        } else {
-          const newOrderRecipe = orderRecipeRepository.create({
-            quantity: body.recipesListAdd[recipeId],
-            recipe: recipeExists,
-            order: orderToUpdate,
-          });
+          if (orderRecipeExist) {
+            await orderRecipeRepository.update(orderRecipeExist.id, {
+              quantity: body.recipesListAdd[recipeId],
+            });
+          } else {
+            const newOrderRecipe = orderRecipeRepository.create({
+              quantity: body.recipesListAdd[recipeId],
+              recipe: recipeExists,
+              order: orderToUpdate,
+            });
 
-          const orderRecipe = await orderRecipeRepository.save(newOrderRecipe);
-
-          await calculateIngredients([orderRecipe], false);
+            await orderRecipeRepository.save(newOrderRecipe);
+          }
         }
       }
     }
-  }
 
-  if ("recipesListRemove" in body) {
-    body.recipesListRemove.map(async (recipeId: string) => {
-      const orderRecipeForDelete = ordersRecipesExists.find((orderRecipe) => {
-        return (
-          orderRecipe.recipe.id === recipeId &&
-          orderRecipe.order.id === orderToUpdate.id
+    if ("recipesListRemove" in body) {
+      body.recipesListRemove.map(async (recipeId: string) => {
+        const orderRecipeForDelete = ordersRecipesExistes.find(
+          (orderRecipe) => {
+            return orderRecipe.recipe.id === recipeId;
+          }
         );
+
+        if (orderRecipeForDelete) {
+          await orderRecipeRepository.delete(orderRecipeForDelete.id);
+        }
       });
+    }
 
-      if (orderRecipeForDelete) {
-        await orderRecipeRepository.delete(orderRecipeForDelete.id);
+    await orderIngredientRepository.delete({ order: orderToUpdate });
 
-        await calculateIngredients([orderRecipeForDelete], true);
-      }
+    const ordersRecipes = await orderRecipeRepository.find({
+      where: { order: orderToUpdate },
     });
-  }
 
-  // Adicionando e removendo recipes de uma order
+    await calculateIngredients(ordersRecipes);
+  }
 
   if (body.scheduled) {
     body.scheduled = new Date(body.scheduled);
