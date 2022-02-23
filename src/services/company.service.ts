@@ -111,8 +111,6 @@ export const updateCompany = async (
     },
   });
 
-  console.log(Boolean("isActive" in body));
-
   if (!companyToUpdate) {
     throw new ErrorHandler("company not found", 404);
   } else if (
