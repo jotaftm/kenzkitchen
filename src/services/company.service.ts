@@ -3,8 +3,12 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
 import { Company, User } from "../entities";
+import { BodyCreateCompany, BodyLogin, BodyUpdateCompany } from "../@types";
 
-export const createCompany = async (createdBy: string, body: any) => {
+export const createCompany = async (
+  createdBy: string,
+  body: BodyCreateCompany
+) => {
   const companyRepository = getRepository(Company);
   const userRepository = getRepository(User);
 
@@ -38,7 +42,7 @@ export const createCompany = async (createdBy: string, body: any) => {
   return await companyRepository.findOne(createdCompany?.id);
 };
 
-export const loginCompany = async (body: any) => {
+export const loginCompany = async (body: BodyLogin) => {
   const companyRepository = getRepository(Company);
 
   const company = await companyRepository.findOne({
@@ -100,7 +104,7 @@ export const findCompany = async (idLogged: string, companyId: string) => {
 
 export const updateCompany = async (
   idLogged: string,
-  body: any,
+  body: BodyUpdateCompany,
   companyId: string
 ) => {
   const companyRepository = getRepository(Company);
