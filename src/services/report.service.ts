@@ -4,7 +4,6 @@ import ejs from "ejs";
 import pdf from "html-pdf";
 import { ErrorHandler } from "./../errors/errorHandler.error";
 import { Response } from "express";
-import { ReadStream } from "typeorm/platform/PlatformTools";
 
 export const generateReport = async (
   idLogged: string,
