@@ -1,0 +1,31 @@
+{
+  "properties": {
+      "id": {
+          "type": "string"
+      },
+      "isExecuted": {
+          "type": "boolean"
+      },
+      "createdAt": {
+          "type": "date"
+      },
+      "scheduled": {
+          "type": "date"
+      },
+      "owner": {
+          "type": "object"
+      },
+      "company": {
+          "type": "object"
+      },
+      "ordersIngredients": {
+          "type": "Array"
+      },
+      "ordersRecipes": {
+          "type": "Array"
+      }
+  }
+}
+
+
+
