@@ -1,0 +1,36 @@
+{
+    "200": {
+        "description": "OK",
+        "content": {
+            "application/json": {
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../../components/CompaniesSchemas/resCompanySchema.json"
+                    }
+                }
+            }
+        }
+    },
+    "401": {
+        "description": "UNAUTHORIZED",
+        "content": {
+            "application/json": {
+                "schema": {
+                    "type": "object",
+                    "required": ["status", "message"],
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "error"
+                        },
+                        "message": {
+                            "type": "string",
+                            "example": "Invalid API key"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

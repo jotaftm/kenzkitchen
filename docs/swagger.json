@@ -1,31 +1,30 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Kenz Kitchen API",
-    "description": "This is a server for production process management focused on the food industry.",
-    "contact": {
-      "name": "Kenz Kitchen Support",
-      "url": "http://www.kenzkitchen.com/support",
-      "email": "support@kenzkitchen.com"
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kenz Kitchen API",
+        "description": "This is a server for production process management focused on the food industry.",
+        "contact": {
+            "name": "Kenz Kitchen Support",
+            "url": "http://www.kenzkitchen.com/support",
+            "email": "support@kenzkitchen.com"
+        },
+        "version": "1.0.1"
     },
-    "version": "1.0.1"
-  },
 
-  "servers": [
-    {
-      "url": "http://localhost:3000/api-documentation",
-      "description": "development"
+    "servers": [{
+            "url": "http://localhost:3000/api-documentation",
+            "description": "development"
+        },
+        {
+            "url": "https://api-heroku-kenzie-kitchen/api-documentation",
+            "description": "production"
+        }
+    ],
+    "paths": {
+        "$ref": "./routes/_index.json"
     },
-    {
-      "url": "https://api-heroku-kenzie-kitchen/api-documentation",
-      "description": "production"
+
+    "components": {
+        "$ref": "./components/_index.json"
     }
-  ],
-  "paths": {
-    "$ref": "./routes/_index.json"
-  },
-
-  "components": {
-    "$ref": "./components/_index.json"
-  }
 }

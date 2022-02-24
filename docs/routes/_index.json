@@ -1,38 +1,41 @@
 {
-  "/companies/:companyId/users": {
-    "$ref": "./Users/createGetAllUsers.json"
-  },
-  "/companies/:companyId/users/login": {
-    "$ref": "./Users/loginUser.json"
-  },
-  "/companies/:companyId/users/:id": {
-    "$ref": "./Users/getUserByIdPatchDelete.json"
-  },
-  "/companies": {
-    "$ref": "./Companies/createCompany.json"
-  },
-  "/companies/login": {
-    "$ref": "./Companies/loginCompany.json"
-  },
-  "/companies/:id": {
-    "$ref": "./Companies/patchDeleteCompany.json"
-  },
-  "/companies/:companyId/ingredients": {
-    "$ref": "./Ingredients/createListAllIngredients.json"
-  },
-  "/companies/:companyId/ingredients/:id": {
-    "$ref": "./Ingredients/getIngredientByIdPatchDelete.json"
-  },
-  "/companies/:companyId/recipes": {
-    "$ref": "./Recipes/createListAllRecipes.json"
-  },
-  "/companies/:companyId/recipes/:id": {
-    "$ref": "./Recipes/getRecipeByIdPatchDelete.json"
-  },
-  "/companies/:companyId/orders": {
-    "$ref": "./Orders/createListAllOrders.json"
-  },
-  "/companies/:companyId/orders/:id": {
-    "$ref": "./Orders/getOrderByIdPatchDelete.json"
-  }
+    "/companies/:companyId/users": {
+        "$ref": "./Users/createGetAllUsers.json"
+    },
+    "/companies/:companyId/users/login": {
+        "$ref": "./Users/loginUser.json"
+    },
+    "/companies/:companyId/users/:id": {
+        "$ref": "./Users/getUserByIdPatchDelete.json"
+    },
+    "/companies": {
+        "$ref": "./Companies/createListAllCompanies.json"
+    },
+    "/companies/login": {
+        "$ref": "./Companies/loginCompany.json"
+    },
+    "/companies/:id": {
+        "$ref": "./Companies/getCompanyByIdPatchDeleteCompany.json"
+    },
+    "/companies/:companyId/ingredients": {
+        "$ref": "./Ingredients/createListAllIngredients.json"
+    },
+    "/companies/:companyId/ingredients/:id": {
+        "$ref": "./Ingredients/getIngredientByIdPatchDelete.json"
+    },
+    "/companies/:companyId/recipes": {
+        "$ref": "./Recipes/createListAllRecipes.json"
+    },
+    "/companies/:companyId/recipes/:id": {
+        "$ref": "./Recipes/getRecipeByIdPatchDelete.json"
+    },
+    "/companies/:companyId/orders": {
+        "$ref": "./Orders/createListAllOrders.json"
+    },
+    "/companies/:companyId/orders/:id": {
+        "$ref": "./Orders/getOrderByIdPatchDelete.json"
+    },
+    "/companies/:companyId/orders/:id/report": {
+        "$ref": "./Orders/getOrderReport.json"
+    }
 }
