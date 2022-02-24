@@ -9,6 +9,7 @@ import {
   RecipeIngredient,
   User,
 } from "../entities";
+import { BodyCreateOrder, BodyUpdateOrder } from "../@types";
 
 const calculateIngredients = async (ordersRecipes: any) => {
   const recipeIngredientRepository = getRepository(RecipeIngredient);
@@ -52,7 +53,7 @@ const calculateIngredients = async (ordersRecipes: any) => {
   });
 };
 
-export const createOrder = async (idLogged: string, body: any) => {
+export const createOrder = async (idLogged: string, body: BodyCreateOrder) => {
   const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
   const orderRecipeRepository = getRepository(OrderRecipe);
@@ -64,7 +65,7 @@ export const createOrder = async (idLogged: string, body: any) => {
   body.scheduled = new Date(body.scheduled);
 
   const order = orderRepository.create({
-    ...(body as Order),
+    ...body,
     owner: user,
     company: user?.company,
   });
@@ -179,7 +180,7 @@ export const findOrder = async (idLogged: string, orderId: string) => {
 export const updateOrder = async (
   idLogged: string,
   orderId: string,
-  body: any
+  body: BodyUpdateOrder
 ) => {
   const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
@@ -266,7 +267,7 @@ export const updateOrder = async (
     }
 
     if ("recipesListRemove" in body) {
-      body.recipesListRemove.map(async (recipeId: string) => {
+      body.recipesListRemove?.map(async (recipeId: string) => {
         const orderRecipeForDelete = ordersRecipesExistes.find(
           (orderRecipe) => {
             return orderRecipe.recipe.id === recipeId;

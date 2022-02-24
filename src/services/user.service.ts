@@ -3,8 +3,9 @@ import { Company, User } from "../entities";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
+import { BodyCreateUser, BodyLogin, BodyUpdateUser } from "../@types";
 
-export const createUser = async (idLogged: string, body: any) => {
+export const createUser = async (idLogged: string, body: BodyCreateUser) => {
   const companyRepository = getRepository(Company);
   const userRepository = getRepository(User);
 
@@ -32,7 +33,7 @@ export const createUser = async (idLogged: string, body: any) => {
   return await userRepository.save(user);
 };
 
-export const loginUser = async (body: any) => {
+export const loginUser = async (body: BodyLogin) => {
   const userRepository = getRepository(User);
 
   const user = await userRepository.findOne({
@@ -125,7 +126,7 @@ export const findUser = async (
 export const updateUser = async (
   idLogged: string,
   companyId: string,
-  body: any,
+  body: BodyUpdateUser,
   userId: string
 ) => {
   const userRepository = getRepository(User);
@@ -154,11 +155,11 @@ export const updateUser = async (
     !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
-  } else if ("isActive" in body && idLogged !== companyExists.id) {
-    throw new ErrorHandler(
-      "missing admin permissions to activate/deactivate account",
-      401
-    );
+  } else if (
+    "isActive" in body ||
+    ("isAdm" in body && idLogged !== companyExists.id)
+  ) {
+    throw new ErrorHandler("missing admin permissions", 401);
   }
 
   await userRepository.update(userId, {
