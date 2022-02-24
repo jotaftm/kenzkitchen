@@ -58,5 +58,20 @@
   },
   "/companies/:companyId/recipes/:id//": {
     "$ref": "./Recipes/deleteRecipe.json"
+  },
+  "/companies/:companyId/orders/": {
+    "$ref": "./Orders/createOrder.json"
+  },
+  "/companies/:companyId/orders/:id": {
+    "$ref": "./Orders/deleteOrder.json"
+  },
+  "/companies/:companyId/orders": {
+    "$ref": "./Orders/getAllOrders.json"
+  },
+  "/companies/:companyId/orders/:id/": {
+    "$ref": "./Orders/getOrderById.json"
+  },
+  "/companies/:companyId/orders/:id//": {
+    "$ref": "./Orders/patchOrder.json"
   }
 }

@@ -1692,6 +1692,438 @@
           }
         }
       }
+    },
+    "/companies/:companyId/orders/": {
+      "post": {
+        "description": "Registra um pedido.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "scheduled": {
+                    "type": "date",
+                    "example": "2022/02/25"
+                  },
+                  "recipesListAdd": {
+                    "type": "object",
+                    "example": {
+                      "216d7208-df11-47a4-8568-17043c9424be": 150
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "isExecuted is required"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "missing authorization headers"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/orders/:id": {
+      "delete": {
+        "description": "Exclui um pedido.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid~1/get/parameters/1"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "order not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/orders": {
+      "get": {
+        "description": "Lista todas os pedidos cadastradas. Qualquer usuário pode realizar essa ação.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "39511a16-b6ae-43b3-8afd-fb8ac4749c08"
+                    },
+                    "isExecuted": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "createdAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    },
+                    "scheduled": {
+                      "type": "date",
+                      "example": "2022-02-25T03:00:00.000Z"
+                    },
+                    "ordersRecipes": {
+                      "type": "Array",
+                      "example": [
+                        {
+                          "id": "6d1fecbd-7d3b-4951-98cc-9768eb9e4b4d",
+                          "quantity": 150,
+                          "recipe": {
+                            "id": "216d7208-df11-47a4-8568-17043c9424be",
+                            "name": "Empada de Frango - P",
+                            "description": "Empada de frango tamanho coquetel. 20 gramas.",
+                            "yield": 100,
+                            "unity": "UN",
+                            "cost": 0.5
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "missing authorization headers"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/orders/:id/": {
+      "get": {
+        "description": "Seleciona uma determinado pedido pelo id. Qualquer usuário pode realizar essa ação.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The id of the order.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Order not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/orders/:id//": {
+      "patch": {
+        "description": "Atualiza os dados de um pedido. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid~1/get/parameters/1"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "example": "Empada de frango na forminha, com cebola, pimenta e azeitonas pretas"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "example": 5.1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "39511a16-b6ae-43b3-8afd-fb8ac4749c08"
+                    },
+                    "isExecuted": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "createdAt": {
+                      "description": "readOnly",
+                      "type": "date",
+                      "example": "2022-02-14T23:04:48.723Z"
+                    },
+                    "scheduled": {
+                      "type": "date",
+                      "example": "2022-02-25T03:00:00.000Z"
+                    },
+                    "ordersRecipes": {
+                      "type": "Array",
+                      "example": [
+                        {
+                          "id": "6d1fecbd-7d3b-4951-98cc-9768eb9e4b4d",
+                          "quantity": 150,
+                          "recipe": {
+                            "id": "216d7208-df11-47a4-8568-17043c9424be",
+                            "name": "Empada de Frango - P",
+                            "description": "Empada de frango tamanho coquetel. 20 gramas.",
+                            "yield": 100,
+                            "unity": "UN",
+                            "cost": 0.5
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/delete/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1821,6 +2253,34 @@
           },
           "cost": {
             "type": "number"
+          }
+        }
+      },
+      "Orders": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "isExecuted": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "date"
+          },
+          "scheduled": {
+            "type": "date"
+          },
+          "owner": {
+            "type": "object"
+          },
+          "company": {
+            "type": "object"
+          },
+          "ordersIngredients": {
+            "type": "Array"
+          },
+          "ordersRecipes": {
+            "type": "Array"
           }
         }
       }

@@ -1,0 +1,18 @@
+{
+  "delete": {
+    "description": "Exclui um pedido.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/orderId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Orders/deleteOrder.json"
+    }
+  }
+}

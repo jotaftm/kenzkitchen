@@ -1,0 +1,34 @@
+{
+  "200": {
+    "description": "OK",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "$ref": "../../components/OrdersSchemas/resOrderSchema.json"
+        }
+      }
+    }
+  },
+  "401": {
+    "description": "UNAUTHORIZED",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "required": ["status", "message"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "error"
+            },
+            "message": {
+              "type": "string",
+              "example": "missing authorization headers"
+            }
+          }
+        }
+      }
+    }
+  }
+}

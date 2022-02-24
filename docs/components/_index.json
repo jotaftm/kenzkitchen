@@ -11,6 +11,9 @@
     },
     "Recipes": {
       "$ref": "./RecipesSchemas/schemaRecipe.json"
+    },
+    "Orders": {
+      "$ref": "./OrdersSchemas/schemaOrder.json"
     }
   },
   "parameters": {
