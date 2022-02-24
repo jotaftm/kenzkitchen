@@ -4,6 +4,7 @@ import {
   BodyLogin,
   BodyUpdateCompany,
 } from "./company.types";
+import { BodyCreateUser, BodyUpdateUser } from "./user.types";
 
 export {
   BodyCreateRecipe,
@@ -11,4 +12,6 @@ export {
   BodyCreateCompany,
   BodyLogin,
   BodyUpdateCompany,
+  BodyCreateUser,
+  BodyUpdateUser,
 };

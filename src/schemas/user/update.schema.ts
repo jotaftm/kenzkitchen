@@ -7,4 +7,6 @@ export const updateUserSchema = yup.object().shape({
   password: yup.string().transform((_, originalValue) => {
     return bcrypt.hashSync(originalValue, 10);
   }),
+  isAdm: yup.boolean(),
+  isActive: yup.boolean(),
 });

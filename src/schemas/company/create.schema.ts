@@ -11,7 +11,6 @@ export const companySchema = yup.object().shape({
     .string()
     .email("Invalid email format.")
     .required("email is required"),
-  isActive: yup.boolean(),
   password: yup
     .string()
     .required("password is required")
