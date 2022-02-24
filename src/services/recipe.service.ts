@@ -1,27 +1,7 @@
 import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
 import { Ingredient, Recipe, RecipeIngredient, User } from "../entities";
-
-interface IngredientBody {
-  [key: string]: number;
-}
-
-interface BodyCreateRecipe {
-  name: string;
-  description: string;
-  yield: number;
-  unity: string;
-  ingredientsList: IngredientBody;
-}
-
-interface BodyUpdateRecipe {
-  name?: string;
-  description?: string;
-  yield?: number;
-  unity?: string;
-  ingredientsListAdd?: IngredientBody;
-  ingredientsListRemove?: string[];
-}
+import { BodyCreateRecipe, BodyUpdateRecipe } from "../@types";
 
 export const createRecipe = async (
   idLogged: string,
