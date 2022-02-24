@@ -14,7 +14,12 @@ export const generateReport = async (
   const orderRepository = getRepository(Order);
   const orderIngredientRepository = getRepository(OrderIngredient);
 
+  const user = await userRepository.findOne(idLogged, {
+    relations: ["company"],
+  });
+
   const order = await orderRepository.findOne(orderId, {
+    where: { company: user?.company },
     relations: ["ordersRecipes"],
   });
 
@@ -25,10 +30,6 @@ export const generateReport = async (
   if (!order) {
     throw new ErrorHandler("order not found", 404);
   }
-
-  const user = await userRepository.findOne(idLogged, {
-    relations: ["company"],
-  });
 
   const ordersIngredients = await orderIngredientRepository.find({
     where: { order: order },
