@@ -9,37 +9,41 @@ export const createCompany = async (
   createdBy: string,
   body: BodyCreateCompany
 ) => {
-  const companyRepository = getRepository(Company);
-  const userRepository = getRepository(User);
+  try {
+    const companyRepository = getRepository(Company);
+    const userRepository = getRepository(User);
 
-  const company = companyRepository.create({
-    ...body,
-    createdBy: createdBy,
-  });
-
-  await companyRepository.save(company);
-
-  const createdCompany = await companyRepository.findOne({
-    where: {
-      email: body.email,
-    },
-    select: ["id", "cnpj", "email", "password"],
-  });
-
-  if (createdCompany) {
-    const user = userRepository.create({
-      id: createdCompany.id,
-      name: createdCompany.cnpj,
-      email: createdCompany.email,
-      password: createdCompany.password,
-      isManager: true,
-      company: createdCompany,
+    const company = companyRepository.create({
+      ...body,
+      createdBy: createdBy,
     });
 
-    await userRepository.save(user);
-  }
+    await companyRepository.save(company);
 
-  return await companyRepository.findOne(createdCompany?.id);
+    const createdCompany = await companyRepository.findOne({
+      where: {
+        email: body.email,
+      },
+      select: ["id", "cnpj", "email", "password"],
+    });
+
+    if (createdCompany) {
+      const user = userRepository.create({
+        id: createdCompany.id,
+        name: createdCompany.cnpj,
+        email: createdCompany.email,
+        password: createdCompany.password,
+        isManager: true,
+        company: createdCompany,
+      });
+
+      await userRepository.save(user);
+    }
+
+    return await companyRepository.findOne(createdCompany?.id);
+  } catch (err) {
+    throw new ErrorHandler((err as any).detail, 400);
+  }
 };
 
 export const loginCompany = async (body: BodyLogin) => {

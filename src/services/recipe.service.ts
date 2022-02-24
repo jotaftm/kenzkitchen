@@ -7,62 +7,66 @@ export const createRecipe = async (
   idLogged: string,
   body: BodyCreateRecipe
 ) => {
-  const userRepository = getRepository(User);
-  const ingredientRepository = getRepository(Ingredient);
-  const recipeRepository = getRepository(Recipe);
-  const recipeIngredientRepository = getRepository(RecipeIngredient);
+  try {
+    const userRepository = getRepository(User);
+    const ingredientRepository = getRepository(Ingredient);
+    const recipeRepository = getRepository(Recipe);
+    const recipeIngredientRepository = getRepository(RecipeIngredient);
 
-  const owner = await userRepository.findOne(idLogged, {
-    relations: ["company"],
-  });
-
-  if (!owner?.isManager) {
-    throw new ErrorHandler("missing manager permissions", 401);
-  }
-
-  const newRecipe = recipeRepository.create({
-    ...body,
-    owner: owner,
-    company: owner?.company,
-  });
-
-  const recipe = await recipeRepository.save(newRecipe);
-
-  for (const ingredientId in body.ingredientsList) {
-    const ingredientExists = await ingredientRepository.findOne({
-      where: { id: ingredientId },
+    const owner = await userRepository.findOne(idLogged, {
+      relations: ["company"],
     });
 
-    if (ingredientExists) {
-      const newRecipeIngredient = recipeIngredientRepository.create({
-        quantity: body.ingredientsList[ingredientId],
-        ingredient: ingredientExists,
-        recipe: recipe,
+    if (!owner?.isManager) {
+      throw new ErrorHandler("missing manager permissions", 401);
+    }
+
+    const newRecipe = recipeRepository.create({
+      ...body,
+      owner: owner,
+      company: owner?.company,
+    });
+
+    const recipe = await recipeRepository.save(newRecipe);
+
+    for (const ingredientId in body.ingredientsList) {
+      const ingredientExists = await ingredientRepository.findOne({
+        where: { id: ingredientId },
       });
 
-      await recipeIngredientRepository.save(newRecipeIngredient);
+      if (ingredientExists) {
+        const newRecipeIngredient = recipeIngredientRepository.create({
+          quantity: body.ingredientsList[ingredientId],
+          ingredient: ingredientExists,
+          recipe: recipe,
+        });
+
+        await recipeIngredientRepository.save(newRecipeIngredient);
+      }
     }
-  }
 
-  const recipeExists = await recipeRepository.findOne({
-    where: { id: newRecipe.id },
-    relations: ["recipesIngredients", "recipesIngredients.ingredient"],
-  });
-
-  if (recipeExists) {
-    const costActual =
-      recipeExists.recipesIngredients.reduce((acc, cVal) => {
-        return acc + cVal.quantity * cVal.ingredient.price;
-      }, 0) / recipeExists.yield;
-
-    await recipeRepository.update(recipe.id, {
-      cost: costActual,
+    const recipeExists = await recipeRepository.findOne({
+      where: { id: newRecipe.id },
+      relations: ["recipesIngredients", "recipesIngredients.ingredient"],
     });
+
+    if (recipeExists) {
+      const costActual =
+        recipeExists.recipesIngredients.reduce((acc, cVal) => {
+          return acc + cVal.quantity * cVal.ingredient.price;
+        }, 0) / recipeExists.yield;
+
+      await recipeRepository.update(recipe.id, {
+        cost: costActual,
+      });
+    }
+
+    const recipeOutput = await recipeRepository.findOne(newRecipe.id);
+
+    return recipeOutput;
+  } catch (err) {
+    throw new ErrorHandler((err as any).detail, 400);
   }
-
-  const recipeOutput = await recipeRepository.findOne(newRecipe.id);
-
-  return recipeOutput;
 };
 
 export const listRecipes = async (idLogged: string) => {
