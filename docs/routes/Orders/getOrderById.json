@@ -1,0 +1,18 @@
+{
+  "get": {
+    "description": "Seleciona uma determinado pedido pelo id. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/orderId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Orders/getOrderById.json"
+    }
+  }
+}
