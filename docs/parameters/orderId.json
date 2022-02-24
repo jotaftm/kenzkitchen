@@ -1,0 +1,10 @@
+{
+    "name": "id",
+    "in": "path",
+    "required": true,
+    "description": "The id of the order.",
+    "schema": {
+      "type": "string"
+    }
+  }
+  

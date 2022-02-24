@@ -1,0 +1,23 @@
+{
+  "post": {
+    "description": "Registra um pedido.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../components/OrdersSchemas/reqOrderSchema.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Orders/createOrder.json"
+    }
+  }
+}
