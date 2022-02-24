@@ -6,19 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      div {
+      h1 {
+        margin: 5px 0;
+        text-align: end;
+        font-size: 24px;
+      }
+      /* div {
         border: 1px solid black;
         border-bottom: none;
-        margin-bottom: 1rem;
-      }
+      } */
       h2 {
-        text-align: center;
+        /* text-align: center; */
+        margin-bottom: 0.2rem;
+        font-size: 20px;
       }
       p {
         margin: 0;
         padding: 5px 0;
-        border-bottom: 1px solid black;
-        padding: 0.5rem;
+        /* border-bottom: 1px solid black; */
+        padding: 0.2rem;
+        font-size: 10px;
       }
       table {
         min-width: 250px;
@@ -27,6 +34,7 @@
         border-radius: 5px;
         margin: 0 auto;
         border-collapse: collapse;
+        font-size: 12px;
       }
       td {
         width: 140px;
@@ -35,18 +43,23 @@
     </style>
   </head>
   <body>
+    <h1>KenzKitchen</h1>
     <div>
       <p>Empresa: <%= company %></p>
       <p>CNPJ: <%= cnpj %></p>
-      <p>Data de entrada: <%= date %></p>
-      <p>Data programada: <%= scheduled %></p>
+      <p>Data de solicitação: <%= date %></p>
+      <p>Data de execução: <%= scheduled %></p>
+      <p>Emitido por: <%= user %></p>
     </div>
     <h2>Ordem de serviço</h2>
+    <div>
+      <p>Identificação: <%= orderId %></p>
+    </div>
     <table>
       <thead>
         <tr>
           <th>Ingrediente</th>
-          <th>Quantidade</th>
+          <th>Quantidade necessária</th>
           <th>Estoque</th>
           <th>Reposição</th>
         </tr>

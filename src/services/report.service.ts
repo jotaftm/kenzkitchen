@@ -3,8 +3,14 @@ import { Order, OrderIngredient, User } from "../entities";
 import ejs from "ejs";
 import pdf from "html-pdf";
 import { ErrorHandler } from "./../errors/errorHandler.error";
+import { Response } from "express";
+import { ReadStream } from "typeorm/platform/PlatformTools";
 
-export const generateReport = async (idLogged: string, orderId: string) => {
+export const generateReport = async (
+  idLogged: string,
+  orderId: string,
+  res: Response
+) => {
   const userRepository = getRepository(User);
   const orderRepository = getRepository(Order);
   const orderIngredientRepository = getRepository(OrderIngredient);
@@ -35,6 +41,8 @@ export const generateReport = async (idLogged: string, orderId: string) => {
     {
       company: user?.company.name,
       cnpj: user?.company.cnpj,
+      user: user?.name,
+      orderId: orderId,
       ordersIngredients: ordersIngredients,
       date: `${order.createdAt.getDate()}/${
         order.createdAt.getMonth() + 1
@@ -58,14 +66,13 @@ export const generateReport = async (idLogged: string, orderId: string) => {
             bottom: "20",
           },
         })
-        .toFile(
-          `./src/uploads/orders_${user?.company.id}/report_${orderId}.pdf`,
-          (err, res) => {
-            if (err) {
-              throw new ErrorHandler("failed to generate report", 500);
-            }
+        .toStream((err, stream) => {
+          if (err) {
+            throw new ErrorHandler("failed to generate report", 500);
           }
-        );
+          res.type("pdf");
+          stream.pipe(res);
+        });
     }
   );
 };

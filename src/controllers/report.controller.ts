@@ -10,9 +10,7 @@ export const generate = async (
     const idLogged = req.idLogged;
     const orderId = req.params.orderId;
 
-    await generateReport(idLogged, orderId);
-
-    res.json({ message: "generated report" });
+    await generateReport(idLogged, orderId, res);
   } catch (err) {
     next(err);
   }
