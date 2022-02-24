@@ -551,38 +551,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Kenzie"
-                    },
-                    "cnpj": {
-                      "type": "string",
-                      "example": "15.253.327/0001-42"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "kenzie@mail.com"
-                    },
-                    "createdBy": {
-                      "type": "string",
-                      "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
-                    },
-                    "createdAt": {
-                      "description": "readOnly",
-                      "type": "date",
-                      "example": "2022-02-14T23:04:48.723Z"
-                    },
-                    "updatedAt": {
-                      "description": "readOnly",
-                      "type": "date",
-                      "example": "2022-02-14T23:04:48.723Z"
-                    }
-                  }
+                  "$ref": "#/paths/~1companies/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -613,6 +582,84 @@
                           "email is required"
                         ]
                       ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Lista todas as empresas cadastradas. Necessário fornecer API key para acessar este recurso.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "ee9cd6b0-c842-43c9-8b9c-11b6f0623d0a"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Kenzie"
+                      },
+                      "cnpj": {
+                        "type": "string",
+                        "example": "15.253.327/0001-42"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "kenzie@mail.com"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "example": "926ed6ed-a9d7-4719-821b-1360675289a5"
+                      },
+                      "createdAt": {
+                        "description": "readOnly",
+                        "type": "date",
+                        "example": "2022-02-14T23:04:48.723Z"
+                      },
+                      "updatedAt": {
+                        "description": "readOnly",
+                        "type": "date",
+                        "example": "2022-02-14T23:04:48.723Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid API key"
                     }
                   }
                 }
@@ -719,6 +766,83 @@
       }
     },
     "/companies/:id": {
+      "get": {
+        "description": "Seleciona uma determinada empresa pelo id. Necessário fornecer API key para acessar ou ser dono do próprio recurso.",
+        "tags": [
+          "Companies"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies/get/responses/200/content/application~1json/schema/items"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token",
+                        "missing admin permissions"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "company not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo manager pode selecionar qualquer usuário do sistema.",
         "tags": [
@@ -2100,6 +2224,87 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/patch/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/companies/:companyId/orders/:id/report": {
+      "get": {
+        "description": "Retorna um relatório em formato pdf da quantidade de ingredientes necessários para executar a ordem, quantidade de ingredientes em estoque e quantidade que deve ser comprado.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Returns PDF",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "example": [
+                        "missing authorization headers",
+                        "invalid token"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "order not found"
+                    }
+                  }
                 }
               }
             }
