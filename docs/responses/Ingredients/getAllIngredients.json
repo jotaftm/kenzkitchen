@@ -4,8 +4,10 @@
     "content": {
       "application/json": {
         "schema": {
-          "type": "object",
-          "$ref": "../../components/IngredientsSchemas/reqResIngredientSchema.json"
+          "type": "array",
+          "items": {
+            "$ref": "../../components/IngredientsSchemas/reqResIngredientSchema.json"
+          }
         }
       }
     }

@@ -4,8 +4,10 @@
     "content": {
       "application/json": {
         "schema": {
-          "type": "object",
-          "$ref": "../../components/OrdersSchemas/resOrderSchema.json"
+          "type": "array",
+          "items": {
+            "$ref": "../../components/OrdersSchemas/resOrderSchema.json"
+          }
         }
       }
     }
