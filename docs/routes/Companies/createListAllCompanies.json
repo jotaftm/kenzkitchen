@@ -1,0 +1,28 @@
+{
+    "post": {
+        "description": "Registra uma nova empresa. Vendedor do sistema, com sua própria API key cadastra uma empresa.",
+        "tags": ["Companies"],
+        "parameters": [],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "../../components/CompaniesSchemas/reqCompanySchema.json"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "$ref": "../../responses/Companies/createCompany.json"
+        }
+    },
+    "get": {
+        "description": "Lista todas as empresas cadastradas. Necessário fornecer API key para acessar este recurso.",
+        "tags": ["Companies"],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {
+            "$ref": "../../responses/Companies/getAllCompanies.json"
+        }
+    }
+}

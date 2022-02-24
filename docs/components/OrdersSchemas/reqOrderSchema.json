@@ -1,0 +1,14 @@
+{
+  "properties": {
+      "scheduled": {
+          "type": "date",
+          "example": "2022/02/25"
+      },
+      "recipesListAdd": {
+          "type": "object",
+          "example": {
+              "216d7208-df11-47a4-8568-17043c9424be": 150
+          }
+      }
+  }
+}

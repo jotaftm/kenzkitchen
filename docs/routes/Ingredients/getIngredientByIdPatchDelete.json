@@ -1,0 +1,75 @@
+{
+  "get": {
+    "description": "Seleciona um determinado ingrediente pelo id. Qualquer usuário logado pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/ingredientId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Ingredients/getIngredientById.json"
+    }
+  },
+  "patch": {
+    "description": "Atualiza os dados de um ingrediente da empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/ingredientId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "farinha de trigo integral"
+              },
+              "description": {
+                "type": "string",
+                "example": "Comprar sempre produto importado, marca x, pacote de 2kg"
+              },
+              "barCode": {
+                "type": "string",
+                "example": "C5003994C2155486R4"
+              },
+              "price": {
+                "type": "number",
+                "example": 23.60
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Ingredients/patchIngredient.json"
+    }
+  },
+  "delete": {
+    "description": "Exclui um insumo cadastrado. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
+    "tags": ["Ingredients"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/ingredientId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Ingredients/deleteIngredient.json"
+    }
+  }
+}

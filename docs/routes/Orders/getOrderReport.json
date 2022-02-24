@@ -1,0 +1,17 @@
+{
+    "get": {
+        "description": "Retorna um relatório em formato pdf da quantidade de ingredientes necessários para executar a ordem, quantidade de ingredientes em estoque e quantidade que deve ser comprado.",
+        "tags": ["Orders"],
+        "parameters": [{
+                "$ref": "../../parameters/companyId.json"
+            },
+            {
+                "$ref": "../../parameters/orderId.json"
+            }
+        ],
+        "requestBody": {},
+        "responses": {
+            "$ref": "../../responses/Orders/getOrderReport.json"
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "get": {
+        "description": "Seleciona uma determinada empresa pelo id. Necessário fornecer API key para acessar ou ser dono do próprio recurso.",
+        "tags": ["Companies"],
+        "parameters": [{
+            "$ref": "../../parameters/companyId.json"
+        }],
+        "requestBody": {},
+        "responses": {
+            "$ref": "../../responses/Companies/getCompanyById.json"
+        }
+    },
+    "patch": {
+        "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo manager pode selecionar qualquer usuário do sistema.",
+        "tags": ["Companies"],
+        "parameters": [{
+            "$ref": "../../parameters/companyId.json"
+        }],
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Kenzie Academy Brasil"
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "kenzie.brasil@mail.com"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "$ref": "../../responses/Companies/patchCompany.json"
+        }
+    },
+    "delete": {
+        "description": "Exclui a empresa. Apenas usuário logado do tipo Manager pode realizar essa ação.",
+        "tags": ["Companies"],
+        "parameters": [{
+            "$ref": "../../parameters/companyId.json"
+        }],
+        "requestBody": {},
+        "responses": {
+            "$ref": "../../responses/Companies/deleteCompany.json"
+        }
+    }
+}

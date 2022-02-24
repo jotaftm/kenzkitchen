@@ -3,8 +3,9 @@ import { Company, User } from "../entities";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
+import { BodyCreateUser, BodyLogin, BodyUpdateUser } from "../@types";
 
-export const createUser = async (idLogged: string, body: any) => {
+export const createUser = async (idLogged: string, body: BodyCreateUser) => {
   const companyRepository = getRepository(Company);
   const userRepository = getRepository(User);
 
@@ -32,20 +33,22 @@ export const createUser = async (idLogged: string, body: any) => {
   return await userRepository.save(user);
 };
 
-export const loginUser = async (body: any) => {
+export const loginUser = async (body: BodyLogin) => {
   const userRepository = getRepository(User);
 
   const user = await userRepository.findOne({
     where: {
       email: body.email,
     },
-    select: ["password", "id"],
+    select: ["password", "id", "isActive"],
   });
 
   if (!user) {
     throw new ErrorHandler("wrong email", 401);
   } else if (!bcrypt.compareSync(body.password, user.password)) {
     throw new ErrorHandler("wrong password", 401);
+  } else if (!user.isActive) {
+    throw new ErrorHandler("inactive account", 401);
   }
 
   const token = jwt.sign(
@@ -123,7 +126,7 @@ export const findUser = async (
 export const updateUser = async (
   idLogged: string,
   companyId: string,
-  body: any,
+  body: BodyUpdateUser,
   userId: string
 ) => {
   const userRepository = getRepository(User);
@@ -150,6 +153,11 @@ export const updateUser = async (
     idLogged !== userToUpdate.id &&
     idLogged !== companyExists.id &&
     !process.env.API_KEYS?.split(",").includes(idLogged)
+  ) {
+    throw new ErrorHandler("missing admin permissions", 401);
+  } else if (
+    "isActive" in body ||
+    ("isAdm" in body && idLogged !== companyExists.id)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
   }

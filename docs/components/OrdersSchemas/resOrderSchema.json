@@ -1,0 +1,36 @@
+{
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "39511a16-b6ae-43b3-8afd-fb8ac4749c08"
+    },
+    "isExecuted": {
+      "type": "boolean",
+      "example": "false"
+    },
+    "createdAt": {
+      "description": "readOnly",
+      "type": "date",
+      "example": "2022-02-14T23:04:48.723Z"
+    },
+    "scheduled": {
+      "type": "date",
+      "example": "2022-02-25T03:00:00.000Z"
+    },
+    "ordersRecipes": {
+      "type": "Array",
+      "example": [{
+        "id": "6d1fecbd-7d3b-4951-98cc-9768eb9e4b4d",
+        "quantity": 150,
+        "recipe": {
+          "id": "216d7208-df11-47a4-8568-17043c9424be",
+          "name": "Empada de Frango - P",
+          "description": "Empada de frango tamanho coquetel. 20 gramas.",
+          "yield": 100,
+          "unity": "UN",
+          "cost": 0.5
+        }
+      }]
+    }
+  }
+}

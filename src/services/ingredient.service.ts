@@ -1,8 +1,12 @@
 import { getRepository } from "typeorm";
 import { ErrorHandler } from "../errors/errorHandler.error";
-import { Company, User, Ingredient } from "../entities";
+import { User, Ingredient } from "../entities";
+import { BodyCreateIngredient, BodyUpdateIngredient } from "../@types";
 
-export const createIngredient = async (idLogged: string, body: any) => {
+export const createIngredient = async (
+  idLogged: string,
+  body: BodyCreateIngredient
+) => {
   try {
     const userRepository = getRepository(User);
     const ingredientRepository = getRepository(Ingredient);
@@ -16,7 +20,7 @@ export const createIngredient = async (idLogged: string, body: any) => {
     }
 
     const ingredient = ingredientRepository.create({
-      ...(body as Ingredient),
+      ...body,
       company: user?.company,
       owner: user,
     });
@@ -71,7 +75,7 @@ export const findIngredient = async (
 export const updateIngredient = async (
   idLogged: string,
   ingredientId: string,
-  body: any
+  body: BodyUpdateIngredient
 ) => {
   const userRepository = getRepository(User);
   const ingredientRepository = getRepository(Ingredient);

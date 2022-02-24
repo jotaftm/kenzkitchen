@@ -19,5 +19,18 @@
     "responses": {
       "$ref": "../../responses/Users/createUser.json"
     }
+  },
+  "get": {
+    "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
+    "tags": ["Users"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Users/getAllUsers.json"
+    }
   }
 }

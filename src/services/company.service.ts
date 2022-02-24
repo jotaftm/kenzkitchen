@@ -3,55 +3,65 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ErrorHandler } from "../errors/errorHandler.error";
 import { Company, User } from "../entities";
+import { BodyCreateCompany, BodyLogin, BodyUpdateCompany } from "../@types";
 
-export const createCompany = async (createdBy: string, body: any) => {
-  const companyRepository = getRepository(Company);
-  const userRepository = getRepository(User);
+export const createCompany = async (
+  createdBy: string,
+  body: BodyCreateCompany
+) => {
+  try {
+    const companyRepository = getRepository(Company);
+    const userRepository = getRepository(User);
 
-  const company = companyRepository.create({
-    ...body,
-    createdBy: createdBy,
-  });
-
-  await companyRepository.save(company);
-
-  const createdCompany = await companyRepository.findOne({
-    where: {
-      email: body.email,
-    },
-    select: ["id", "cnpj", "email", "password"],
-  });
-
-  if (createdCompany) {
-    const user = userRepository.create({
-      id: createdCompany.id,
-      name: createdCompany.cnpj,
-      email: createdCompany.email,
-      password: createdCompany.password,
-      isManager: true,
-      company: createdCompany,
+    const company = companyRepository.create({
+      ...body,
+      createdBy: createdBy,
     });
 
-    await userRepository.save(user);
-  }
+    await companyRepository.save(company);
 
-  return await companyRepository.findOne(createdCompany?.id);
+    const createdCompany = await companyRepository.findOne({
+      where: {
+        email: body.email,
+      },
+      select: ["id", "cnpj", "email", "password"],
+    });
+
+    if (createdCompany) {
+      const user = userRepository.create({
+        id: createdCompany.id,
+        name: createdCompany.cnpj,
+        email: createdCompany.email,
+        password: createdCompany.password,
+        isManager: true,
+        company: createdCompany,
+      });
+
+      await userRepository.save(user);
+    }
+
+    return await companyRepository.findOne(createdCompany?.id);
+  } catch (err) {
+    throw new ErrorHandler((err as any).detail, 400);
+  }
 };
 
-export const loginCompany = async (body: any) => {
+export const loginCompany = async (body: BodyLogin) => {
   const companyRepository = getRepository(Company);
 
   const company = await companyRepository.findOne({
     where: {
       email: body.email,
     },
-    select: ["password", "id"],
+    select: ["password", "id", "isActive"],
   });
 
   if (!company) {
     throw new ErrorHandler("wrong email", 401);
   } else if (!bcrypt.compareSync(body.password, company.password)) {
     throw new ErrorHandler("wrong password", 401);
+  } else if (!company.isActive) {
+    throw new ErrorHandler("inactive account", 401);
   }
 
   const token = jwt.sign(
@@ -98,7 +108,7 @@ export const findCompany = async (idLogged: string, companyId: string) => {
 
 export const updateCompany = async (
   idLogged: string,
-  body: any,
+  body: BodyUpdateCompany,
   companyId: string
 ) => {
   const companyRepository = getRepository(Company);
@@ -116,6 +126,14 @@ export const updateCompany = async (
     !process.env.API_KEYS?.split(",").includes(idLogged)
   ) {
     throw new ErrorHandler("missing admin permissions", 401);
+  } else if (
+    "isActive" in body &&
+    !process.env.API_KEYS?.split(",").includes(idLogged)
+  ) {
+    throw new ErrorHandler(
+      "missing admin permissions to activate/deactivate account",
+      401
+    );
   }
 
   await companyRepository.update(companyId, {

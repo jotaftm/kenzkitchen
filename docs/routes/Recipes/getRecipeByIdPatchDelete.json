@@ -1,0 +1,67 @@
+{
+  "get": {
+    "description": "Seleciona uma determinada receita pelo id. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/recipeId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Recipes/getRecipeById.json"
+    }
+  },
+  "patch": {
+    "description": "Atualiza os dados de uma receita da empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/recipeId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "description": {
+                "type": "string",
+                "example": "Empada de frango na forminha, com cebola, pimenta e azeitonas pretas"
+              },
+              "cost": {
+                "type": "number",
+                "example": 5.10
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Recipes/patchRecipe.json"
+    }
+  },
+  "delete": {
+    "description": "Exclui uma receita cadastrada. Apenas usuários logados do tipo Manager ou Company pode realizar essa ação.",
+    "tags": ["Recipes"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/recipeId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Recipes/deleteRecipe.json"
+    }
+  }
+}
