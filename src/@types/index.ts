@@ -1,11 +1,12 @@
+import { BodyCreateUser, BodyUpdateUser } from "./user.types";
+import { BodyCreateOrder, BodyUpdateOrder } from "./order.types";
 import { BodyCreateRecipe, BodyUpdateRecipe } from "./recipe.types";
+import { BodyCreateIngredient, BodyUpdateIngredient } from "./ingredient.types";
 import {
   BodyCreateCompany,
   BodyLogin,
   BodyUpdateCompany,
 } from "./company.types";
-import { BodyCreateUser, BodyUpdateUser } from "./user.types";
-import { BodyCreateIngredient, BodyUpdateIngredient } from "./ingredient.types";
 
 export {
   BodyCreateRecipe,
@@ -17,4 +18,6 @@ export {
   BodyUpdateUser,
   BodyCreateIngredient,
   BodyUpdateIngredient,
+  BodyCreateOrder,
+  BodyUpdateOrder,
 };
