@@ -1,0 +1,67 @@
+{
+  "get": {
+    "description": "Seleciona um determinado usuário pelo id. Usuário logado do tipo funcionário não pode selecionar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+    "tags": ["Users"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/userId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Users/getUserById.json"
+    }
+  },
+  "patch": {
+    "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
+    "tags": ["Users"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/userId.json"
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Robert Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "john.doe@mail.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "$ref": "../../responses/Users/patchUser.json"
+    }
+  },
+  "delete": {
+    "description": "Exclui um usuário cadastrado. Usuário logado do tipo funcionário não pode excluir outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode excluir qualquer usuário do sistema.",
+    "tags": ["Users"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/userId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Users/deleteUser.json"
+    }
+  }
+}

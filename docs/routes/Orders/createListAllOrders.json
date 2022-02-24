@@ -19,5 +19,18 @@
     "responses": {
       "$ref": "../../responses/Orders/createOrder.json"
     }
+  },
+  "get": {
+    "description": "Lista todas os pedidos cadastradas. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Orders/getAllOrders.json"
+    }
   }
 }

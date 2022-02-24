@@ -1,4 +1,20 @@
 {
+  "get": {
+    "description": "Seleciona uma determinado pedido pelo id. Qualquer usuário pode realizar essa ação.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/orderId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Orders/getOrderById.json"
+    }
+  },
   "patch": {
     "description": "Atualiza os dados de um pedido. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
     "tags": ["Orders"],
@@ -30,6 +46,22 @@
     },
     "responses": {
       "$ref": "../../responses/Orders/patchOrder.json"
+    }
+  },
+  "delete": {
+    "description": "Exclui um pedido.",
+    "tags": ["Orders"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      },
+      {
+        "$ref": "../../parameters/orderId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Orders/deleteOrder.json"
     }
   }
 }

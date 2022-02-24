@@ -28,5 +28,18 @@
     "responses": {
       "$ref": "../../responses/Companies/patchCompany.json"
     }
+  },
+  "delete": {
+    "description": "Exclui a empresa. Apenas usuário logado do tipo Manager pode realizar essa ação.",
+    "tags": ["Companies"],
+    "parameters": [
+      {
+        "$ref": "../../parameters/companyId.json"
+      }
+    ],
+    "requestBody": {},
+    "responses": {
+      "$ref": "../../responses/Companies/deleteCompany.json"
+    }
   }
 }

@@ -141,80 +141,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/users/login": {
-      "post": {
-        "description": "Essa rota é responsável por fazer o login do usuário. Gera token de autenticação.",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/companyParam"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "john@mail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "1234"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BAD REQUEST",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/paths/~1companies~1login/post/responses/400/content/application~1json/schema"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/paths/~1companies~1login/post/responses/401/content/application~1json/schema"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/companies/:companyId/users/": {
+      },
       "get": {
         "description": "Lista todos os usuários cadastrados. Apenas usuário logado do tipo administrador pode realizar essa ação.",
         "tags": [
@@ -299,6 +226,77 @@
         }
       }
     },
+    "/companies/:companyId/users/login": {
+      "post": {
+        "description": "Essa rota é responsável por fazer o login do usuário. Gera token de autenticação.",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "john@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDcxODM3NzYsImV4cCI6MTYwNzQ0Mjk3Niwic3ViIjoiMmE3NWUxMmQtZmQxYy00ODFkLWJhODgtNGQ4YjE3MTAzYjJhIn0.UY67X23mPYAAzT43uFWZDHPUakd2STo5w4AuOcppkyQ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1login/post/responses/400/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1login/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/companies/:companyId/users/:id": {
       "get": {
         "description": "Seleciona um determinado usuário pelo id. Usuário logado do tipo funcionário não pode selecionar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
@@ -355,9 +353,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/users/:id/": {
+      },
       "patch": {
         "description": "Atualiza os dados de um usuário da empresa. Usuário logado do tipo funcionário não pode atualizar outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode selecionar qualquer usuário do sistema.",
         "tags": [
@@ -466,9 +462,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/users/:id//": {
+      },
       "delete": {
         "description": "Exclui um usuário cadastrado. Usuário logado do tipo funcionário não pode excluir outro usuário além dele mesmo, mas um usuário logado do tipo administrador pode excluir qualquer usuário do sistema.",
         "tags": [
@@ -505,7 +499,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1users~1%3Aid/patch/responses/404/content/application~1json/schema"
                 }
               }
             }
@@ -839,9 +833,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:id/": {
+      },
       "delete": {
         "description": "Exclui a empresa. Apenas usuário logado do tipo Manager pode realizar essa ação.",
         "tags": [
@@ -993,9 +985,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/ingredients/": {
+      },
       "get": {
         "description": "Lista todos os insumos cadastrados. Qualquer usuário logado pode realizar essa ação.",
         "tags": [
@@ -1131,9 +1121,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/ingredients/:id/": {
+      },
       "patch": {
         "description": "Atualiza os dados de um ingrediente da empresa. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
         "tags": [
@@ -1246,9 +1234,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/ingredients/:id//": {
+      },
       "delete": {
         "description": "Exclui um insumo cadastrado. Apenas usuário logado do tipo Manager ou Company pode realizar essa ação.",
         "tags": [
@@ -1285,7 +1271,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients~1%3Aid/patch/responses/404/content/application~1json/schema"
                 }
               }
             }
@@ -1341,7 +1327,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1/get/responses/200/content/application~1json/schema/items"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -1385,9 +1371,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/recipes/": {
+      },
       "get": {
         "description": "Lista todas as receitas cadastradas. Qualquer usuário pode realizar essa ação.",
         "tags": [
@@ -1487,7 +1471,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1/get/responses/200/content/application~1json/schema/items"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -1545,9 +1529,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/recipes/:id/": {
+      },
       "patch": {
         "description": "Atualiza os dados de uma receita da empresa. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
         "tags": [
@@ -1652,9 +1634,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/recipes/:id//": {
+      },
       "delete": {
         "description": "Exclui uma receita cadastrada. Apenas usuários logados do tipo Manager ou Company pode realizar essa ação.",
         "tags": [
@@ -1691,7 +1671,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1%3Aid~1/patch/responses/404/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1%3Aid/patch/responses/404/content/application~1json/schema"
                 }
               }
             }
@@ -1699,7 +1679,7 @@
         }
       }
     },
-    "/companies/:companyId/orders/": {
+    "/companies/:companyId/orders": {
       "post": {
         "description": "Registra um pedido.",
         "tags": [
@@ -1793,67 +1773,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/orders/:id": {
-      "delete": {
-        "description": "Exclui um pedido.",
-        "tags": [
-          "Orders"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/companyParam"
-          },
-          {
-            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid~1/get/parameters/1"
-          }
-        ],
-        "requestBody": {},
-        "responses": {
-          "204": {
-            "description": "NO CONTENT",
-            "content": {}
-          },
-          "401": {
-            "description": "UNAUTHORIZED",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1/post/responses/401/content/application~1json/schema"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "BAD REQUEST",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "example": "error"
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "order not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/companies/:companyId/orders": {
+      },
       "get": {
         "description": "Lista todas os pedidos cadastradas. Qualquer usuário pode realizar essa ação.",
         "tags": [
@@ -1941,7 +1861,7 @@
         }
       }
     },
-    "/companies/:companyId/orders/:id/": {
+    "/companies/:companyId/orders/:id": {
       "get": {
         "description": "Seleciona uma determinado pedido pelo id. Qualquer usuário pode realizar essa ação.",
         "tags": [
@@ -2027,9 +1947,7 @@
             }
           }
         }
-      }
-    },
-    "/companies/:companyId/orders/:id//": {
+      },
       "patch": {
         "description": "Atualiza os dados de um pedido. Apenas usuários logados do tipo Manager ou Company podem realizar essa ação.",
         "tags": [
@@ -2040,7 +1958,7 @@
             "$ref": "#/components/parameters/companyParam"
           },
           {
-            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid~1/get/parameters/1"
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/get/parameters/1"
           }
         ],
         "requestBody": {
@@ -2114,7 +2032,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1/post/responses/401/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/post/responses/401/content/application~1json/schema"
                 }
               }
             }
@@ -2125,7 +2043,63 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/delete/responses/404/content/application~1json/schema"
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "order not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Exclui um pedido.",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/companyParam"
+          },
+          {
+            "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/get/parameters/1"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "204": {
+            "description": "NO CONTENT",
+            "content": {}
+          },
+          "401": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/post/responses/401/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders~1%3Aid/patch/responses/404/content/application~1json/schema"
                 }
               }
             }
