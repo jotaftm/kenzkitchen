@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "KenzieKitchen API",
-    "description": "This is a server for production process management focused on the food industry",
+    "title": "Kenz Kitchen API",
+    "description": "This is a server for production process management focused on the food industry.",
     "contact": {
-      "name": "Kenzie Kitchen Support",
-      "url": "http://www.kenziekitchen.com/support",
-      "email": "support@kenziekitchen.com"
+      "name": "Kenz Kitchen Support",
+      "url": "http://www.kenzkitchen.com/support",
+      "email": "support@kenzkitchen.com"
     },
     "version": "1.0.1"
   },

@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "KenzieKitchen API",
-    "description": "This is a server for production process management focused on the food industry",
+    "title": "Kenz Kitchen API",
+    "description": "This is a server for production process management focused on the food industry.",
     "contact": {
-      "name": "Kenzie Kitchen Support",
-      "url": "http://www.kenziekitchen.com/support",
-      "email": "support@kenziekitchen.com"
+      "name": "Kenz Kitchen Support",
+      "url": "http://www.kenzkitchen.com/support",
+      "email": "support@kenzkitchen.com"
     },
     "version": "1.0.1"
   },
@@ -232,35 +232,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "John Doe"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "john@mail.com"
-                    },
-                    "isManager": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "isActive": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "createdAt": {
-                      "type": "date",
-                      "example": "2022-02-15T01:49:34.603Z"
-                    },
-                    "updatedAt": {
-                      "type": "date",
-                      "example": "2022-02-15T01:49:34.603Z"
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "john@mail.com"
+                      },
+                      "isManager": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "isActive": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "createdAt": {
+                        "type": "date",
+                        "example": "2022-02-15T01:49:34.603Z"
+                      },
+                      "updatedAt": {
+                        "type": "date",
+                        "example": "2022-02-15T01:49:34.603Z"
+                      }
                     }
                   }
                 }
@@ -1011,8 +1013,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/paths/~1companies~1%3AcompanyId~1ingredients/post/requestBody/content/application~1json/schema"
+                  }
                 }
               }
             }
@@ -1337,32 +1341,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Empada de frango"
-                    },
-                    "description": {
-                      "type": "string",
-                      "example": "Empada de frango na forminha, com cebola e azeitonas verdes"
-                    },
-                    "yield": {
-                      "type": "number",
-                      "example": 30
-                    },
-                    "unit": {
-                      "type": "string",
-                      "example": "un"
-                    },
-                    "cost": {
-                      "type": "number",
-                      "example": 5
-                    }
-                  }
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -1426,8 +1405,35 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes/post/responses/201/content/application~1json/schema"
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "f890f820-e904-4055-8fae-7fa13b1d7cad"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Empada de frango"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Empada de frango na forminha, com cebola e azeitonas verdes"
+                      },
+                      "yield": {
+                        "type": "number",
+                        "example": 30
+                      },
+                      "unit": {
+                        "type": "string",
+                        "example": "un"
+                      },
+                      "cost": {
+                        "type": "number",
+                        "example": 5
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1481,7 +1487,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes/post/responses/201/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1recipes~1/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -1731,7 +1737,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
@@ -1865,41 +1871,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "example": "39511a16-b6ae-43b3-8afd-fb8ac4749c08"
-                    },
-                    "isExecuted": {
-                      "type": "boolean",
-                      "example": "false"
-                    },
-                    "createdAt": {
-                      "description": "readOnly",
-                      "type": "date",
-                      "example": "2022-02-14T23:04:48.723Z"
-                    },
-                    "scheduled": {
-                      "type": "date",
-                      "example": "2022-02-25T03:00:00.000Z"
-                    },
-                    "ordersRecipes": {
-                      "type": "Array",
-                      "example": [
-                        {
-                          "id": "6d1fecbd-7d3b-4951-98cc-9768eb9e4b4d",
-                          "quantity": 150,
-                          "recipe": {
-                            "id": "216d7208-df11-47a4-8568-17043c9424be",
-                            "name": "Empada de Frango - P",
-                            "description": "Empada de frango tamanho coquetel. 20 gramas.",
-                            "yield": 100,
-                            "unity": "UN",
-                            "cost": 0.5
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "39511a16-b6ae-43b3-8afd-fb8ac4749c08"
+                      },
+                      "isExecuted": {
+                        "type": "boolean",
+                        "example": "false"
+                      },
+                      "createdAt": {
+                        "description": "readOnly",
+                        "type": "date",
+                        "example": "2022-02-14T23:04:48.723Z"
+                      },
+                      "scheduled": {
+                        "type": "date",
+                        "example": "2022-02-25T03:00:00.000Z"
+                      },
+                      "ordersRecipes": {
+                        "type": "Array",
+                        "example": [
+                          {
+                            "id": "6d1fecbd-7d3b-4951-98cc-9768eb9e4b4d",
+                            "quantity": 150,
+                            "recipe": {
+                              "id": "216d7208-df11-47a4-8568-17043c9424be",
+                              "name": "Empada de Frango - P",
+                              "description": "Empada de frango tamanho coquetel. 20 gramas.",
+                              "yield": 100,
+                              "unity": "UN",
+                              "cost": 0.5
+                            }
                           }
-                        }
-                      ]
+                        ]
+                      }
                     }
                   }
                 }
@@ -1961,7 +1969,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema"
+                  "$ref": "#/paths/~1companies~1%3AcompanyId~1orders/get/responses/200/content/application~1json/schema/items"
                 }
               }
             }
