@@ -1,15 +1,28 @@
-Após clonar:
+# KenzKitchen API
+A KenzKitchen é uma aplicação ERP voltada para indústrias alimentícias, ela gerencia o estoque dos insumos necessários para a produção das receitas cadastradas, gerando relatório de estoque necessário e dando baixa nos ingredientes após a produção.
 
-Rode o "yarn" para instalar as dependências.
+#### Toda a aplicação está contida dentro do diretório `src`.
+#### Não esqueça de popular o arquivo `.env` com os dados contidos em  `.env.example`.
+# 
+## Iniciando
 
-Verifique se possui alguma aplicação rodando na porta 5432.
-sudo lsof -i:5432
+Após clonar o repostório e acessar em sua máquina local, execute este comando no terminal para instalar os pacotes:
 
-Caso sim, finalize a aplicação que estiver rodando.
-sudo kill PID_DA_APLICACAO
+    yarn
+## Criando o container
+Para criar o conteiner, onde está o db PostgreSQL, execute o seguinte comando:
 
-Para iniciar conexão, rode o seguinte comando:
-docker-compose up
+    docker-compose up
 
-Para iniciar a aplicação, rode o seguinte comando em um novo terminal:
-yarn dev
+## Rodando a aplicação:
+Para iniciar a aplicação em desenvolvimento, execute o seguinte script:
+
+    yarn dev
+
+## Criando as tabelas
+Para executar a última migration:
+
+    yarn typeorm migration:run
+
+## Documentação
+Toda a documentação dos endpoints foi feita em swagger e está contida no endpoint: http://localhost:3000/api-documentation
